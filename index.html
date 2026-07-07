@@ -905,20 +905,19 @@
   <style>
     #np-intro {
       position: fixed; inset: 0; z-index: 9999; overflow: hidden;
-      background: radial-gradient(ellipse 140% 90% at 50% 30%, #263642 0%, #16171a 55%, #0A0B0C 100%);
+      background: #0d1115 url('photos/intro-bg-blur.jpg') center / cover no-repeat;
       opacity: 1; transition: opacity 0.9s ease;
     }
     #np-intro.np-dismiss { opacity: 0; pointer-events: none; }
 
     #np-intro-window {
       position: absolute; left: 50%; top: 50%;
-      height: min(80vh, 660px);
-      aspect-ratio: 934 / 1400;
+      height: min(78vh, 640px);
+      aspect-ratio: 1100 / 1356;
       transform: translate(-50%,-50%);
-      border-radius: 10px;
-      background: #0E1A22;
-      box-shadow: 0 30px 90px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.06);
       overflow: hidden;
+      -webkit-mask-image: radial-gradient(ellipse 62% 58% at 50% 50%, #000 60%, transparent 100%);
+      mask-image: radial-gradient(ellipse 62% 58% at 50% 50%, #000 60%, transparent 100%);
     }
 
     #np-intro-sky {
