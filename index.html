@@ -902,37 +902,58 @@
       position: relative;
     }
 
-    .guide-preview-btn {
+    .guide-preview-container {
       position: absolute;
       top: 12px;
       right: 12px;
-      width: 48px;
-      height: 48px;
-      background: var(--coral);
-      border: none;
-      border-radius: 50%;
+      width: 56px;
+      height: 80px;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       z-index: 10;
-      transition: transform 200ms ease, box-shadow 200ms ease;
-      box-shadow: 0 4px 12px rgba(226, 94, 58, 0.3);
+      transition: all 300ms ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
     }
 
-    .guide-preview-btn:hover {
-      transform: scale(1.15) translateY(-4px);
-      box-shadow: 0 8px 24px rgba(226, 94, 58, 0.4);
+    .guide-preview-container:hover {
+      width: 240px;
+      height: 340px;
+      top: -160px;
+      right: -60px;
     }
 
-    .guide-preview-btn:active {
-      transform: scale(1.1);
+    .guide-thumbnail {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 4px;
+      box-shadow: 0 4px 16px rgba(20, 20, 22, 0.2);
+      transition: all 300ms ease;
+      border: 2px solid var(--coral);
     }
 
-    .star-icon {
-      width: 24px;
-      height: 24px;
-      display: inline-block;
+    .guide-preview-container:hover .guide-thumbnail {
+      box-shadow: 0 12px 32px rgba(20, 20, 22, 0.3);
+    }
+
+    .guide-cta-overlay {
+      font-family: var(--f-body);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: var(--coral);
+      text-transform: uppercase;
+      text-align: center;
+      white-space: normal;
+      max-width: 56px;
+      line-height: 1.2;
+      transition: opacity 300ms ease;
+    }
+
+    .guide-preview-container:hover .guide-cta-overlay {
+      opacity: 0;
     }
 
     .guide-modal {
@@ -1503,11 +1524,10 @@
                 <circle cx="54" cy="35" r="7" fill="none" stroke="#E25E3A" stroke-width="1.4"/>
               </g>
             </svg>
-            <button class="guide-preview-btn" aria-label="View field guide preview">
-              <svg class="star-icon" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-              </svg>
-            </button>
+            <div class="guide-preview-container">
+              <img class="guide-thumbnail" src="https://cdn.builder.io/o/assets%2F99af41ead7a7468ba8b29885ae0303ae%2Fe1f51f7af3f74459bbb9f79b3bf352cb?alt=media&token=da89807d-382c-4a73-abe1-63814c796248&apiKey=99af41ead7a7468ba8b29885ae0303ae" alt="Field guide preview"/>
+              <div class="guide-cta-overlay">Take A Look Inside!</div>
+            </div>
           </div>
           <div class="product-body">
             <div class="product-name">Print +<br>Digital</div>
@@ -1938,87 +1958,45 @@
   })();
   </script>
 
-  <!-- Guide Preview Modal -->
-  <div id="guide-modal" class="guide-modal">
-    <div class="guide-modal-content">
-      <div class="guide-modal-header">
-        <h3 class="guide-modal-title">Field Guide Preview</h3>
-        <button class="guide-modal-close" aria-label="Close modal">&times;</button>
-      </div>
-      <div class="guide-carousel">
-        <img id="guide-image" class="guide-image" src="" alt="Field guide page"/>
-      </div>
-      <div class="guide-nav">
-        <button class="guide-nav-btn" id="guide-prev" aria-label="Previous page">‹</button>
-        <div class="guide-counter"><span id="guide-current">1</span>/<span id="guide-total">1</span></div>
-        <button class="guide-nav-btn" id="guide-next" aria-label="Next page">›</button>
-      </div>
-    </div>
-  </div>
-
   <script>
     (function() {
-      const modal = document.getElementById('guide-modal');
-      const closeBtn = document.querySelector('.guide-modal-close');
-      const previewBtn = document.querySelector('.guide-preview-btn');
-      const guideImage = document.getElementById('guide-image');
-      const prevBtn = document.getElementById('guide-prev');
-      const nextBtn = document.getElementById('guide-next');
-      const currentSpan = document.getElementById('guide-current');
-      const totalSpan = document.getElementById('guide-total');
+      const container = document.querySelector('.guide-preview-container');
+      const thumbnail = document.querySelector('.guide-thumbnail');
+      const gifUrl = 'https://cdn.builder.io/o/assets%2F99af41ead7a7468ba8b29885ae0303ae%2Fe1f51f7af3f74459bbb9f79b3bf352cb?alt=media&token=da89807d-382c-4a73-abe1-63814c796248&apiKey=99af41ead7a7468ba8b29885ae0303ae';
 
-      let currentPage = 0;
-      const guidePages = [
-        '/api/placeholder/800/600?text=Page+1',
-        '/api/placeholder/800/600?text=Page+2',
-        '/api/placeholder/800/600?text=Page+3'
-      ];
+      let isExpanded = false;
+      let expandedImg = null;
 
-      function updateImage() {
-        guideImage.src = guidePages[currentPage];
-        currentSpan.textContent = currentPage + 1;
-        totalSpan.textContent = guidePages.length;
-        prevBtn.disabled = currentPage === 0;
-        nextBtn.disabled = currentPage === guidePages.length - 1;
-      }
+      container.addEventListener('mouseenter', () => {
+        isExpanded = true;
 
-      function openModal() {
-        modal.classList.add('active');
-        currentPage = 0;
-        updateImage();
-      }
-
-      function closeModal() {
-        modal.classList.remove('active');
-      }
-
-      previewBtn.addEventListener('click', openModal);
-      closeBtn.addEventListener('click', closeModal);
-      prevBtn.addEventListener('click', () => {
-        if (currentPage > 0) {
-          currentPage--;
-          updateImage();
+        if (!expandedImg) {
+          expandedImg = document.createElement('img');
+          expandedImg.src = gifUrl;
+          expandedImg.style.cssText = `
+            position: fixed;
+            width: 240px;
+            height: 340px;
+            object-fit: cover;
+            border-radius: 4px;
+            box-shadow: 0 12px 32px rgba(20, 20, 22, 0.3);
+            border: 2px solid var(--coral);
+            z-index: 1001;
+            pointer-events: none;
+          `;
+          document.body.appendChild(expandedImg);
         }
-      });
-      nextBtn.addEventListener('click', () => {
-        if (currentPage < guidePages.length - 1) {
-          currentPage++;
-          updateImage();
-        }
+
+        const rect = container.getBoundingClientRect();
+        expandedImg.style.left = (rect.right - 240 - 8) + 'px';
+        expandedImg.style.top = (rect.top - 340 - 8) + 'px';
+        expandedImg.style.display = 'block';
       });
 
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
-      });
-
-      document.addEventListener('keydown', (e) => {
-        if (!modal.classList.contains('active')) return;
-        if (e.key === 'Escape') closeModal();
-        if (e.key === 'ArrowLeft') {
-          prevBtn.click();
-        }
-        if (e.key === 'ArrowRight') {
-          nextBtn.click();
+      container.addEventListener('mouseleave', () => {
+        isExpanded = false;
+        if (expandedImg) {
+          expandedImg.style.display = 'none';
         }
       });
     })();
