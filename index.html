@@ -1701,7 +1701,6 @@
   (function(){
     var intro   = document.getElementById('np-intro');
     var skipBtn = document.getElementById('np-intro-skip');
-    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var dismissed = false;
 
     function showFoundersModal(){
@@ -1724,13 +1723,12 @@
 
     skipBtn.addEventListener('click', dismissIntro);
 
-    if (reduced) {
-      dismissIntro();
-    } else {
-      requestAnimationFrame(function(){ intro.classList.add('np-shade-up'); });
-      setTimeout(function(){ intro.classList.add('np-logo-in'); }, 1900);
-      setTimeout(dismissIntro, 4600);
-    }
+    // Always play the intro — the Skip button is the accessibility
+    // escape hatch, so we don't auto-skip on prefers-reduced-motion.
+    // (The decorative cloud drift is still disabled for that preference.)
+    requestAnimationFrame(function(){ intro.classList.add('np-shade-up'); });
+    setTimeout(function(){ intro.classList.add('np-logo-in'); }, 1900);
+    setTimeout(dismissIntro, 4600);
   })();
 
   (function(){
