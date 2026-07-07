@@ -1,0 +1,1628 @@
+<!-- @dsCard group="Website" viewport="1440x900" name="Homepage" subtitle="Network Planning — Full site prototype · hero through footer" -->
+<!-- @startingPoint section="Website" subtitle="Network Planning homepage — hero through footer" viewport="1440x900" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Network Planning — We did the planning. You do the traveling.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+
+    :root {
+      --void:     #141416;
+      --charcoal: #2B2C31;
+      --graphite: #56575C;
+      --ash:      #8C8C91;
+      --rule:     #C8C6C2;
+      --ivory:    #E6E5E2;
+      --light:    #F0EFED;
+      --white:    #F7F7F6;
+      --coral:    #E25E3A;
+      --coral-dk: #C04E2E;
+      --saffron:  #E9A224;
+      --viridian: #2D7D64;
+      --sky:      #4B8CAA;
+
+      --f-mono: 'IBM Plex Mono', monospace;
+      --f-disp: 'Syne', sans-serif;
+      --f-body: 'Space Grotesk', system-ui, sans-serif;
+    }
+
+    body { font-family: var(--f-body); color: var(--void); background: var(--light); }
+
+    /* ═══════════════════════════════════
+       STRIPE MARK (inline HTML component)
+    ═══════════════════════════════════ */
+    .np-mark {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    /* ═══════════════════════════════════
+       NAV
+    ═══════════════════════════════════ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 60px;
+      background: var(--void);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .nav-brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+
+    .nav-wm { display: flex; flex-direction: column; gap: 1px; }
+    .nav-wm span {
+      font-family: var(--f-mono);
+      font-size: 9px; font-weight: 400;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--light); line-height: 1.3;
+    }
+
+    .nav-div { width: 1px; height: 24px; background: rgba(255,255,255,0.08); }
+
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      font-family: var(--f-mono);
+      font-size: 9px; font-weight: 400;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(240,239,237,0.42); text-decoration: none;
+      transition: color 180ms;
+    }
+    .nav-links a:hover { color: var(--light); }
+
+    .nav-cta {
+      font-family: var(--f-mono);
+      font-size: 9px; font-weight: 500;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      color: var(--void); background: var(--coral);
+      border: none; border-radius: 1px;
+      padding: 9px 20px; cursor: pointer; text-decoration: none;
+      transition: background 180ms;
+    }
+    .nav-cta:hover { background: var(--coral-dk); color: var(--light); }
+
+    /* ═══════════════════════════════════
+       HERO — full dark, type-forward
+    ═══════════════════════════════════ */
+    .hero {
+      min-height: 100vh;
+      background: var(--void);
+      display: grid;
+      grid-template-rows: 1fr auto;
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Subtle technical grid overlay */
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(240,239,237,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(240,239,237,0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    .hero-main {
+      padding: 110px 48px 0;
+      position: relative; z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .hero-tab {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .hero-tab-tick { width: 1px; height: 12px; background: var(--coral); }
+
+    .hero-tab-text {
+      font-family: var(--f-mono);
+      font-size: 9px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(240,239,237,0.28);
+    }
+
+    /* THE HEADLINE — Syne 800, enormous */
+    .hero-h1 {
+      font-family: var(--f-disp);
+      font-size: clamp(44px, 5.2vw, 84px);
+      font-weight: 800;
+      line-height: 0.94;
+      letter-spacing: -0.03em;
+      color: var(--light);
+      text-transform: uppercase;
+      max-width: 1000px;
+      margin-bottom: 0;
+    }
+
+    .hero-h1 .accent { color: var(--coral); }
+
+    /* Sub-headline in Space Grotesk — counter-weight to the bold display */
+    .hero-sub {
+      margin-top: 24px;
+      font-family: var(--f-body);
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 1.5;
+      color: rgba(240,239,237,0.45);
+      max-width: 480px;
+    }
+
+    /* ── Departure board ── */
+    .hero-board {
+      padding: 48px 48px 64px;
+      position: relative; z-index: 1;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .board-label {
+      font-family: var(--f-mono);
+      font-size: 9px; font-weight: 500;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: rgba(240,239,237,0.22);
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      transform: rotate(180deg);
+      flex-shrink: 0;
+    }
+
+    .board-content {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .flip-board {
+      display: flex;
+      gap: 3px;
+      align-items: center;
+    }
+
+    .fb-tile {
+      width: 34px; height: 48px;
+      background: #0C0C0E;
+      border: 1px solid rgba(255,255,255,0.03);
+      border-radius: 1px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden; flex-shrink: 0;
+    }
+
+    .fb-tile::after {
+      content: '';
+      position: absolute; left: 0; right: 0; top: 50%;
+      height: 1px; background: rgba(0,0,0,0.6);
+      z-index: 2; pointer-events: none;
+    }
+
+    .fb-char {
+      font-family: var(--f-mono);
+      font-size: 18px; font-weight: 500;
+      color: var(--light); line-height: 1;
+      display: block; user-select: none;
+      position: relative; z-index: 1;
+      transition: transform 0.06s ease-in, opacity 0.06s;
+    }
+
+    .fb-gap { width: 10px; flex-shrink: 0; }
+
+    .fb-tile.fb-flipping .fb-char { transform: scaleY(0.12); opacity: 0.06; }
+
+    .board-sub {
+      font-family: var(--f-mono);
+      font-size: 10px;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      color: rgba(240,239,237,0.2);
+    }
+
+    /* Right side of board — stripe accent */
+    .board-stripe {
+      margin-left: auto;
+      display: flex;
+      flex-direction: column;
+      width: 48px;
+      height: 60px;
+      overflow: hidden;
+      opacity: 0.5;
+    }
+
+    /* ═══════════════════════════════════
+       MARQUEE STRIP
+    ═══════════════════════════════════ */
+    .marquee-strip {
+      background: var(--coral);
+      padding: 12px 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .marquee-inner {
+      display: inline-flex;
+      gap: 0;
+      animation: marquee 28s linear infinite;
+    }
+
+    .marquee-item {
+      font-family: var(--f-mono);
+      font-size: 10px; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--void);
+      padding: 0 32px;
+    }
+
+    .marquee-dot {
+      color: rgba(20,20,22,0.35);
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ═══════════════════════════════════
+       WHAT WE DO — dark section, type-forward
+    ═══════════════════════════════════ */
+    .what {
+      background: var(--charcoal);
+      padding: 100px 48px;
+    }
+
+    .what-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .what-left {}
+
+    .section-tab {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 28px;
+    }
+    .section-tab-tick { width: 1px; height: 10px; background: var(--coral); }
+    .section-tab-text {
+      font-family: var(--f-mono);
+      font-size: 9px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+    }
+    .section-tab-text--dark  { color: rgba(240,239,237,0.3); }
+    .section-tab-text--light { color: var(--graphite); }
+
+    .what-h2 {
+      font-family: var(--f-disp);
+      font-size: clamp(28px, 2.8vw, 44px);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.025em;
+      text-transform: uppercase;
+      color: var(--light);
+      margin-bottom: 28px;
+    }
+
+    .what-h2 .accent { color: var(--coral); }
+
+    .what-body {
+      font-family: var(--f-body);
+      font-size: 16px; font-weight: 300;
+      line-height: 1.7;
+      color: rgba(240,239,237,0.45);
+    }
+
+    .what-body em { font-style: normal; color: rgba(240,239,237,0.75); }
+
+    /* Steps — right col */
+    .steps { display: flex; flex-direction: column; gap: 0; }
+
+    .step {
+      padding: 22px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+    .step:first-child { border-top: 1px solid rgba(255,255,255,0.06); }
+
+    .step-num {
+      font-family: var(--f-mono);
+      font-size: 10px; font-weight: 500;
+      letter-spacing: 0.10em;
+      color: var(--coral);
+      padding-top: 2px;
+    }
+
+    .step-title {
+      font-family: var(--f-body);
+      font-size: 16px; font-weight: 500;
+      color: var(--light);
+      margin-bottom: 4px;
+      letter-spacing: -0.01em;
+    }
+
+    .step-desc {
+      font-family: var(--f-body);
+      font-size: 14px; font-weight: 300;
+      line-height: 1.6;
+      color: rgba(240,239,237,0.38);
+    }
+
+    /* ═══════════════════════════════════
+       PRODUCTS — light section, graphic cards
+    ═══════════════════════════════════ */
+    .products {
+      background: var(--light);
+      padding: 100px 48px;
+    }
+
+    .products-inner { max-width: 1200px; margin: 0 auto; }
+
+    .products-header {
+      display: flex; align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 48px;
+      padding-bottom: 24px;
+      border-bottom: 2px solid var(--void);
+    }
+
+    .products-h2 {
+      font-family: var(--f-disp);
+      font-size: clamp(28px, 2.8vw, 42px);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.025em;
+      text-transform: uppercase;
+      color: var(--void);
+    }
+
+    .products-h2 .accent { color: var(--coral); }
+
+    .products-meta {
+      font-family: var(--f-mono);
+      font-size: 9px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--ash);
+      text-align: right; line-height: 1.6;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: var(--void);
+      border: 2px solid var(--void);
+    }
+
+    .product-card {
+      background: var(--white);
+      display: flex; flex-direction: column;
+    }
+
+    /* The stripe mark used as card header accent */
+    .product-header {
+      padding: 0;
+      display: flex;
+      overflow: hidden;
+    }
+
+    .product-stripe-bar {
+      display: flex;
+      flex-direction: column;
+      width: 8px;
+      flex-shrink: 0;
+    }
+
+    .product-header-content {
+      flex: 1;
+      padding: 16px 20px;
+      background: var(--void);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .product-type {
+      font-family: var(--f-mono);
+      font-size: 9px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(240,239,237,0.32);
+    }
+
+    .product-code {
+      font-family: var(--f-mono);
+      font-size: 9px; letter-spacing: 0.10em;
+      color: rgba(226,94,58,0.5);
+    }
+
+    .product-body { padding: 28px 24px 24px; flex: 1; display: flex; flex-direction: column; }
+
+    .product-name {
+      font-family: var(--f-disp);
+      font-size: 24px; font-weight: 800;
+      line-height: 0.92;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      color: var(--void);
+      margin-bottom: 10px;
+    }
+
+    .product-tagline {
+      font-family: var(--f-body);
+      font-size: 14px; font-weight: 300;
+      line-height: 1.6;
+      color: var(--graphite);
+      margin-bottom: 24px;
+    }
+
+    .product-features {
+      list-style: none;
+      flex: 1;
+      display: flex; flex-direction: column; gap: 8px;
+      margin-bottom: 28px;
+    }
+
+    .product-features li {
+      display: flex; align-items: flex-start; gap: 12px;
+      font-family: var(--f-body);
+      font-size: 13px; font-weight: 400;
+      line-height: 1.5; color: var(--graphite);
+    }
+
+    .product-features li::before {
+      content: '';
+      flex-shrink: 0; width: 1px; height: 14px;
+      background: var(--coral); opacity: 0.5; margin-top: 2px;
+    }
+
+    .product-footer {
+      border-top: 1px solid var(--ivory);
+      padding-top: 18px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+
+    .product-price {
+      font-family: var(--f-disp);
+      font-size: 21px; font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--void);
+    }
+
+    .product-price-sub {
+      font-family: var(--f-mono);
+      font-size: 9px; letter-spacing: 0.10em;
+      text-transform: uppercase; color: var(--ash);
+      margin-top: 2px;
+    }
+
+    .btn {
+      font-family: var(--f-mono);
+      font-size: 9px; font-weight: 500;
+      letter-spacing: 0.10em; text-transform: uppercase;
+      padding: 10px 20px; border-radius: 1px;
+      cursor: pointer; text-decoration: none;
+      transition: all 160ms; border: none;
+    }
+
+    .btn--outline {
+      background: transparent;
+      color: var(--void);
+      border: 1px solid var(--rule);
+    }
+    .btn--outline:hover { border-color: var(--coral); color: var(--coral); }
+
+    .btn--solid {
+      background: var(--void); color: var(--light);
+    }
+    .btn--solid:hover { background: var(--coral); }
+
+    /* ═══════════════════════════════════
+       DESTINATIONS — full-dark, big type
+    ═══════════════════════════════════ */
+    .destinations {
+      background: var(--void);
+      padding: 100px 48px;
+    }
+
+    .dest-inner { max-width: 1200px; margin: 0 auto; }
+
+    .dest-header {
+      display: flex; align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 48px;
+    }
+
+    .dest-h2 {
+      font-family: var(--f-disp);
+      font-size: clamp(28px, 2.8vw, 42px);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.025em;
+      text-transform: uppercase;
+      color: var(--light);
+    }
+
+    .dest-link {
+      font-family: var(--f-mono);
+      font-size: 9px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--coral);
+      text-decoration: none;
+    }
+    .dest-link:hover { color: var(--light); }
+
+    .dest-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 2px;
+      background: var(--charcoal);
+    }
+
+    .dest-card {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0;
+      cursor: pointer;
+      min-height: 360px;
+    }
+
+    /* Photo stand-in — in production, replace with real photography */
+    .dest-photo {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center;
+      transition: transform 600ms ease;
+    }
+
+    .dest-card:hover .dest-photo { transform: scale(1.04); }
+
+    .dest-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(20,20,22,0.92) 0%, rgba(20,20,22,0.2) 60%, transparent 100%);
+      z-index: 1;
+    }
+
+    /* Stripe mark as corner accent on destination cards */
+    .dest-corner-stripe {
+      position: absolute; top: 0; left: 0;
+      display: flex; flex-direction: column;
+      width: 5px; height: 100%;
+      z-index: 2;
+    }
+
+    .dest-content {
+      position: relative; z-index: 3;
+      padding: 24px;
+    }
+
+    .dest-code {
+      font-family: var(--f-mono);
+      font-size: 9px; font-weight: 500;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: rgba(240,239,237,0.3);
+      margin-bottom: 8px;
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    .dest-accent { width: 5px; height: 5px; border-radius: 50%; }
+
+    .dest-name {
+      font-family: var(--f-disp);
+      font-size: clamp(18px, 1.8vw, 26px);
+      font-weight: 800;
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      color: var(--light);
+      margin-bottom: 4px;
+    }
+
+    .dest-country {
+      font-family: var(--f-mono);
+      font-size: 9px; letter-spacing: 0.10em;
+      text-transform: uppercase; color: rgba(240,239,237,0.3);
+    }
+
+    /* ═══════════════════════════════════
+       EDITORIAL
+    ═══════════════════════════════════ */
+    .editorial {
+      background: var(--light);
+      padding: 80px 48px;
+      border-top: 2px solid var(--void);
+    }
+
+    .editorial-inner { max-width: 1200px; margin: 0 auto; }
+
+    .editorial-header {
+      display: flex; align-items: baseline;
+      justify-content: space-between; margin-bottom: 36px;
+    }
+
+    .editorial-h2 {
+      font-family: var(--f-disp);
+      font-size: 22px; font-weight: 800;
+      letter-spacing: -0.02em; text-transform: uppercase;
+      color: var(--void);
+    }
+
+    .editorial-link {
+      font-family: var(--f-mono);
+      font-size: 9px; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--coral);
+      text-decoration: none;
+    }
+
+    .editorial-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+    }
+
+    .editorial-item {
+      background: var(--white);
+      padding: 24px;
+    }
+
+    .editorial-tag {
+      font-family: var(--f-mono);
+      font-size: 9px; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--coral); margin-bottom: 12px;
+    }
+
+    .editorial-title {
+      font-family: var(--f-body);
+      font-size: 17px; font-weight: 500;
+      line-height: 1.25; letter-spacing: -0.01em;
+      color: var(--void); margin-bottom: 10px;
+    }
+
+    .editorial-excerpt {
+      font-family: var(--f-body);
+      font-size: 13px; font-weight: 300;
+      line-height: 1.65; color: var(--graphite);
+    }
+
+    .editorial-foot {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 20px; padding-top: 14px;
+      border-top: 1px solid var(--rule);
+    }
+
+    .editorial-date {
+      font-family: var(--f-mono);
+      font-size: 9px; letter-spacing: 0.08em; color: var(--ash);
+    }
+
+    .editorial-read {
+      font-family: var(--f-mono);
+      font-size: 9px; letter-spacing: 0.10em; text-transform: uppercase;
+      color: var(--coral); text-decoration: none;
+    }
+
+    /* ═══════════════════════════════════
+       FOOTER
+    ═══════════════════════════════════ */
+    footer {
+      background: var(--void);
+      padding: 56px 48px 36px;
+      border-top: none;
+    }
+
+    /* The 5-stripe bar runs full-width across the top of footer */
+    .footer-stripe-bar {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      margin-bottom: 48px;
+    }
+
+    .footer-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 64px;
+    }
+
+    .footer-brand-lockup {
+      display: flex; align-items: center; gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .footer-wm { display: flex; flex-direction: column; gap: 1px; }
+    .footer-wm span {
+      font-family: var(--f-mono);
+      font-size: 10px; font-weight: 400;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--light); line-height: 1.3;
+    }
+
+    .footer-tagline {
+      font-family: var(--f-body);
+      font-size: 14px; font-weight: 300;
+      line-height: 1.6; color: rgba(240,239,237,0.28);
+      max-width: 240px;
+    }
+
+    .footer-col-label {
+      font-family: var(--f-mono);
+      font-size: 9px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(240,239,237,0.2);
+      margin-bottom: 18px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .footer-col-label::before {
+      content: ''; display: inline-block;
+      width: 1px; height: 9px; background: var(--coral);
+    }
+
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+    .footer-links a {
+      font-family: var(--f-body);
+      font-size: 14px; font-weight: 300;
+      color: rgba(240,239,237,0.38); text-decoration: none;
+      transition: color 160ms;
+    }
+    .footer-links a:hover { color: var(--light); }
+
+    .footer-bottom {
+      max-width: 1200px; margin: 44px auto 0;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+
+    .footer-legal, .footer-company {
+      font-family: var(--f-mono);
+      font-size: 9px; letter-spacing: 0.08em;
+      text-transform: uppercase; color: rgba(240,239,237,0.16);
+    }
+
+    .footer-company a { color: inherit; text-decoration: none; }
+    .footer-company a:hover { color: rgba(240,239,237,0.5); }
+
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════
+       SUNSET → LOGO INTRO ANIMATION
+  ═══════════════════════════════════ -->
+  <style>
+    @keyframes np-sun-glow {
+      0%,100%{box-shadow:0 0 70px 30px rgba(245,155,40,0.18),0 0 180px 100px rgba(226,94,58,0.07)}
+      50%    {box-shadow:0 0 95px 44px rgba(245,155,40,0.26),0 0 240px 140px rgba(226,94,58,0.11)}
+    }
+    #np-intro-sun { animation: np-sun-glow 3s ease-in-out infinite; }
+    #np-intro-skip { transition: color 200ms, border-color 200ms; }
+    #np-intro-skip:hover { color: rgba(240,239,237,0.75) !important; border-color: rgba(240,239,237,0.28) !important; }
+  </style>
+  <div id="np-intro" style="position:fixed;inset:0;z-index:9999;overflow:hidden;">
+    <div id="np-intro-bg" style="position:absolute;inset:0;background:#1A1028;"></div>
+    <div id="np-intro-mark" style="position:absolute;overflow:hidden;transform-origin:center center;">
+      <div id="np-intro-stripes" style="display:flex;flex-direction:column;width:100%;height:100%;"></div>
+      <div id="np-intro-atmos"   style="position:absolute;top:0;left:0;right:0;pointer-events:none;"></div>
+      <div id="np-intro-glow"    style="position:absolute;left:0;right:0;pointer-events:none;"></div>
+      <div id="np-intro-horiz"   style="position:absolute;left:0;right:0;height:2px;background:rgba(255,238,115,0.85);pointer-events:none;"></div>
+      <div id="np-intro-stars"   style="position:absolute;inset:0;pointer-events:none;overflow:hidden;"></div>
+      <div id="np-intro-sun"     style="position:absolute;border-radius:50%;pointer-events:none;display:none;"></div>
+      <div id="np-intro-reflect" style="position:absolute;pointer-events:none;"></div>
+      <!-- Palm trees (horizon left, fade in early, fade out before morph) -->
+      <div id="np-intro-palms" style="position:absolute;pointer-events:none;opacity:0;">
+        <svg width="155" height="150" viewBox="0 0 155 150" fill="none">
+          <!-- Tree 1: tall, slight right lean -->
+          <path d="M10,150 Q4,115 12,78 Q18,50 24,6 L27,6 Q23,50 20,78 Q14,115 13,150Z" fill="#0D0920"/>
+          <path d="M25,6 Q46,-8 64,14 Q44,20 25,6Z" fill="#0D0920"/>
+          <path d="M25,6 Q4,-10 -14,10 Q4,18 25,6Z" fill="#0D0920"/>
+          <path d="M25,6 Q42,18 34,44 Q22,32 25,6Z" fill="#0D0920"/>
+          <path d="M25,6 Q8,18 10,42 Q22,32 25,6Z" fill="#0D0920"/>
+          <path d="M25,6 Q28,24 16,44 Q12,26 25,6Z" fill="#0D0920"/>
+          <path d="M25,6 Q22,24 34,40 Q36,22 25,6Z" fill="#0D0920"/>
+          <!-- Tree 2: shorter, leans left, offset right -->
+          <path d="M108,150 Q112,118 106,82 Q100,54 96,14 L99,14 Q104,54 110,82 Q116,118 111,150Z" fill="#0D0920"/>
+          <path d="M97,14 Q116,4 130,20 Q112,24 97,14Z" fill="#0D0920"/>
+          <path d="M97,14 Q78,4 64,18 Q80,24 97,14Z" fill="#0D0920"/>
+          <path d="M97,14 Q110,24 104,46 Q92,34 97,14Z" fill="#0D0920"/>
+          <path d="M97,14 Q82,24 84,44 Q94,34 97,14Z" fill="#0D0920"/>
+          <path d="M97,14 Q100,28 88,46 Q84,28 97,14Z" fill="#0D0920"/>
+        </svg>
+      </div>
+      <!-- City skyline (horizon center-right, appears after palms) -->
+      <div id="np-intro-skyline" style="position:absolute;pointer-events:none;opacity:0;">
+        <svg width="320" height="95" viewBox="0 0 320 95" fill="none">
+          <rect x="0"   y="72" width="24" height="23" fill="#0D0920"/>
+          <rect x="26"  y="48" width="20" height="47" fill="#0D0920"/>
+          <rect x="49"  y="58" width="22" height="37" fill="#0D0920"/>
+          <rect x="74"  y="30" width="22" height="65" fill="#0D0920"/>
+          <rect x="99"  y="46" width="18" height="49" fill="#0D0920"/>
+          <rect x="120" y="20" width="24" height="75" fill="#0D0920"/>
+          <!-- Hero skyscraper with antenna spire -->
+          <rect x="148" y="10" width="20" height="85" fill="#0D0920"/>
+          <rect x="156" y="2"  width="4"  height="12" fill="#0D0920"/>
+          <rect x="172" y="28" width="22" height="67" fill="#0D0920"/>
+          <rect x="198" y="42" width="20" height="53" fill="#0D0920"/>
+          <rect x="222" y="56" width="20" height="39" fill="#0D0920"/>
+          <rect x="245" y="38" width="22" height="57" fill="#0D0920"/>
+          <rect x="271" y="62" width="24" height="33" fill="#0D0920"/>
+          <rect x="298" y="74" width="22" height="21" fill="#0D0920"/>
+        </svg>
+      </div>
+      <!-- Jet contrail -->
+      <div id="np-intro-trail" style="position:absolute;height:2px;border-radius:2px;pointer-events:none;opacity:0;"></div>
+      <!-- Airliner silhouette — proper wide-body proportions, nose RIGHT, L→R flight -->
+      <div id="np-intro-jet" style="position:absolute;pointer-events:none;opacity:0;">
+        <svg width="210" height="62" viewBox="0 0 210 62" fill="none">
+          <!-- Fuselage: long cigar, tapers to nose at x=205 -->
+          <path d="M205,28 C190,16 168,14 138,14 L28,15 C14,15 5,21 5,28 C5,35 14,41 28,41 L138,42 C168,42 190,40 205,28Z" fill="#0D0920"/>
+          <!-- Vertical tail fin: tall swept fin at rear -->
+          <path d="M24,15 L16,3 L32,1 L38,15Z" fill="#0D0920"/>
+          <!-- Horizontal stabilizer (small tail wings) -->
+          <path d="M18,41 L5,54 L12,56 L24,41Z" fill="#0D0920"/>
+          <!-- Main wing: large, swept back, hangs below belly -->
+          <path d="M138,42 L62,60 L74,61 L148,42Z" fill="#0D0920"/>
+          <!-- Engine 1: under left wing -->
+          <rect x="64" y="55" width="30" height="8" rx="4" fill="#0D0920"/>
+          <!-- Engine 2: inner, smaller -->
+          <rect x="100" y="50" width="22" height="7" rx="3.5" fill="#0D0920"/>
+        </svg>
+      </div>
+    </div>
+    <!-- Field guide icon — appears briefly after morph, before wordmark -->
+    <div id="np-intro-guide" style="position:absolute;pointer-events:none;opacity:0;">
+      <svg width="46" height="58" viewBox="0 0 46 58" fill="none">
+        <rect x="3"  y="2"  width="40" height="54" rx="2" fill="#141416"/>
+        <rect x="3"  y="2"  width="6"  height="54" fill="#E25E3A" opacity="0.55"/>
+        <rect x="11" y="17" width="28" height="3"   fill="#F0EFED" opacity="0.85"/>
+        <rect x="11" y="22" width="28" height="2"   fill="#E25E3A" opacity="0.95"/>
+        <rect x="11" y="25" width="28" height="1.5" fill="#56575C" opacity="0.8"/>
+        <rect x="11" y="27" width="28" height="1.2" fill="#E9A224" opacity="0.8"/>
+        <rect x="11" y="29" width="28" height="0.9" fill="#2D7D64" opacity="0.8"/>
+        <rect x="11" y="39" width="16" height="1.5" fill="#F0EFED" opacity="0.2"/>
+        <rect x="11" y="43" width="22" height="1.5" fill="#F0EFED" opacity="0.2"/>
+        <rect x="11" y="47" width="12" height="1.5" fill="#F0EFED" opacity="0.2"/>
+      </svg>
+    </div>
+    <div id="np-intro-wm" style="position:absolute;pointer-events:none;opacity:0;">
+      <div id="np-wm-net"  style="font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:400;letter-spacing:0.22em;text-transform:uppercase;color:#F0EFED;line-height:1.3;opacity:0;">Network</div>
+      <div id="np-wm-rule" style="width:100%;height:1px;background:#E25E3A;margin:6px 0;transform:scaleX(0);transform-origin:left;"></div>
+      <div id="np-wm-plan" style="font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:400;letter-spacing:0.22em;text-transform:uppercase;color:#F0EFED;line-height:1.3;opacity:0;">Planning</div>
+    </div>
+    <button id="np-intro-skip" style="position:absolute;bottom:28px;right:32px;z-index:2;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:rgba(240,239,237,0.35);background:none;border:1px solid rgba(240,239,237,0.12);border-radius:1px;padding:8px 18px;cursor:pointer;">Skip ›</button>
+  </div>
+
+  <!-- ═══ NAV ═══ -->
+  <nav>
+    <a class="nav-brand" href="#">
+      <!-- Stripe mark — nav size: 36×25px -->
+      <div class="np-mark" style="width:36px;height:25px;">
+        <div style="height:10px;background:#F0EFED;"></div>
+        <div style="height: 6px;background:#E25E3A;"></div>
+        <div style="height: 4px;background:#56575C;"></div>
+        <div style="height: 3px;background:#E9A224;"></div>
+        <div style="height: 2px;background:#2D7D64;"></div>
+      </div>
+      <div class="nav-div"></div>
+      <div class="nav-wm"><span>Network</span><span>Planning</span></div>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#">Destinations</a></li>
+      <li><a href="#">Field Guides</a></li>
+      <li><a href="#">Custom Dossier</a></li>
+      <li><a href="#">Reads</a></li>
+      <li><a href="#">About</a></li>
+    </ul>
+
+    <a class="nav-cta" href="#">Request a Guide</a>
+  </nav>
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="hero-grid"></div>
+
+    <div class="hero-main">
+      <div class="hero-tab">
+        <div class="hero-tab-tick"></div>
+        <span class="hero-tab-text">DESK 00 // NETWORK PLANNING · NETWORKPLANNING.CO</span>
+      </div>
+
+      <h1 class="hero-h1">
+        We did<br>
+        the planning.<br>
+        <span class="accent">You do the<br>traveling.</span>
+      </h1>
+
+      <p class="hero-sub">
+        Deeply researched travel guides that do the planning so you don't have to —
+        while leaving you fully in control of every booking.
+      </p>
+    </div>
+
+    <div class="hero-board">
+      <div class="board-label">Next departure</div>
+
+      <div class="board-content">
+        <div class="flip-board" id="flip-board"></div>
+        <div class="board-sub" id="board-sub">BRAZIL · GRU</div>
+      </div>
+
+      <div class="board-stripe">
+        <div style="flex:22;background:#F0EFED;"></div>
+        <div style="flex:13;background:#E25E3A;"></div>
+        <div style="flex: 9;background:#56575C;"></div>
+        <div style="flex: 7;background:#E9A224;"></div>
+        <div style="flex: 5;background:#2D7D64;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ CORAL MARQUEE ═══ -->
+  <div class="marquee-strip" aria-hidden="true">
+    <div class="marquee-inner">
+      <!-- Doubled for seamless loop -->
+      <span class="marquee-item">Field Guide <span class="marquee-dot">·</span></span>
+      <span class="marquee-item">Rio de Janeiro <span class="marquee-dot">·</span></span>
+      <span class="marquee-item">Custom Dossier <span class="marquee-dot">·</span></span>
+      <span class="marquee-item">Siem Reap <span class="marquee-dot">·</span></span>
+      <span class="marquee-item">Booking Logic <span class="marquee-dot">·</span></span>
+      <span class="marquee-item">Austin, Texas <span class="marquee-dot">·</span></span>
+      <span class="marquee-item">networkplanning.co <span class="marquee-dot">·</span></span>
+      <span class="marquee-item">A WFWorks Company <span class="marquee-dot">·</span></span>
+      <span class="marquee-item">Field Guide <span class="marquee-dot">·</span></span>
+      <span class="marquee-item">Rio de Janeiro <span class="marquee-dot">·</span></span>
+      <span class="marquee-item">Custom Dossier <span class="marquee-dot">·</span></span>
+      <span class="marquee-item">Siem Reap <span class="marquee-dot">·</span></span>
+      <span class="marquee-item">Booking Logic <span class="marquee-dot">·</span></span>
+      <span class="marquee-item">Austin, Texas <span class="marquee-dot">·</span></span>
+      <span class="marquee-item">networkplanning.co <span class="marquee-dot">·</span></span>
+      <span class="marquee-item">A WFWorks Company <span class="marquee-dot">·</span></span>
+    </div>
+  </div>
+
+  <!-- ═══ WHAT WE DO ═══ -->
+  <section class="what">
+    <div class="what-inner">
+
+      <div class="what-left">
+        <div class="section-tab" style="margin-bottom:28px;">
+          <div class="section-tab-tick"></div>
+          <span class="section-tab-text section-tab-text--dark">What we do</span>
+        </div>
+        <h2 class="what-h2">Planning<br>craft as a<br><span class="accent">product.</span></h2>
+        <p class="what-body" style="margin-top:24px;">
+          We don't book anything for you. We don't take commissions.
+          We build the guide — the route, the stays, the tables, the timing,
+          the field notes — <em>and hand it to you.</em>
+        </p>
+        <p class="what-body" style="margin-top:16px;">
+          You own every booking. We did every hour of research it takes to
+          make that straightforward.
+        </p>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div>
+            <div class="step-title">Choose your destination</div>
+            <div class="step-desc">Browse existing Field Guides, or request a Custom Dossier built around your exact trip.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">02</div>
+          <div>
+            <div class="step-title">Receive your guide</div>
+            <div class="step-desc">A design-led PDF with day-by-day routing, vetted stays and restaurants, cost tables, and a Notion companion layer.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">03</div>
+          <div>
+            <div class="step-title">Book everything yourself</div>
+            <div class="step-desc">Direct links, cost ranges, booking windows — you stay in control of every decision.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">04</div>
+          <div>
+            <div class="step-title">Travel with a real plan</div>
+            <div class="step-desc">Not a listicle. A route document with actual field intelligence — the kind that normally costs an agent.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══ PRODUCTS ═══ -->
+  <section class="products">
+    <div class="products-inner">
+
+      <div class="products-header">
+        <h2 class="products-h2">Two formats.<br><span class="accent">One standard.</span></h2>
+        <div class="products-meta">
+          Available now<br>for 12 destinations
+        </div>
+      </div>
+
+      <div class="products-grid">
+
+        <!-- Field Guide -->
+        <div class="product-card">
+          <div class="product-header">
+            <div class="product-stripe-bar">
+              <div style="flex:22;background:#141416;"></div>
+              <div style="flex:13;background:#E25E3A;"></div>
+              <div style="flex: 9;background:#56575C;"></div>
+              <div style="flex: 7;background:#E9A224;"></div>
+              <div style="flex: 5;background:#2D7D64;"></div>
+            </div>
+            <div class="product-header-content">
+              <span class="product-type">NP-01 · Field Guide</span>
+              <span class="product-code">PKG · SELL-MANY</span>
+            </div>
+          </div>
+          <div class="product-body">
+            <div class="product-name">Field<br>Guide</div>
+            <div class="product-tagline">Packaged and de-personalized. Add your own dates. Book everything direct.</div>
+            <ul class="product-features">
+              <li>Route + hand-drawn map</li>
+              <li>Day-by-day plan with timing</li>
+              <li>Vetted hotels + restaurants with booking links</li>
+              <li>Cost ranges + packing logic</li>
+              <li>Booking-window calendar</li>
+              <li>Notion + Google Maps companion layer</li>
+            </ul>
+            <div class="product-footer">
+              <div>
+                <div class="product-price">$39–59</div>
+                <div class="product-price-sub">Per destination · Instant PDF</div>
+              </div>
+              <a class="btn btn--outline" href="#">Browse Guides</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Custom Dossier -->
+        <div class="product-card">
+          <div class="product-header">
+            <div class="product-stripe-bar">
+              <div style="flex:22;background:#141416;"></div>
+              <div style="flex:13;background:#E9A224;"></div>
+              <div style="flex: 9;background:#56575C;"></div>
+              <div style="flex: 7;background:#E25E3A;"></div>
+              <div style="flex: 5;background:#2D7D64;"></div>
+            </div>
+            <div class="product-header-content">
+              <span class="product-type">NP-02 · Custom Dossier</span>
+              <span class="product-code">BSK · BESPOKE</span>
+            </div>
+          </div>
+          <div class="product-body">
+            <div class="product-name">Custom<br>Dossier</div>
+            <div class="product-tagline">Built for one trip, one group. Interview-based and fully personalized.</div>
+            <ul class="product-features">
+              <li>Everything in the Field Guide, plus:</li>
+              <li>Cast of characters page</li>
+              <li>Routing tailored to your group's pace and needs</li>
+              <li>Health and mobility considerations</li>
+              <li>Private Notion workspace, pre-populated</li>
+              <li>Two revision rounds</li>
+            </ul>
+            <div class="product-footer">
+              <div>
+                <div class="product-price">Custom</div>
+                <div class="product-price-sub">Quoted per trip</div>
+              </div>
+              <a class="btn btn--solid" href="#">Request Dossier</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ DESTINATIONS ═══ -->
+  <section class="destinations">
+    <div class="dest-inner">
+
+      <div class="dest-header">
+        <h2 class="dest-h2">Current<br>destinations</h2>
+        <a class="dest-link" href="#">See all → </a>
+      </div>
+
+      <div class="dest-grid">
+
+        <!-- Rio — large card -->
+        <div class="dest-card">
+          <div class="dest-photo" style="background: linear-gradient(140deg,#1C3020 0%,#2D5038 50%,#3A6B48 100%);"></div>
+          <div class="dest-overlay"></div>
+          <div class="dest-corner-stripe">
+            <div style="flex:22;background:#F0EFED;opacity:.15;"></div>
+            <div style="flex:13;background:#E25E3A;opacity:.6;"></div>
+            <div style="flex: 9;background:#56575C;opacity:.2;"></div>
+            <div style="flex: 7;background:#E9A224;opacity:.5;"></div>
+            <div style="flex: 5;background:#2D7D64;opacity:.4;"></div>
+          </div>
+          <div class="dest-content">
+            <div class="dest-code">
+              <div class="dest-accent" style="background:#E25E3A;"></div>
+              GRU · FIELD GUIDE
+            </div>
+            <div class="dest-name">Rio de<br>Janeiro</div>
+            <div class="dest-country">Brazil</div>
+          </div>
+        </div>
+
+        <!-- Siem Reap -->
+        <div class="dest-card">
+          <div class="dest-photo" style="background: linear-gradient(140deg,#1E1408 0%,#3A2810 50%,#5A3C18 100%);"></div>
+          <div class="dest-overlay"></div>
+          <div class="dest-corner-stripe">
+            <div style="flex:22;background:#F0EFED;opacity:.12;"></div>
+            <div style="flex:13;background:#2D7D64;opacity:.7;"></div>
+            <div style="flex: 9;background:#56575C;opacity:.2;"></div>
+            <div style="flex: 7;background:#E25E3A;opacity:.4;"></div>
+            <div style="flex: 5;background:#E9A224;opacity:.4;"></div>
+          </div>
+          <div class="dest-content">
+            <div class="dest-code">
+              <div class="dest-accent" style="background:#2D7D64;"></div>
+              REP · FIELD GUIDE
+            </div>
+            <div class="dest-name">Siem<br>Reap</div>
+            <div class="dest-country">Cambodia</div>
+          </div>
+        </div>
+
+        <!-- Austin -->
+        <div class="dest-card">
+          <div class="dest-photo" style="background: linear-gradient(140deg,#181820 0%,#262636 50%,#363650 100%);"></div>
+          <div class="dest-overlay"></div>
+          <div class="dest-corner-stripe">
+            <div style="flex:22;background:#F0EFED;opacity:.12;"></div>
+            <div style="flex:13;background:#4B8CAA;opacity:.7;"></div>
+            <div style="flex: 9;background:#56575C;opacity:.2;"></div>
+            <div style="flex: 7;background:#E25E3A;opacity:.4;"></div>
+            <div style="flex: 5;background:#E9A224;opacity:.3;"></div>
+          </div>
+          <div class="dest-content">
+            <div class="dest-code">
+              <div class="dest-accent" style="background:#4B8CAA;"></div>
+              AUS · FIELD GUIDE
+            </div>
+            <div class="dest-name">Austin,<br>Texas</div>
+            <div class="dest-country">United States</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ EDITORIAL ═══ -->
+  <section class="editorial">
+    <div class="editorial-inner">
+      <div class="editorial-header">
+        <h2 class="editorial-h2">From the planning desk</h2>
+        <a class="editorial-link" href="#">All reads →</a>
+      </div>
+      <div class="editorial-grid">
+        <div class="editorial-item">
+          <div class="editorial-tag">Rio de Janeiro</div>
+          <div class="editorial-title">The three neighborhoods most guides skip — and why they shouldn't</div>
+          <div class="editorial-excerpt">Santa Teresa, Lapa, and Jardim Botânico all appear on lists. None of them get explained correctly.</div>
+          <div class="editorial-foot">
+            <span class="editorial-date">2026-06-12</span>
+            <a class="editorial-read" href="#">Read →</a>
+          </div>
+        </div>
+        <div class="editorial-item">
+          <div class="editorial-tag">Booking Logic</div>
+          <div class="editorial-title">When to book a Siem Reap stay — and when the price drops by a third</div>
+          <div class="editorial-excerpt">The shoulder season window in Cambodia is real, specific, and almost nobody publishes the actual dates.</div>
+          <div class="editorial-foot">
+            <span class="editorial-date">2026-05-28</span>
+            <a class="editorial-read" href="#">Read →</a>
+          </div>
+        </div>
+        <div class="editorial-item">
+          <div class="editorial-tag">Austin</div>
+          <div class="editorial-title">Austin in summer isn't a mistake — if you plan around the heat</div>
+          <div class="editorial-excerpt">The places worth going don't have air conditioning. Here's how to route a day that accounts for that.</div>
+          <div class="editorial-foot">
+            <span class="editorial-date">2026-05-14</span>
+            <a class="editorial-read" href="#">Read →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    <!-- Full-width 5-stripe bar at footer top — large, graphic -->
+    <div class="footer-stripe-bar" style="height:8px;">
+      <div style="flex:0 0 auto;height:8px;background:linear-gradient(to right,#F0EFED 0% 34%,#E25E3A 34% 55%,#56575C 55% 70%,#E9A224 70% 84%,#2D7D64 84% 100%);width:100%;"></div>
+    </div>
+
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand-lockup">
+          <div class="np-mark" style="width:40px;height:28px;">
+            <div style="height:11px;background:#F0EFED;"></div>
+            <div style="height: 7px;background:#E25E3A;"></div>
+            <div style="height: 5px;background:#56575C;"></div>
+            <div style="height: 3px;background:#E9A224;"></div>
+            <div style="height: 2px;background:#2D7D64;"></div>
+          </div>
+          <div class="footer-wm"><span>Network</span><span>Planning</span></div>
+        </div>
+        <p class="footer-tagline">We did the planning. You do the traveling.</p>
+      </div>
+
+      <div>
+        <div class="footer-col-label">Products</div>
+        <ul class="footer-links">
+          <li><a href="#">Field Guides</a></li>
+          <li><a href="#">Custom Dossier</a></li>
+          <li><a href="#">All Destinations</a></li>
+          <li><a href="#">Request a Guide</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-col-label">WFWorks</div>
+        <ul class="footer-links">
+          <li><a href="#">Reads</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">PLNLY</a></li>
+          <li><a href="#">Brooklyn Kin</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span class="footer-legal">© 2026 Network Planning · All rights reserved</span>
+      <span class="footer-company">A <a href="#">WFWorks</a> Company</span>
+    </div>
+  </footer>
+
+  <!-- ═══ SOLARI FLIP BOARD ═══ -->
+  <script>
+    const FLIP_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ.,- ';
+
+    const DESTINATIONS = [
+      { name: 'RIO DE JANEIRO', sub: 'BRAZIL · GRU' },
+      { name: 'SIEM REAP',      sub: 'CAMBODIA · REP' },
+      { name: 'AUSTIN, TEXAS',  sub: 'UNITED STATES · AUS' },
+      { name: 'OAXACA',         sub: 'MEXICO · OAX' },
+      { name: 'KYOTO',          sub: 'JAPAN · KIX' },
+      { name: 'LISBON',         sub: 'PORTUGAL · LIS' },
+    ];
+
+    const BOARD_LEN = 16;
+
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    function buildBoard(el) {
+      el.innerHTML = '';
+      const tiles = [];
+      for (let i = 0; i < BOARD_LEN; i++) {
+        const tile = document.createElement('div');
+        tile.className = 'fb-tile';
+        const ch = document.createElement('span');
+        ch.className = 'fb-char';
+        ch.textContent = ' ';
+        tile.appendChild(ch);
+        el.appendChild(tile);
+        tiles.push({ tile, ch });
+      }
+      return tiles;
+    }
+
+    async function flipChar(tileData, target) {
+      const { tile, ch } = tileData;
+      const n = Math.floor(Math.random() * 3) + 1;
+      for (let i = 0; i < n; i++) {
+        tile.classList.add('fb-flipping');
+        await sleep(52);
+        ch.textContent = FLIP_CHARS[Math.floor(Math.random() * FLIP_CHARS.length)];
+        tile.classList.remove('fb-flipping');
+        await sleep(22);
+      }
+      tile.classList.add('fb-flipping');
+      await sleep(48);
+      ch.textContent = target;
+      tile.classList.remove('fb-flipping');
+    }
+
+    async function showDest(tiles, dest) {
+      const padded = dest.padEnd(BOARD_LEN, ' ');
+      const ops = padded.split('').map((c, i) =>
+        sleep(i * 44).then(() => flipChar(tiles[i], c))
+      );
+      await Promise.all(ops);
+    }
+
+    async function runBoard(boardEl, subEl) {
+      const tiles = buildBoard(boardEl);
+      let idx = 0;
+      await sleep(700);
+      while (true) {
+        const d = DESTINATIONS[idx];
+        showDest(tiles, d.name);
+        if (subEl) subEl.textContent = d.sub;
+        idx = (idx + 1) % DESTINATIONS.length;
+        await sleep(3800);
+      }
+    }
+
+    const boardEl = document.getElementById('flip-board');
+    const subEl   = document.getElementById('board-sub');
+    if (boardEl) runBoard(boardEl, subEl);
+  </script>
+
+  <!-- ═══ INTRO ANIMATION ENGINE ═══ -->
+  <script>
+  (function(){
+    const LOGO_W = 360, LOGO_H = 252;
+    const JET_W  = 210,  JET_H  = 62;
+
+    const STRIPES = [
+      { sunP:0.38, lgP:22/56, sunC:[248,228,158], lgC:[240,239,237] },
+      { sunP:0.25, lgP:13/56, sunC:[226, 94, 58], lgC:[226, 94, 58] },
+      { sunP:0.17, lgP: 9/56, sunC:[100, 72, 88], lgC:[ 86, 87, 92] },
+      { sunP:0.12, lgP: 7/56, sunC:[200,130, 18], lgC:[233,162, 36] },
+      { sunP:0.08, lgP: 5/56, sunC:[ 24, 68, 52], lgC:[ 45,125,100] },
+    ];
+
+    const STARS = [
+      {x:0.13,y:0.07,s:0.80},{x:0.72,y:0.10,s:0.65},{x:0.44,y:0.04,s:1.00},
+      {x:0.87,y:0.17,s:0.70},{x:0.28,y:0.15,s:0.50},{x:0.60,y:0.08,s:0.90},
+      {x:0.81,y:0.05,s:0.40},{x:0.35,y:0.21,s:0.30},{x:0.55,y:0.18,s:0.60},
+      {x:0.19,y:0.22,s:0.45},
+    ];
+
+    function eIOC(t){ return t<0.5?4*t*t*t:(t-1)*(2*t-2)*(2*t-2)+1; }
+    function eOC(t) { const u=t-1; return u*u*u+1; }
+    function eIC(t) { return t*t*t; }
+    function eIQ(t) { return t*t; }
+    function clamp(v,a,b){ return v<a?a:v>b?b:v; }
+    function lerp(a,b,t){ return a+(b-a)*t; }
+    function lrgb(c1,c2,t){
+      return 'rgb('+Math.round(lerp(c1[0],c2[0],t))+','+
+                    Math.round(lerp(c1[1],c2[1],t))+','+
+                    Math.round(lerp(c1[2],c2[2],t))+')';
+    }
+
+    const intro    = document.getElementById('np-intro');
+    const bgEl     = document.getElementById('np-intro-bg');
+    const markEl   = document.getElementById('np-intro-mark');
+    const strC     = document.getElementById('np-intro-stripes');
+    const atmosEl  = document.getElementById('np-intro-atmos');
+    const glowEl   = document.getElementById('np-intro-glow');
+    const horizEl  = document.getElementById('np-intro-horiz');
+    const starsEl  = document.getElementById('np-intro-stars');
+    const sunEl    = document.getElementById('np-intro-sun');
+    const reflEl   = document.getElementById('np-intro-reflect');
+    const palmsEl  = document.getElementById('np-intro-palms');
+    const skylineEl= document.getElementById('np-intro-skyline');
+    const trailEl  = document.getElementById('np-intro-trail');
+    const jetEl    = document.getElementById('np-intro-jet');
+    const guideEl  = document.getElementById('np-intro-guide');
+    const wmEl     = document.getElementById('np-intro-wm');
+    const wmNet    = document.getElementById('np-wm-net');
+    const wmRule   = document.getElementById('np-wm-rule');
+    const wmPlan   = document.getElementById('np-wm-plan');
+    const skipBtn  = document.getElementById('np-intro-skip');
+
+    const sDivs = STRIPES.map(function(){
+      var d=document.createElement('div');
+      d.style.cssText='width:100%;flex-shrink:0;';
+      strC.appendChild(d); return d;
+    });
+    const starDivs = STARS.map(function(){
+      var d=document.createElement('div');
+      d.style.cssText='position:absolute;width:2px;height:2px;border-radius:50%;background:rgba(248,238,185,0.95);pointer-events:none;';
+      starsEl.appendChild(d); return d;
+    });
+
+    var dismissed=false, t0=null;
+    function dismiss(){
+      if(dismissed) return; dismissed=true;
+      intro.style.transition='opacity 1s ease';
+      intro.style.opacity='0';
+      setTimeout(function(){intro.remove();},1050);
+    }
+    skipBtn.addEventListener('click',dismiss);
+
+    function kbS(t){
+      if(t<4.0)  return 1+(t/4.0)*0.065;
+      if(t<6.5)  return 1.065-((t-4.0)/2.5)*0.065;
+      return 1.0;
+    }
+
+    function render(t){
+      var VW=intro.clientWidth||window.innerWidth;
+      var VH=intro.clientHeight||window.innerHeight;
+
+      var morph  = eIOC(clamp((t-4.0)/2.5,0,1));
+      var bgMrph = eOC(clamp((t-4.8)/2.2,0,1));
+      var sf     = 1-morph;
+
+      bgEl.style.background='rgb('+
+        Math.round(lerp(26,20,bgMrph))+','+
+        Math.round(lerp(16,20,bgMrph))+','+
+        Math.round(lerp(40,22,bgMrph))+')';
+
+      var cW=lerp(VW,LOGO_W,morph), cH=lerp(VH,LOGO_H,morph);
+      var mL=lerp(0,(VW-LOGO_W)/2,morph), mT=lerp(0,(VH-LOGO_H)/2,morph);
+      var mblur=Math.sin(morph*Math.PI)*6;
+      markEl.style.left  =mL+'px'; markEl.style.top   =mT+'px';
+      markEl.style.width =cW+'px'; markEl.style.height=cH+'px';
+      markEl.style.borderRadius=(morph*2)+'px';
+      markEl.style.transform='scale('+kbS(t)+')';
+      markEl.style.filter=mblur>0.1?'blur('+mblur+'px)':'';
+
+      var heights=STRIPES.map(function(s){return lerp(s.sunP*VH,s.lgP*LOGO_H,morph);});
+      var cumY=[0]; heights.forEach(function(h,i){cumY.push(cumY[i]+h);});
+      sDivs.forEach(function(d,i){
+        d.style.height=heights[i]+'px';
+        d.style.background=lrgb(STRIPES[i].sunC,STRIPES[i].lgC,morph);
+      });
+
+      // ── SUN (larger, softer, starts in sky band then sets) ──
+      var sunSink=eIQ(clamp((t-0.3)/3.8,0,1));
+      var sunFade=1-eIC(clamp((t-3.4)/1.4,0,1));
+      var sunR   =VH*0.105*(1-morph);
+      // Start above horizon, sink across it
+      var sunStart=cumY[1]-heights[0]*0.22;
+      var sunEnd  =cumY[1]+heights[1]*0.42;
+      var sunCY   =lerp(sunStart,sunEnd,sunSink);
+
+      var glowOp =sunFade*0.78*sf;
+      var atmOp  =0.74*sf;
+      var reflOp =sunFade*0.60*sf;
+      var horizOp=sunFade*0.70*sf;
+      var starOp =Math.max(0,(sunSink-0.55)/0.45)*sf*0.55;
+
+      atmosEl.style.height=cumY[2]+'px';
+      atmosEl.style.background='linear-gradient(180deg,rgba(12,6,28,0.80) 0%,rgba(190,80,16,0.04) 82%,transparent 100%)';
+      atmosEl.style.opacity=atmOp;
+
+      // Horizon glow grows as sun approaches it
+      var glowSpread = lerp(0.52, 0.70, sunSink);
+      glowEl.style.top   =(cumY[1]-heights[0]*0.38)+'px';
+      glowEl.style.height=(heights[0]*glowSpread+heights[1]*0.72)+'px';
+      glowEl.style.background='radial-gradient(ellipse 68% 100% at 50% 80%,rgba(255,165,40,0.68) 0%,rgba(230,100,50,0.20) 55%,transparent 100%)';
+      glowEl.style.opacity=glowOp;
+
+      horizEl.style.top=(cumY[1]-1)+'px';
+      horizEl.style.opacity=horizOp;
+
+      starDivs.forEach(function(d,i){
+        d.style.left=(STARS[i].x*cW-1)+'px';
+        d.style.top =(STARS[i].y*heights[0])+'px';
+        d.style.opacity=starOp*STARS[i].s;
+      });
+
+      // Sun: bigger disc, soft diffuse gradient that blends with sky
+      if(sunFade>0.02&&sunR>2&&sf>0.05){
+        sunEl.style.display='';
+        sunEl.style.width=(sunR*2)+'px'; sunEl.style.height=(sunR*2)+'px';
+        sunEl.style.left=(cW/2-sunR)+'px'; sunEl.style.top=(sunCY-sunR)+'px';
+        // Soft gradient: warm center fades gently to transparent
+        sunEl.style.background='radial-gradient(circle,rgba(255,248,215,0.88) 0%,#FFDF5A 16%,#F5A030 38%,rgba(235,108,48,0.28) 62%,rgba(226,94,58,0.07) 82%,transparent 100%)';
+        sunEl.style.opacity=sunFade;
+      } else { sunEl.style.display='none'; }
+
+      reflEl.style.left  =(cW*0.32)+'px'; reflEl.style.top  =cumY[3]+'px';
+      reflEl.style.width =(cW*0.36)+'px'; reflEl.style.height=(heights[3]+heights[4])+'px';
+      reflEl.style.background='radial-gradient(ellipse at top,rgba(255,212,52,0.55) 0%,transparent 80%)';
+      reflEl.style.opacity=reflOp;
+
+      // ── PALM TREES (left, fade in at 0.4s, hold, fade before morph) ──
+      var palmOp = Math.min(
+        clamp((t-0.4)/0.7,0,1),
+        clamp((3.6-t)/0.7,0,1)
+      ) * sf * 0.92;
+      palmsEl.style.left=(VW*0.03)+'px';
+      palmsEl.style.top =(cumY[1]-148)+'px';
+      palmsEl.style.opacity=palmOp;
+
+      // ── CITY SKYLINE (center-right, fades in at 0.8s) ──
+      var skyOp = Math.min(
+        clamp((t-0.8)/0.8,0,1),
+        clamp((3.8-t)/0.7,0,1)
+      ) * sf * 0.82;
+      skylineEl.style.left=(VW*0.40)+'px';
+      skylineEl.style.top =(cumY[1]-93)+'px';
+      skylineEl.style.opacity=skyOp;
+
+      // ── JET (left→right, 0.9s–3.5s, flies in sky band above horizon) ──
+      var jetProg  = clamp((t-0.9)/2.3,0,1);
+      var jetEased = 0.5-0.5*Math.cos(jetProg*Math.PI);
+      var jetOn    = t>0.75&&t<3.6&&sf>0.12;
+
+      if(jetOn){
+        var jetX    = lerp(-JET_W-40, cW+40, jetEased);
+        var jetBase = heights[0]*0.22 - JET_H/2; // upper sky, above city/palms
+        var drift   = -Math.sin(jetProg*Math.PI)*10;
+        var jetOp   = Math.min(clamp((t-0.9)/0.6,0,1), clamp((3.5-t)/0.45,0,1))*0.92;
+        var trailLen= Math.min(jetEased*VW*0.40, 320);
+
+        trailEl.style.left      =(jetX-trailLen)+'px';
+        trailEl.style.top       =(jetBase+drift+JET_H/2-1)+'px';
+        trailEl.style.width     =trailLen+'px';
+        trailEl.style.background='linear-gradient(to left,rgba(255,255,255,0.20),rgba(255,255,255,0))';
+        trailEl.style.opacity   =jetOp*0.68;
+
+        jetEl.style.left   =jetX+'px';
+        jetEl.style.top    =(jetBase+drift)+'px';
+        jetEl.style.opacity=jetOp;
+      } else {
+        jetEl.style.opacity  ='0';
+        trailEl.style.opacity='0';
+      }
+
+      // ── FIELD GUIDE ICON (appears after morph settles, before wordmark) ──
+      var guideOp = Math.min(
+        clamp((t-6.8)/0.55,0,1),
+        clamp((7.9-t)/0.55,0,1)
+      );
+      guideEl.style.left   =((VW-46)/2)+'px';
+      guideEl.style.top    =(VH/2+LOGO_H/2+20)+'px';
+      guideEl.style.opacity=guideOp;
+
+      // ── WORDMARK ──
+      var wmO  = eOC(clamp((t-7.9)/0.5,0,1));
+      var netO = eOC(clamp((t-8.1)/0.75,0,1));
+      var rlS  = eOC(clamp((t-8.9)/0.55,0,1));
+      var plO  = eOC(clamp((t-9.4)/0.75,0,1));
+      var wmSl = lerp(24,0,eOC(clamp((t-8.1)/1.1,0,1)));
+
+      wmEl.style.left     =((VW-LOGO_W)/2)+'px';
+      wmEl.style.top      =(VH/2+LOGO_H/2+44)+'px';
+      wmEl.style.width    =LOGO_W+'px';
+      wmEl.style.opacity  =wmO;
+      wmEl.style.transform='translateY('+wmSl+'px)';
+
+      wmNet.style.opacity    =netO;
+      wmRule.style.transform ='scaleX('+rlS+')';
+      wmPlan.style.opacity   =plO;
+    }
+
+    function tick(ts){
+      if(dismissed) return;
+      if(!t0) t0=ts;
+      var t=(ts-t0)/1000;
+      if(t>13){ dismiss(); return; }
+      render(t);
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  })();
+  </script>
+
+</body>
+</html>
