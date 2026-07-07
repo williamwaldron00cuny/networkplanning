@@ -921,23 +921,22 @@
     }
 
     #np-intro-sky {
-      position: absolute; inset: -2% -2%;
-      background:
-        radial-gradient(ellipse 90% 55% at 50% 102%, rgba(247,196,120,0.55) 0%, rgba(230,140,110,0.26) 32%, transparent 64%),
-        linear-gradient(180deg, #1B3A5C 0%, #2E5C82 30%, #6F9BB8 56%, #BFD4DE 78%, #EBDECA 100%);
+      position: absolute; inset: -4%;
+      background-image:
+        linear-gradient(180deg, rgba(20,40,70,0.10) 0%, transparent 26%, transparent 62%, rgba(235,150,95,0.18) 84%, rgba(240,185,130,0.30) 100%),
+        url('https://pd.w.org/2024/05/51066578cdb300b76.22012783-2048x1536.jpeg');
+      background-size: cover;
+      background-position: center 42%;
+      transform: scale(1.0);
+      transition: transform 5.5s ease-out;
     }
+    #np-intro.np-shade-up #np-intro-sky { transform: scale(1.09); }
 
-    .np-cloud {
-      position: absolute;
-      background: #FDFBF6;
-      border-radius: 100px;
-      opacity: 0.94;
+    #np-intro-glass-reflection {
+      position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background: linear-gradient(115deg, rgba(255,255,255,0.24) 0%, rgba(255,255,255,0.07) 16%, transparent 32%, transparent 100%);
+      mix-blend-mode: screen;
     }
-    .np-cloud--gold { background: #F2C98C; opacity: 0.8; }
-    .np-cloud--pink { background: #E9B3AE; opacity: 0.72; }
-
-    @keyframes np-drift-a { from { transform: translateX(-16px); } to { transform: translateX(16px); } }
-    @keyframes np-drift-b { from { transform: translateX(20px); }  to { transform: translateX(-20px); } }
 
     #np-intro-shade {
       position: absolute; inset: 0;
@@ -975,21 +974,13 @@
     #np-intro-skip:hover { color: rgba(240,239,237,0.85) !important; border-color: rgba(240,239,237,0.3) !important; }
 
     @media (prefers-reduced-motion: reduce) {
-      .np-cloud { animation: none !important; }
+      #np-intro-sky, #np-intro.np-shade-up #np-intro-sky { transform: none; transition: none; }
     }
   </style>
   <div id="np-intro">
     <div id="np-intro-window">
-      <div id="np-intro-sky">
-        <!-- Puffy white clouds, upper sky -->
-        <div class="np-cloud" style="left:8%;top:14%;width:150px;height:44px;animation:np-drift-a 22s ease-in-out infinite;box-shadow:26px -15px 0 -6px #FDFBF6,-22px -9px 0 -9px #FDFBF6,48px 2px 0 -11px #FDFBF6,-46px 4px 0 -13px #FDFBF6;"></div>
-        <div class="np-cloud" style="left:52%;top:22%;width:120px;height:36px;animation:np-drift-b 26s ease-in-out infinite;box-shadow:20px -12px 0 -5px #FDFBF6,-18px -7px 0 -8px #FDFBF6,38px 2px 0 -9px #FDFBF6;"></div>
-        <!-- Golden/pink accent clouds, lower toward horizon -->
-        <div class="np-cloud np-cloud--gold" style="left:2%;top:56%;width:170px;height:40px;animation:np-drift-b 30s ease-in-out infinite;box-shadow:30px -14px 0 -8px #F2C98C,-26px -8px 0 -10px #F2C98C,54px 2px 0 -12px #F2C98C;"></div>
-        <div class="np-cloud np-cloud--pink" style="left:46%;top:64%;width:140px;height:34px;animation:np-drift-a 24s ease-in-out infinite;box-shadow:24px -12px 0 -7px #E9B3AE,-20px -7px 0 -9px #E9B3AE;"></div>
-        <div class="np-cloud" style="left:-6%;top:74%;width:200px;height:50px;animation:np-drift-a 34s ease-in-out infinite;box-shadow:34px -16px 0 -9px #FDFBF6,-30px -10px 0 -12px #FDFBF6,60px 3px 0 -14px #FDFBF6,-56px 5px 0 -16px #FDFBF6;"></div>
-        <div class="np-cloud np-cloud--gold" style="left:60%;top:80%;width:160px;height:38px;animation:np-drift-b 28s ease-in-out infinite;box-shadow:28px -13px 0 -8px #F2C98C,-24px -8px 0 -10px #F2C98C;"></div>
-      </div>
+      <div id="np-intro-sky"></div>
+      <div id="np-intro-glass-reflection"></div>
       <div id="np-intro-shade"></div>
       <div id="np-intro-logo">
         <div class="np-mark" style="width:44px;height:31px;">
@@ -1510,19 +1501,17 @@
 
   <!-- ═══ SOLARI FLIP BOARD + HERO PHOTO CAROUSEL + DESTINATION CARDS ═══ -->
   <!--
-    Photography credits (Wikimedia Commons / Openverse, CC BY / CC BY-SA / CC0):
-    Rio de Janeiro — Halley Pacheco de Oliveira, CC BY-SA 3.0
-    Angkor Wat — Stefan Fussan, CC BY 2.0
-    Austin — Pmillera4, CC BY-SA 2.0
-    Barcelona — Jorge Franganillo, CC BY 2.0
-    Mexico City — CC BY-SA 4.0
-    Istanbul — Dennis Jarvis, CC BY 2.0
-    Sydney — Bjarte Sorensen, CC BY-SA 4.0
-    Bali — McKay Savage, CC BY-SA 4.0
-    London — CC BY 3.0 · Paris — CC0 (rawpixel) · Miami — CC0 (rawpixel)
+    Rio de Janeiro, Angkor Wat, Austin, Sydney, Bali, London, South Africa, and
+    Shanghai use custom-supplied photography (website/photos/) — no CC
+    attribution needed.
+
+    Remaining destinations are hotlinked from Wikimedia Commons / Openverse,
+    CC BY / CC BY-SA / CC0:
+    Mexico City — CC BY-SA 4.0 · Paris — CC0 (rawpixel) · Miami — CC0 (rawpixel)
     Seattle — CC BY 2.0 · New York City — CC BY-SA 4.0 · Milan — CC BY-SA 3.0
     Maldives — CC BY-SA 4.0 · Western USA (Grand Canyon) — CC BY 2.0
-    South Africa — CC BY-SA 3.0 · Shanghai — CC BY 2.0 · Dubai / Abu Dhabi — CC BY 2.0
+    Dubai / Abu Dhabi — CC BY 2.0 · Meditation & Wellness (Rishikesh) — CC BY-SA 4.0
+    Amsterdam — CC BY-SA 4.0 · Backpacking for Beginners (Big Sur) — CC BY-SA 4.0
     Full attribution list should be published before public launch per CC BY/BY-SA terms.
   -->
   <script>
@@ -1530,13 +1519,13 @@
     const FLIP_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ.,- /';
 
     const DESTINATIONS = [
-      { name: 'RIO DE JANEIRO',    display: 'Rio de Janeiro',   sub: 'BRAZIL · GRU',              country: 'Brazil',         code: 'GRU', accent: '#E25E3A', photo: 'https://upload.wikimedia.org/wikipedia/commons/9/98/View_from_Sugarloaf_Mountain-Pao_de_Acucar_at_Sunset_-_Rio_de_Janeiro_-_Brazil_-_03.jpg', blurb: 'Christ the Redeemer at sunrise, Copacabana at golden hour, and the neighborhoods most guides never mention.' },
-      { name: 'ANGKOR WAT',        display: 'Angkor Wat',       sub: 'CAMBODIA · REP',            country: 'Cambodia',       code: 'REP', accent: '#2D7D64', photo: 'https://upload.wikimedia.org/wikipedia/commons/8/81/This_magical_scene_is_just_post_dawn_but_pre_sunrise_at_the_Angkor_Wat_%2850232021918%29.jpg', blurb: 'Sunrise over the temple towers, mirrored in still water — worth setting an alarm on vacation.' },
-      { name: 'AUSTIN, TEXAS',     display: 'Austin, Texas',    sub: 'UNITED STATES · AUS',       country: 'United States',  code: 'AUS', accent: '#7292AA', photo: 'https://upload.wikimedia.org/wikipedia/commons/0/04/Austin_Texas_Sunset_Skyline_2011.jpg', blurb: 'Live music, breakfast tacos, and a skyline that keeps growing. Best planned around the heat.' },
+      { name: 'RIO DE JANEIRO',    display: 'Rio de Janeiro',   sub: 'BRAZIL · GRU',              country: 'Brazil',         code: 'GRU', accent: '#E25E3A', photo: 'photos/rio.jpg', blurb: 'Christ the Redeemer at sunrise, Copacabana at golden hour, and the neighborhoods most guides never mention.' },
+      { name: 'ANGKOR WAT',        display: 'Angkor Wat',       sub: 'CAMBODIA · REP',            country: 'Cambodia',       code: 'REP', accent: '#2D7D64', photo: 'photos/angkor-wat.jpg', blurb: 'Sunrise over the temple towers, mirrored in still water — worth setting an alarm on vacation.' },
+      { name: 'AUSTIN, TEXAS',     display: 'Austin, Texas',    sub: 'UNITED STATES · AUS',       country: 'United States',  code: 'AUS', accent: '#7292AA', photo: 'photos/austin.jpg', blurb: 'Live music, breakfast tacos, and a skyline that keeps growing. Best planned around the heat.' },
       { name: 'MEXICO CITY',       display: 'Mexico City',      sub: 'MEXICO · MEX',              country: 'Mexico',         code: 'MEX', accent: '#E25E3A', photo: 'https://upload.wikimedia.org/wikipedia/commons/6/66/Mexico_City_Reforma_skyline.jpg', blurb: 'World-class food, a skyline of murals and modernism, and neighborhoods worth slowing down for.' },
-      { name: 'SYDNEY',            display: 'Sydney',           sub: 'AUSTRALIA · SYD',           country: 'Australia',      code: 'SYD', accent: '#7292AA', photo: 'https://upload.wikimedia.org/wikipedia/commons/7/7d/Sydney_Opera_House_and_Harbour_Bridge_Dusk_%283%29_2019-06-21.jpg', blurb: 'Harbour views, beach mornings, and an Opera House that looks better every time you see it.' },
-      { name: 'BALI',              display: 'Bali',             sub: 'INDONESIA · DPS',           country: 'Indonesia',      code: 'DPS', accent: '#2D7D64', photo: 'https://upload.wikimedia.org/wikipedia/commons/1/1d/Rice_Paddies._Gunung_Kawi%2C_Bali_1626.jpg', blurb: 'Rice terraces, cliffside temples, and a pace of life worth resetting your clock to.' },
-      { name: 'LONDON',            display: 'London',           sub: 'UNITED KINGDOM · LON',      country: 'United Kingdom', code: 'LON', accent: '#7292AA', photo: 'https://upload.wikimedia.org/wikipedia/commons/6/6e/London_Thames_Sunset_panorama_-_Feb_2008.jpg', blurb: 'Centuries of history along the Thames, a park for every mood, and the best museums are free.' },
+      { name: 'SYDNEY',            display: 'Sydney',           sub: 'AUSTRALIA · SYD',           country: 'Australia',      code: 'SYD', accent: '#7292AA', photo: 'photos/sydney.jpg', blurb: 'Harbour views, beach mornings, and an Opera House that looks better every time you see it.' },
+      { name: 'BALI',              display: 'Bali',             sub: 'INDONESIA · DPS',           country: 'Indonesia',      code: 'DPS', accent: '#2D7D64', photo: 'photos/bali.jpg', blurb: 'Rice terraces, cliffside temples, and a pace of life worth resetting your clock to.' },
+      { name: 'LONDON',            display: 'London',           sub: 'UNITED KINGDOM · LON',      country: 'United Kingdom', code: 'LON', accent: '#7292AA', photo: 'photos/london.jpg', blurb: 'Centuries of history along the Thames, a park for every mood, and the best museums are free.' },
       { name: 'PARIS',             display: 'Paris',            sub: 'FRANCE · CDG',              country: 'France',         code: 'CDG', accent: '#E9A224', photo: 'https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdXB3azYyMjQ1MDAxLXdpa2ltZWRpYS1pbWFnZS1rb3dzNDl5OC5qcGc.jpg', blurb: 'The Eiffel Tower at dusk, bakeries on every corner, and a city built for slow mornings.' },
       { name: 'MIAMI',             display: 'Miami',            sub: 'UNITED STATES · MIA',       country: 'United States',  code: 'MIA', accent: '#E25E3A', photo: 'https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA5L2xvYzIwMjA3MjEwMzctaW1hZ2UuanBn.jpg', blurb: 'Art Deco pastels, Cuban coffee, and a beach that never really closes.' },
       { name: 'SEATTLE',           display: 'Seattle',          sub: 'UNITED STATES · SEA',       country: 'United States',  code: 'SEA', accent: '#7292AA', photo: 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Space_Needle_and_skyline_from_Kerry_Park%2C_2000.jpg', blurb: 'Coffee culture, the Sound at sunset, and mountains visible from downtown on a clear day.' },
@@ -1544,8 +1533,8 @@
       { name: 'MILAN',             display: 'Milan',            sub: 'ITALY · MXP',               country: 'Italy',          code: 'MXP', accent: '#E9A224', photo: 'https://upload.wikimedia.org/wikipedia/commons/0/09/Full_Milan_skyline_from_Duomo_roof.jpg', blurb: "Fashion, the Duomo's rooftop, and some of the best food in Italy without the tourist lines." },
       { name: 'MALDIVES',          display: 'Maldives',         sub: 'MALDIVES · MLE',            country: 'Maldives',       code: 'MLE', accent: '#2D7D64', photo: 'https://upload.wikimedia.org/wikipedia/commons/a/a5/Thatched-roof_villa_in_the_Maldive_Islands.jpg', blurb: 'Overwater villas, turquoise lagoons, and very few reasons to leave your bungalow.' },
       { name: 'WESTERN USA',       display: 'Western USA',      sub: 'UNITED STATES · GCN',       country: 'United States',  code: 'GCN', accent: '#E9A224', photo: 'https://upload.wikimedia.org/wikipedia/commons/5/53/Grand_Canyon_Sunset_and_Light.jpg', blurb: 'Canyon rims at sunset, endless stars, and some of the best road-tripping on the planet.' },
-      { name: 'SOUTH AFRICA',      display: 'South Africa',     sub: 'SOUTH AFRICA · CPT',        country: 'South Africa',   code: 'CPT', accent: '#2D7D64', photo: 'https://upload.wikimedia.org/wikipedia/commons/c/c6/Cape_Town_harbor%2C_Devil%27s_Peak_and_Table_Mountain_in_late_winter_afternoon_light.jpg', blurb: 'Table Mountain at golden hour, coastal drives, and safari mornings worth the early wake-up.' },
-      { name: 'SHANGHAI',          display: 'Shanghai',         sub: 'CHINA · PVG',               country: 'China',          code: 'PVG', accent: '#E25E3A', photo: 'https://upload.wikimedia.org/wikipedia/commons/f/f2/There%27s_the_Pudong_skyline_again_%2836273761462%29.jpg', blurb: "A skyline built overnight, ancient alleys a block away, and the best dumplings you'll ever argue about." },
+      { name: 'SOUTH AFRICA',      display: 'South Africa',     sub: 'SOUTH AFRICA · CPT',        country: 'South Africa',   code: 'CPT', accent: '#2D7D64', photo: 'photos/south-africa.jpg', blurb: 'Table Mountain at golden hour, coastal drives, and safari mornings worth the early wake-up.' },
+      { name: 'SHANGHAI',          display: 'Shanghai',         sub: 'CHINA · PVG',               country: 'China',          code: 'PVG', accent: '#E25E3A', photo: 'photos/shanghai.jpg', blurb: "A skyline built overnight, ancient alleys a block away, and the best dumplings you'll ever argue about." },
       { name: 'DUBAI/ABU DHABI',   display: 'Dubai / Abu Dhabi',sub: 'UNITED ARAB EMIRATES · DXB',country: 'United Arab Emirates', code: 'DXB', accent: '#E9A224', photo: 'https://upload.wikimedia.org/wikipedia/commons/c/cc/Dubai_Skyline_mit_Burj_Khalifa_%2818241030269%29.jpg', blurb: 'Desert meets skyline — record towers, dunes an hour away, and hospitality built to impress.' },
       { name: 'WELLNESS RETREAT',  display: 'Meditation & Wellness', sub: 'HIMALAYAS · DED',       country: 'India',          code: 'DED', accent: '#2D7D64', photo: 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Rishikesh_%28Ganges_View%29.jpg', blurb: 'Sunrise yoga in the foothills of the Himalayas, silence built into the itinerary, and nothing to plan once you arrive.', smallTitle: true },
       { name: 'AMSTERDAM',         display: 'Amsterdam',        sub: 'NETHERLANDS · AMS',         country: 'Netherlands',    code: 'AMS', accent: '#7292AA', photo: 'https://upload.wikimedia.org/wikipedia/commons/c/c1/Sunset_in_Amsterdam%2C_Netherlands.jpg', blurb: 'Canal-side mornings, world-class museums, and a city built for getting pleasantly lost on a bike.', smallTitle: true },
