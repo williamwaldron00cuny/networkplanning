@@ -689,6 +689,8 @@
       margin-bottom: 4px;
     }
 
+    .dest-name--sm { font-size: clamp(14px, 1.3vw, 18px); }
+
     .dest-country {
       font-family: var(--f-mono);
       font-size: 9px; letter-spacing: 0.10em;
@@ -717,6 +719,8 @@
       letter-spacing: -0.02em; text-transform: uppercase;
       color: var(--light); margin-bottom: 12px;
     }
+
+    .dest-back-name--sm { font-size: clamp(14px, 1.3vw, 17px); }
 
     .dest-back-blurb {
       font-family: var(--f-body);
@@ -1543,9 +1547,9 @@
       { name: 'SOUTH AFRICA',      display: 'South Africa',     sub: 'SOUTH AFRICA · CPT',        country: 'South Africa',   code: 'CPT', accent: '#2D7D64', photo: 'https://upload.wikimedia.org/wikipedia/commons/c/c6/Cape_Town_harbor%2C_Devil%27s_Peak_and_Table_Mountain_in_late_winter_afternoon_light.jpg', blurb: 'Table Mountain at golden hour, coastal drives, and safari mornings worth the early wake-up.' },
       { name: 'SHANGHAI',          display: 'Shanghai',         sub: 'CHINA · PVG',               country: 'China',          code: 'PVG', accent: '#E25E3A', photo: 'https://upload.wikimedia.org/wikipedia/commons/f/f2/There%27s_the_Pudong_skyline_again_%2836273761462%29.jpg', blurb: "A skyline built overnight, ancient alleys a block away, and the best dumplings you'll ever argue about." },
       { name: 'DUBAI/ABU DHABI',   display: 'Dubai / Abu Dhabi',sub: 'UNITED ARAB EMIRATES · DXB',country: 'United Arab Emirates', code: 'DXB', accent: '#E9A224', photo: 'https://upload.wikimedia.org/wikipedia/commons/c/cc/Dubai_Skyline_mit_Burj_Khalifa_%2818241030269%29.jpg', blurb: 'Desert meets skyline — record towers, dunes an hour away, and hospitality built to impress.' },
-      { name: 'WELLNESS RETREAT',  display: 'Meditation & Wellness', sub: 'HIMALAYAS · DED',       country: 'India',          code: 'DED', accent: '#2D7D64', photo: 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Rishikesh_%28Ganges_View%29.jpg', blurb: 'Sunrise yoga in the foothills of the Himalayas, silence built into the itinerary, and nothing to plan once you arrive.' },
-      { name: 'AMSTERDAM',         display: 'Amsterdam',        sub: 'NETHERLANDS · AMS',         country: 'Netherlands',    code: 'AMS', accent: '#7292AA', photo: 'https://upload.wikimedia.org/wikipedia/commons/c/c1/Sunset_in_Amsterdam%2C_Netherlands.jpg', blurb: 'Canal-side mornings, world-class museums, and a city built for getting pleasantly lost on a bike.' },
-      { name: 'BACKPACKING 101',   display: 'Backpacking for Beginners', sub: 'USA · CA/CO/UT',  country: 'United States',  code: 'BSR', accent: '#E9A224', photo: 'https://upload.wikimedia.org/wikipedia/commons/5/5b/McWay_Falls_Big_Sur_May_2011_006.jpg', blurb: 'First-timer-friendly trails across Big Sur, Colorado, and Utah — camp gear, routes, and confidence included.' },
+      { name: 'WELLNESS RETREAT',  display: 'Meditation & Wellness', sub: 'HIMALAYAS · DED',       country: 'India',          code: 'DED', accent: '#2D7D64', photo: 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Rishikesh_%28Ganges_View%29.jpg', blurb: 'Sunrise yoga in the foothills of the Himalayas, silence built into the itinerary, and nothing to plan once you arrive.', smallTitle: true },
+      { name: 'AMSTERDAM',         display: 'Amsterdam',        sub: 'NETHERLANDS · AMS',         country: 'Netherlands',    code: 'AMS', accent: '#7292AA', photo: 'https://upload.wikimedia.org/wikipedia/commons/c/c1/Sunset_in_Amsterdam%2C_Netherlands.jpg', blurb: 'Canal-side mornings, world-class museums, and a city built for getting pleasantly lost on a bike.', smallTitle: true },
+      { name: 'BACKPACKING 101',   display: 'Backpacking for Beginners', sub: 'USA · CA/CO/UT',  country: 'United States',  code: 'BSR', accent: '#E9A224', photo: 'https://upload.wikimedia.org/wikipedia/commons/5/5b/McWay_Falls_Big_Sur_May_2011_006.jpg', blurb: 'First-timer-friendly trails across Big Sur, Colorado, and Utah — camp gear, routes, and confidence included.', smallTitle: true },
     ];
 
     const BOARD_LEN = 17;
@@ -1584,6 +1588,9 @@
           return '<div style="flex:' + flex + ';background:' + STRIPE_COLORS[i] + ';opacity:' + opacity + ';"></div>';
         }).join('');
 
+        const nameClass = 'dest-name' + (d.smallTitle ? ' dest-name--sm' : '');
+        const backNameClass = 'dest-back-name' + (d.smallTitle ? ' dest-back-name--sm' : '');
+
         card.innerHTML =
           '<div class="dest-card-flip">' +
             '<div class="dest-card-face dest-card-face--front">' +
@@ -1592,14 +1599,14 @@
               '<div class="dest-corner-stripe">' + stripeDivs + '</div>' +
               '<div class="dest-content">' +
                 '<div class="dest-code"><div class="dest-accent" style="background:' + d.accent + ';"></div>' + d.code + ' · FIELD GUIDE</div>' +
-                '<div class="dest-name">' + d.display + '</div>' +
+                '<div class="' + nameClass + '">' + d.display + '</div>' +
                 '<div class="dest-country">' + d.country + '</div>' +
               '</div>' +
             '</div>' +
             '<div class="dest-card-face dest-card-face--back">' +
               '<div>' +
                 '<div class="dest-back-label">' + d.code + ' · Field notes</div>' +
-                '<div class="dest-back-name">' + d.display + '</div>' +
+                '<div class="' + backNameClass + '">' + d.display + '</div>' +
                 '<div class="dest-back-blurb">' + d.blurb + '</div>' +
               '</div>' +
               '<div class="dest-back-actions">' +
