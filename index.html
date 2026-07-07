@@ -900,14 +900,19 @@
     ═══════════════════════════════════ */
     .product-mock {
       position: relative;
+      overflow: visible;
+    }
+
+    .product-card {
+      overflow: visible;
     }
 
     .guide-preview-container {
       position: absolute;
-      top: 12px;
-      right: 12px;
-      width: 56px;
-      height: 80px;
+      top: -8px;
+      right: -8px;
+      width: 64px;
+      height: 90px;
       cursor: pointer;
       z-index: 10;
       transition: all 300ms ease;
@@ -918,10 +923,10 @@
     }
 
     .guide-preview-container:hover {
-      width: 240px;
-      height: 340px;
-      top: -160px;
-      right: -60px;
+      width: 280px;
+      height: 400px;
+      top: -220px;
+      right: -100px;
     }
 
     .guide-thumbnail {
@@ -932,10 +937,30 @@
       box-shadow: 0 4px 16px rgba(20, 20, 22, 0.2);
       transition: all 300ms ease;
       border: 2px solid var(--coral);
+      transform: rotate(-6deg) scale(1.08);
     }
 
     .guide-preview-container:hover .guide-thumbnail {
       box-shadow: 0 12px 32px rgba(20, 20, 22, 0.3);
+      transform: rotate(0deg) scale(1);
+    }
+
+    @media (max-width: 768px) {
+      .guide-preview-container:hover {
+        width: 320px;
+        height: 456px;
+        top: -250px;
+        right: -120px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .guide-preview-container:hover {
+        width: 340px;
+        height: 480px;
+        top: -260px;
+        right: -130px;
+      }
     }
 
     .guide-cta-overlay {
