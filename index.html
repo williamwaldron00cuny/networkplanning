@@ -905,36 +905,37 @@
   <style>
     #np-intro {
       position: fixed; inset: 0; z-index: 9999; overflow: hidden;
-      background: radial-gradient(ellipse 140% 100% at 50% 8%, #C7C3BA 0%, #A8A49C 45%, #8D897F 100%);
+      background: radial-gradient(ellipse 140% 90% at 50% 30%, #263642 0%, #16171a 55%, #0A0B0C 100%);
       opacity: 1; transition: opacity 0.9s ease;
     }
     #np-intro.np-dismiss { opacity: 0; pointer-events: none; }
 
     #np-intro-window {
       position: absolute; left: 50%; top: 50%;
-      width: min(60vw, 480px); height: min(70vh, 600px);
+      height: min(80vh, 660px);
+      aspect-ratio: 934 / 1400;
       transform: translate(-50%,-50%);
-      border-radius: 46% 46% 40% 40% / 30% 30% 24% 24%;
+      border-radius: 10px;
       background: #0E1A22;
-      box-shadow: 0 0 0 14px #9A968C, 0 0 0 17px rgba(0,0,0,0.22), inset 0 0 46px 12px rgba(0,0,0,0.5);
+      box-shadow: 0 30px 90px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.06);
       overflow: hidden;
     }
 
     #np-intro-sky {
       position: absolute; inset: -4%;
       background-image:
-        linear-gradient(180deg, rgba(20,40,70,0.10) 0%, transparent 26%, transparent 62%, rgba(235,150,95,0.18) 84%, rgba(240,185,130,0.30) 100%),
-        url('https://pd.w.org/2024/05/51066578cdb300b76.22012783-2048x1536.jpeg');
+        linear-gradient(180deg, transparent 0%, transparent 68%, rgba(235,150,95,0.10) 88%, rgba(240,185,130,0.18) 100%),
+        url('photos/intro-window.jpg');
       background-size: cover;
-      background-position: center 42%;
+      background-position: center;
       transform: scale(1.0);
       transition: transform 5.5s ease-out;
     }
-    #np-intro.np-shade-up #np-intro-sky { transform: scale(1.09); }
+    #np-intro.np-shade-up #np-intro-sky { transform: scale(1.07); }
 
     #np-intro-glass-reflection {
       position: absolute; inset: 0; z-index: 1; pointer-events: none;
-      background: linear-gradient(115deg, rgba(255,255,255,0.24) 0%, rgba(255,255,255,0.07) 16%, transparent 32%, transparent 100%);
+      background: linear-gradient(115deg, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.04) 14%, transparent 28%, transparent 100%);
       mix-blend-mode: screen;
     }
 
