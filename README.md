@@ -25,14 +25,14 @@ Deeply researched, design-led travel guides — aviation in the bones, warmth in
 
 | Token               | Hex       | Use                                      |
 | ------------------- | --------- | ---------------------------------------- |
-| `--color-void`      | `#141416` | Primary dark — the main structural color |
-| `--color-charcoal`  | `#2B2C31` | Dark panels, section headers             |
-| `--color-graphite`  | `#56575C` | Secondary text, muted elements           |
-| `--color-parchment` | `#F3EFE7` | Primary warm base — most surfaces        |
+| `--color-void`      | `#10171C` | Primary dark — the main structural color |
+| `--color-charcoal`  | `#263642` | Dark panels, section headers             |
+| `--color-graphite`  | `#47606E` | Secondary text, muted elements           |
+| `--color-parchment` | `#EAEDEB` | Primary base — greige, steely blue-green  |
 | `--color-coral`     | `#E25E3A` | **WFWorks family accent** — primary pop  |
 | `--color-saffron`   | `#E9A224` | Tropical warm — Rio, warm destinations   |
 | `--color-viridian`  | `#2D7D64` | Tropical depth — Siem Reap, jungle       |
-| `--color-sky`       | `#4B8CAA` | Aviation / map blue-grey                 |
+| `--color-sky`       | `#7292AA` | Aviation / map blue-grey                 |
 
 ---
 
@@ -67,7 +67,7 @@ Reads as: *a route network departing from a hub toward a destination.*
 - Always show the mark with wordmark in formal contexts
 - Standalone mark works for favicon, social avatar, guide corner stamp
 - Destination dot is always coral `#E25E3A` — even in monochrome contexts, use a coral dot
-- On dark backgrounds: circle and line in `#F3EFE7`. On light: `#141416`.
+- On dark backgrounds: circle and line in `#F3EFE7`. On light: `#10171C`.
 - Minimum size: 20px (mark alone); 80px (full lockup)
 
 ---
@@ -91,11 +91,11 @@ The brand's signature interactive element on the web.
 **Section tabs** — every major content block opens with one:
 - `[1px coral tick] TAB LABEL TEXT // SECTION`
 - IBM Plex Mono 500, 10–11px, letter-spacing 0.13em, UPPERCASE
-- On dark: `rgba(243,239,231,0.38)`. On light: `#56575C`.
+- On dark: `rgba(243,239,231,0.38)`. On light: `#47606E`.
 
 **Rules and grids:**
-- 1px `#C8C6C2` — standard content divider
-- 2px `#141416` — heavy structural rule
+- 1px `#C0C7C3` — standard content divider
+- 2px `#10171C` — heavy structural rule
 - 2px `#E25E3A` — coral accent rule (hero left edge, product card header)
 - Grid: 12 columns, 8px base, 24px gutter (desktop), 20px (mobile)
 

@@ -14,19 +14,19 @@
     html { font-size: 16px; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
 
     :root {
-      --void:     #141416;
-      --charcoal: #2B2C31;
-      --graphite: #56575C;
-      --ash:      #8C8C91;
-      --rule:     #C8C6C2;
-      --ivory:    #E6E5E2;
-      --light:    #F0EFED;
-      --white:    #F7F7F6;
+      --void:     #10171C;
+      --charcoal: #263642;
+      --graphite: #47606E;
+      --ash:      #7A8F99;
+      --rule:     #C0C7C3;
+      --ivory:    #DEE3E0;
+      --light:    #EAEDEB;
+      --white:    #F4F6F5;
       --coral:    #E25E3A;
       --coral-dk: #C04E2E;
       --saffron:  #E9A224;
       --viridian: #2D7D64;
-      --sky:      #4B8CAA;
+      --sky:      #7292AA;
 
       --f-mono: 'IBM Plex Mono', monospace;
       --f-disp: 'Syne', sans-serif;
@@ -110,6 +110,28 @@
         linear-gradient(90deg, rgba(240,239,237,0.025) 1px, transparent 1px);
       background-size: 60px 60px;
       pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Destination photo carousel — cross-fades in sync with the flip board */
+    .hero-photo-layer {
+      position: absolute; inset: 0;
+      overflow: hidden;
+    }
+
+    .hero-photo {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center;
+      opacity: 0;
+      transition: opacity 1.4s ease;
+    }
+
+    .hero-photo.is-active { opacity: 1; }
+
+    .hero-photo-scrim {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(20,20,22,0.58) 0%, rgba(20,20,22,0.42) 38%, rgba(20,20,22,0.62) 68%, rgba(20,20,22,0.94) 100%);
+      z-index: 1;
     }
 
     .hero-main {
@@ -273,6 +295,10 @@
       to   { transform: translateX(-50%); }
     }
 
+    @media (prefers-reduced-motion: reduce) {
+      .marquee-inner { animation: none; }
+    }
+
     /* ═══════════════════════════════════
        WHAT WE DO — dark section, type-forward
     ═══════════════════════════════════ */
@@ -401,15 +427,29 @@
 
     .products-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2px;
-      background: var(--void);
-      border: 2px solid var(--void);
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
     }
+
+    .product-mock {
+      width: 100%; height: 180px;
+      background: var(--void);
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .product-mock svg { width: 100%; height: 100%; display: block; }
 
     .product-card {
       background: var(--white);
       display: flex; flex-direction: column;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 1px 2px rgba(20,20,22,0.06), 0 16px 36px rgba(20,20,22,0.08);
+      transition: transform 220ms ease, box-shadow 220ms ease;
+    }
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 10px rgba(20,20,22,0.08), 0 24px 48px rgba(20,20,22,0.12);
     }
 
     /* The stripe mark used as card header accent */
@@ -565,30 +605,48 @@
 
     .dest-grid {
       display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: 2px;
-      background: var(--charcoal);
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 22px;
     }
 
-    .dest-card {
+    .dest-card { perspective: 1400px; min-height: 340px; cursor: pointer; }
+
+    @keyframes dest-pop {
+      0%   { transform: translateY(0)    scale(1)     rotate(0deg); }
+      30%  { transform: translateY(-9px) scale(1.045) rotate(-1.6deg); }
+      55%  { transform: translateY(-6px) scale(1.03)  rotate(1.2deg); }
+      100% { transform: translateY(-6px) scale(1.03)  rotate(0deg); }
+    }
+
+    .dest-card:hover .dest-card-flip:not(.is-flipped) {
+      animation: dest-pop 420ms ease-out forwards;
+    }
+
+    .dest-card-flip {
       position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 0;
-      cursor: pointer;
-      min-height: 360px;
+      width: 100%; height: 100%; min-height: 340px;
+      transition: transform 650ms cubic-bezier(.4,.2,.2,1);
+      transform-style: preserve-3d;
     }
 
-    /* Photo stand-in — in production, replace with real photography */
+    .dest-card-flip.is-flipped { transform: rotateY(180deg); }
+
+    .dest-card-face {
+      position: absolute; inset: 0;
+      backface-visibility: hidden;
+      border-radius: 3px;
+      overflow: hidden;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.35), 0 14px 32px rgba(0,0,0,0.4);
+    }
+
+    .dest-card-face--front {
+      display: flex; flex-direction: column; justify-content: flex-end;
+    }
+
     .dest-photo {
       position: absolute; inset: 0;
       background-size: cover; background-position: center;
-      transition: transform 600ms ease;
     }
-
-    .dest-card:hover .dest-photo { transform: scale(1.04); }
 
     .dest-overlay {
       position: absolute; inset: 0;
@@ -606,7 +664,7 @@
 
     .dest-content {
       position: relative; z-index: 3;
-      padding: 24px;
+      padding: 22px;
     }
 
     .dest-code {
@@ -622,9 +680,9 @@
 
     .dest-name {
       font-family: var(--f-disp);
-      font-size: clamp(18px, 1.8vw, 26px);
+      font-size: clamp(18px, 1.8vw, 25px);
       font-weight: 800;
-      line-height: 0.9;
+      line-height: 0.98;
       letter-spacing: -0.02em;
       text-transform: uppercase;
       color: var(--light);
@@ -636,6 +694,40 @@
       font-size: 9px; letter-spacing: 0.10em;
       text-transform: uppercase; color: rgba(240,239,237,0.3);
     }
+
+    /* Back face — description + order actions */
+    .dest-card-face--back {
+      transform: rotateY(180deg);
+      background: var(--charcoal);
+      display: flex; flex-direction: column; justify-content: space-between;
+      padding: 24px;
+    }
+
+    .dest-back-label {
+      font-family: var(--f-mono);
+      font-size: 9px; font-weight: 500;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--coral); margin-bottom: 12px;
+    }
+
+    .dest-back-name {
+      font-family: var(--f-disp);
+      font-size: clamp(18px, 1.8vw, 24px);
+      font-weight: 800; line-height: 0.98;
+      letter-spacing: -0.02em; text-transform: uppercase;
+      color: var(--light); margin-bottom: 12px;
+    }
+
+    .dest-back-blurb {
+      font-family: var(--f-body);
+      font-size: 13px; font-weight: 300;
+      line-height: 1.6;
+      color: rgba(240,239,237,0.55);
+      flex: 1;
+    }
+
+    .dest-back-actions { display: flex; flex-direction: column; gap: 8px; }
+    .dest-back-actions .btn { width: 100%; text-align: center; }
 
     /* ═══════════════════════════════════
        EDITORIAL
@@ -804,108 +896,175 @@
 <body>
 
   <!-- ═══════════════════════════════════
-       SUNSET → LOGO INTRO ANIMATION
+       AIRPLANE WINDOW INTRO
   ═══════════════════════════════════ -->
   <style>
-    @keyframes np-sun-glow {
-      0%,100%{box-shadow:0 0 70px 30px rgba(245,155,40,0.18),0 0 180px 100px rgba(226,94,58,0.07)}
-      50%    {box-shadow:0 0 95px 44px rgba(245,155,40,0.26),0 0 240px 140px rgba(226,94,58,0.11)}
+    #np-intro {
+      position: fixed; inset: 0; z-index: 9999; overflow: hidden;
+      background: radial-gradient(ellipse 140% 100% at 50% 8%, #C7C3BA 0%, #A8A49C 45%, #8D897F 100%);
+      opacity: 1; transition: opacity 0.9s ease;
     }
-    #np-intro-sun { animation: np-sun-glow 3s ease-in-out infinite; }
-    #np-intro-skip { transition: color 200ms, border-color 200ms; }
-    #np-intro-skip:hover { color: rgba(240,239,237,0.75) !important; border-color: rgba(240,239,237,0.28) !important; }
+    #np-intro.np-dismiss { opacity: 0; pointer-events: none; }
+
+    #np-intro-window {
+      position: absolute; left: 50%; top: 50%;
+      width: min(60vw, 480px); height: min(70vh, 600px);
+      transform: translate(-50%,-50%);
+      border-radius: 46% 46% 40% 40% / 30% 30% 24% 24%;
+      background: #0E1A22;
+      box-shadow: 0 0 0 14px #9A968C, 0 0 0 17px rgba(0,0,0,0.22), inset 0 0 46px 12px rgba(0,0,0,0.5);
+      overflow: hidden;
+    }
+
+    #np-intro-sky {
+      position: absolute; inset: -2% -2%;
+      background:
+        radial-gradient(ellipse 90% 55% at 50% 102%, rgba(247,196,120,0.55) 0%, rgba(230,140,110,0.26) 32%, transparent 64%),
+        linear-gradient(180deg, #1B3A5C 0%, #2E5C82 30%, #6F9BB8 56%, #BFD4DE 78%, #EBDECA 100%);
+    }
+
+    .np-cloud {
+      position: absolute;
+      background: #FDFBF6;
+      border-radius: 100px;
+      opacity: 0.94;
+    }
+    .np-cloud--gold { background: #F2C98C; opacity: 0.8; }
+    .np-cloud--pink { background: #E9B3AE; opacity: 0.72; }
+
+    @keyframes np-drift-a { from { transform: translateX(-16px); } to { transform: translateX(16px); } }
+    @keyframes np-drift-b { from { transform: translateX(20px); }  to { transform: translateX(-20px); } }
+
+    #np-intro-shade {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, #EFEAE0 0%, #E3DCCE 92%, #CFC6B4 100%);
+      transform: translateY(0%);
+      transition: transform 1.7s cubic-bezier(.65,0,.35,1);
+      z-index: 2;
+    }
+    #np-intro-shade::after {
+      content: ''; position: absolute; left: 50%; bottom: 12px;
+      width: 46px; height: 8px; border-radius: 4px;
+      background: #B7ADA0; transform: translateX(-50%);
+    }
+    #np-intro.np-shade-up #np-intro-shade { transform: translateY(-104%); }
+
+    #np-intro-logo {
+      position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+      z-index: 3; text-align: center; opacity: 0;
+      background: rgba(20,20,22,0.32); backdrop-filter: blur(6px);
+      border-radius: 3px; padding: 20px 28px;
+      transition: opacity 1.1s ease;
+    }
+    #np-intro.np-logo-in #np-intro-logo { opacity: 1; }
+
+    #np-intro-logo .np-mark { margin: 0 auto 12px; }
+    #np-intro-logo-net, #np-intro-logo-plan {
+      font-family: 'IBM Plex Mono', monospace; font-size: 16px; font-weight: 400;
+      letter-spacing: 0.22em; text-transform: uppercase; color: #F4F6F5; line-height: 1.3;
+    }
+    #np-intro-logo-rule { width: 100%; height: 1px; background: #E25E3A; margin: 6px 0; }
+
+    #np-intro-skip {
+      transition: color 200ms, border-color 200ms;
+    }
+    #np-intro-skip:hover { color: rgba(240,239,237,0.85) !important; border-color: rgba(240,239,237,0.3) !important; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .np-cloud { animation: none !important; }
+    }
   </style>
-  <div id="np-intro" style="position:fixed;inset:0;z-index:9999;overflow:hidden;">
-    <div id="np-intro-bg" style="position:absolute;inset:0;background:#1A1028;"></div>
-    <div id="np-intro-mark" style="position:absolute;overflow:hidden;transform-origin:center center;">
-      <div id="np-intro-stripes" style="display:flex;flex-direction:column;width:100%;height:100%;"></div>
-      <div id="np-intro-atmos"   style="position:absolute;top:0;left:0;right:0;pointer-events:none;"></div>
-      <div id="np-intro-glow"    style="position:absolute;left:0;right:0;pointer-events:none;"></div>
-      <div id="np-intro-horiz"   style="position:absolute;left:0;right:0;height:2px;background:rgba(255,238,115,0.85);pointer-events:none;"></div>
-      <div id="np-intro-stars"   style="position:absolute;inset:0;pointer-events:none;overflow:hidden;"></div>
-      <div id="np-intro-sun"     style="position:absolute;border-radius:50%;pointer-events:none;display:none;"></div>
-      <div id="np-intro-reflect" style="position:absolute;pointer-events:none;"></div>
-      <!-- Palm trees (horizon left, fade in early, fade out before morph) -->
-      <div id="np-intro-palms" style="position:absolute;pointer-events:none;opacity:0;">
-        <svg width="155" height="150" viewBox="0 0 155 150" fill="none">
-          <!-- Tree 1: tall, slight right lean -->
-          <path d="M10,150 Q4,115 12,78 Q18,50 24,6 L27,6 Q23,50 20,78 Q14,115 13,150Z" fill="#0D0920"/>
-          <path d="M25,6 Q46,-8 64,14 Q44,20 25,6Z" fill="#0D0920"/>
-          <path d="M25,6 Q4,-10 -14,10 Q4,18 25,6Z" fill="#0D0920"/>
-          <path d="M25,6 Q42,18 34,44 Q22,32 25,6Z" fill="#0D0920"/>
-          <path d="M25,6 Q8,18 10,42 Q22,32 25,6Z" fill="#0D0920"/>
-          <path d="M25,6 Q28,24 16,44 Q12,26 25,6Z" fill="#0D0920"/>
-          <path d="M25,6 Q22,24 34,40 Q36,22 25,6Z" fill="#0D0920"/>
-          <!-- Tree 2: shorter, leans left, offset right -->
-          <path d="M108,150 Q112,118 106,82 Q100,54 96,14 L99,14 Q104,54 110,82 Q116,118 111,150Z" fill="#0D0920"/>
-          <path d="M97,14 Q116,4 130,20 Q112,24 97,14Z" fill="#0D0920"/>
-          <path d="M97,14 Q78,4 64,18 Q80,24 97,14Z" fill="#0D0920"/>
-          <path d="M97,14 Q110,24 104,46 Q92,34 97,14Z" fill="#0D0920"/>
-          <path d="M97,14 Q82,24 84,44 Q94,34 97,14Z" fill="#0D0920"/>
-          <path d="M97,14 Q100,28 88,46 Q84,28 97,14Z" fill="#0D0920"/>
-        </svg>
+  <div id="np-intro">
+    <div id="np-intro-window">
+      <div id="np-intro-sky">
+        <!-- Puffy white clouds, upper sky -->
+        <div class="np-cloud" style="left:8%;top:14%;width:150px;height:44px;animation:np-drift-a 22s ease-in-out infinite;box-shadow:26px -15px 0 -6px #FDFBF6,-22px -9px 0 -9px #FDFBF6,48px 2px 0 -11px #FDFBF6,-46px 4px 0 -13px #FDFBF6;"></div>
+        <div class="np-cloud" style="left:52%;top:22%;width:120px;height:36px;animation:np-drift-b 26s ease-in-out infinite;box-shadow:20px -12px 0 -5px #FDFBF6,-18px -7px 0 -8px #FDFBF6,38px 2px 0 -9px #FDFBF6;"></div>
+        <!-- Golden/pink accent clouds, lower toward horizon -->
+        <div class="np-cloud np-cloud--gold" style="left:2%;top:56%;width:170px;height:40px;animation:np-drift-b 30s ease-in-out infinite;box-shadow:30px -14px 0 -8px #F2C98C,-26px -8px 0 -10px #F2C98C,54px 2px 0 -12px #F2C98C;"></div>
+        <div class="np-cloud np-cloud--pink" style="left:46%;top:64%;width:140px;height:34px;animation:np-drift-a 24s ease-in-out infinite;box-shadow:24px -12px 0 -7px #E9B3AE,-20px -7px 0 -9px #E9B3AE;"></div>
+        <div class="np-cloud" style="left:-6%;top:74%;width:200px;height:50px;animation:np-drift-a 34s ease-in-out infinite;box-shadow:34px -16px 0 -9px #FDFBF6,-30px -10px 0 -12px #FDFBF6,60px 3px 0 -14px #FDFBF6,-56px 5px 0 -16px #FDFBF6;"></div>
+        <div class="np-cloud np-cloud--gold" style="left:60%;top:80%;width:160px;height:38px;animation:np-drift-b 28s ease-in-out infinite;box-shadow:28px -13px 0 -8px #F2C98C,-24px -8px 0 -10px #F2C98C;"></div>
       </div>
-      <!-- City skyline (horizon center-right, appears after palms) -->
-      <div id="np-intro-skyline" style="position:absolute;pointer-events:none;opacity:0;">
-        <svg width="320" height="95" viewBox="0 0 320 95" fill="none">
-          <rect x="0"   y="72" width="24" height="23" fill="#0D0920"/>
-          <rect x="26"  y="48" width="20" height="47" fill="#0D0920"/>
-          <rect x="49"  y="58" width="22" height="37" fill="#0D0920"/>
-          <rect x="74"  y="30" width="22" height="65" fill="#0D0920"/>
-          <rect x="99"  y="46" width="18" height="49" fill="#0D0920"/>
-          <rect x="120" y="20" width="24" height="75" fill="#0D0920"/>
-          <!-- Hero skyscraper with antenna spire -->
-          <rect x="148" y="10" width="20" height="85" fill="#0D0920"/>
-          <rect x="156" y="2"  width="4"  height="12" fill="#0D0920"/>
-          <rect x="172" y="28" width="22" height="67" fill="#0D0920"/>
-          <rect x="198" y="42" width="20" height="53" fill="#0D0920"/>
-          <rect x="222" y="56" width="20" height="39" fill="#0D0920"/>
-          <rect x="245" y="38" width="22" height="57" fill="#0D0920"/>
-          <rect x="271" y="62" width="24" height="33" fill="#0D0920"/>
-          <rect x="298" y="74" width="22" height="21" fill="#0D0920"/>
-        </svg>
-      </div>
-      <!-- Jet contrail -->
-      <div id="np-intro-trail" style="position:absolute;height:2px;border-radius:2px;pointer-events:none;opacity:0;"></div>
-      <!-- Airliner silhouette — proper wide-body proportions, nose RIGHT, L→R flight -->
-      <div id="np-intro-jet" style="position:absolute;pointer-events:none;opacity:0;">
-        <svg width="210" height="62" viewBox="0 0 210 62" fill="none">
-          <!-- Fuselage: long cigar, tapers to nose at x=205 -->
-          <path d="M205,28 C190,16 168,14 138,14 L28,15 C14,15 5,21 5,28 C5,35 14,41 28,41 L138,42 C168,42 190,40 205,28Z" fill="#0D0920"/>
-          <!-- Vertical tail fin: tall swept fin at rear -->
-          <path d="M24,15 L16,3 L32,1 L38,15Z" fill="#0D0920"/>
-          <!-- Horizontal stabilizer (small tail wings) -->
-          <path d="M18,41 L5,54 L12,56 L24,41Z" fill="#0D0920"/>
-          <!-- Main wing: large, swept back, hangs below belly -->
-          <path d="M138,42 L62,60 L74,61 L148,42Z" fill="#0D0920"/>
-          <!-- Engine 1: under left wing -->
-          <rect x="64" y="55" width="30" height="8" rx="4" fill="#0D0920"/>
-          <!-- Engine 2: inner, smaller -->
-          <rect x="100" y="50" width="22" height="7" rx="3.5" fill="#0D0920"/>
-        </svg>
+      <div id="np-intro-shade"></div>
+      <div id="np-intro-logo">
+        <div class="np-mark" style="width:44px;height:31px;">
+          <div style="height:12px;background:#F4F6F5;"></div>
+          <div style="height: 8px;background:#E25E3A;"></div>
+          <div style="height: 5px;background:#47606E;"></div>
+          <div style="height: 4px;background:#E9A224;"></div>
+          <div style="height: 3px;background:#2D7D64;"></div>
+        </div>
+        <div id="np-intro-logo-net">Network</div>
+        <div id="np-intro-logo-rule"></div>
+        <div id="np-intro-logo-plan">Planning</div>
       </div>
     </div>
-    <!-- Field guide icon — appears briefly after morph, before wordmark -->
-    <div id="np-intro-guide" style="position:absolute;pointer-events:none;opacity:0;">
-      <svg width="46" height="58" viewBox="0 0 46 58" fill="none">
-        <rect x="3"  y="2"  width="40" height="54" rx="2" fill="#141416"/>
-        <rect x="3"  y="2"  width="6"  height="54" fill="#E25E3A" opacity="0.55"/>
-        <rect x="11" y="17" width="28" height="3"   fill="#F0EFED" opacity="0.85"/>
-        <rect x="11" y="22" width="28" height="2"   fill="#E25E3A" opacity="0.95"/>
-        <rect x="11" y="25" width="28" height="1.5" fill="#56575C" opacity="0.8"/>
-        <rect x="11" y="27" width="28" height="1.2" fill="#E9A224" opacity="0.8"/>
-        <rect x="11" y="29" width="28" height="0.9" fill="#2D7D64" opacity="0.8"/>
-        <rect x="11" y="39" width="16" height="1.5" fill="#F0EFED" opacity="0.2"/>
-        <rect x="11" y="43" width="22" height="1.5" fill="#F0EFED" opacity="0.2"/>
-        <rect x="11" y="47" width="12" height="1.5" fill="#F0EFED" opacity="0.2"/>
-      </svg>
+    <button id="np-intro-skip" style="position:absolute;bottom:28px;right:32px;z-index:4;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:rgba(20,20,22,0.4);background:none;border:1px solid rgba(20,20,22,0.16);border-radius:1px;padding:8px 18px;cursor:pointer;">Skip ›</button>
+  </div>
+
+  <!-- ═══ FOUNDER'S DISCOUNT POPUP ═══ -->
+  <style>
+    #np-founders {
+      display: none; position: fixed; inset: 0; z-index: 9000;
+      align-items: center; justify-content: center;
+      background: rgba(20,20,22,0.6);
+      opacity: 0; transition: opacity 300ms ease;
+      padding: 24px;
+    }
+    #np-founders.is-open { opacity: 1; }
+    #np-founders-card {
+      width: 100%; max-width: 440px;
+      background: var(--white);
+      border-radius: 2px;
+      position: relative;
+      transform: translateY(10px);
+      transition: transform 300ms ease;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+    }
+    #np-founders.is-open #np-founders-card { transform: translateY(0); }
+    .np-founders-stripe { display: flex; width: 100%; height: 6px; }
+    .np-founders-body { padding: 40px 36px 36px; }
+    .np-founders-h3 {
+      font-family: var(--f-disp); font-weight: 800; font-size: clamp(24px, 3vw, 32px);
+      line-height: 1; letter-spacing: -0.02em; text-transform: uppercase;
+      color: var(--void); margin-bottom: 16px;
+    }
+    .np-founders-copy {
+      font-family: var(--f-body); font-size: 14px; font-weight: 300;
+      line-height: 1.65; color: var(--graphite); margin-bottom: 24px;
+    }
+    #np-founders-close {
+      position: absolute; top: 14px; right: 16px;
+      font-family: var(--f-mono); font-size: 16px; line-height: 1;
+      background: none; border: none; color: var(--ash); cursor: pointer;
+      padding: 6px;
+    }
+    #np-founders-close:hover { color: var(--void); }
+  </style>
+  <div id="np-founders">
+    <div id="np-founders-card">
+      <button id="np-founders-close" aria-label="Close">×</button>
+      <div class="np-founders-stripe">
+        <div style="flex:22;background:var(--void);"></div>
+        <div style="flex:13;background:var(--coral);"></div>
+        <div style="flex:9;background:var(--graphite);"></div>
+        <div style="flex:7;background:var(--saffron);"></div>
+        <div style="flex:5;background:var(--viridian);"></div>
+      </div>
+      <div class="np-founders-body">
+        <div class="section-tab" style="margin-bottom:18px;">
+          <div class="section-tab-tick"></div>
+          <span class="section-tab-text section-tab-text--light">Founder's offer</span>
+        </div>
+        <h3 class="np-founders-h3">20% off,<br><span class="accent">first 100 travelers.</span></h3>
+        <p class="np-founders-copy">
+          Be one of the first 100 people to order a Field Guide or Custom
+          Dossier and lock in 20% off — for as long as we're planning your trips.
+        </p>
+        <a href="#products" class="btn btn--solid" id="np-founders-cta">Claim the discount</a>
+      </div>
     </div>
-    <div id="np-intro-wm" style="position:absolute;pointer-events:none;opacity:0;">
-      <div id="np-wm-net"  style="font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:400;letter-spacing:0.22em;text-transform:uppercase;color:#F0EFED;line-height:1.3;opacity:0;">Network</div>
-      <div id="np-wm-rule" style="width:100%;height:1px;background:#E25E3A;margin:6px 0;transform:scaleX(0);transform-origin:left;"></div>
-      <div id="np-wm-plan" style="font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:400;letter-spacing:0.22em;text-transform:uppercase;color:#F0EFED;line-height:1.3;opacity:0;">Planning</div>
-    </div>
-    <button id="np-intro-skip" style="position:absolute;bottom:28px;right:32px;z-index:2;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:rgba(240,239,237,0.35);background:none;border:1px solid rgba(240,239,237,0.12);border-radius:1px;padding:8px 18px;cursor:pointer;">Skip ›</button>
   </div>
 
   <!-- ═══ NAV ═══ -->
@@ -913,9 +1072,9 @@
     <a class="nav-brand" href="#">
       <!-- Stripe mark — nav size: 36×25px -->
       <div class="np-mark" style="width:36px;height:25px;">
-        <div style="height:10px;background:#F0EFED;"></div>
+        <div style="height:10px;background:#EAEDEB;"></div>
         <div style="height: 6px;background:#E25E3A;"></div>
-        <div style="height: 4px;background:#56575C;"></div>
+        <div style="height: 4px;background:#47606E;"></div>
         <div style="height: 3px;background:#E9A224;"></div>
         <div style="height: 2px;background:#2D7D64;"></div>
       </div>
@@ -936,6 +1095,8 @@
 
   <!-- ═══ HERO ═══ -->
   <section class="hero">
+    <div class="hero-photo-layer" id="hero-photos"></div>
+    <div class="hero-photo-scrim"></div>
     <div class="hero-grid"></div>
 
     <div class="hero-main">
@@ -951,8 +1112,9 @@
       </h1>
 
       <p class="hero-sub">
-        Deeply researched travel guides that do the planning so you don't have to —
-        while leaving you fully in control of every booking.
+        Deeply researched travel guides that hand you the options — pricing,
+        photos, and our recommendations — so booking is just a click away,
+        whenever you're ready.
       </p>
     </div>
 
@@ -965,9 +1127,9 @@
       </div>
 
       <div class="board-stripe">
-        <div style="flex:22;background:#F0EFED;"></div>
+        <div style="flex:22;background:#EAEDEB;"></div>
         <div style="flex:13;background:#E25E3A;"></div>
-        <div style="flex: 9;background:#56575C;"></div>
+        <div style="flex: 9;background:#47606E;"></div>
         <div style="flex: 7;background:#E9A224;"></div>
         <div style="flex: 5;background:#2D7D64;"></div>
       </div>
@@ -976,25 +1138,7 @@
 
   <!-- ═══ CORAL MARQUEE ═══ -->
   <div class="marquee-strip" aria-hidden="true">
-    <div class="marquee-inner">
-      <!-- Doubled for seamless loop -->
-      <span class="marquee-item">Field Guide <span class="marquee-dot">·</span></span>
-      <span class="marquee-item">Rio de Janeiro <span class="marquee-dot">·</span></span>
-      <span class="marquee-item">Custom Dossier <span class="marquee-dot">·</span></span>
-      <span class="marquee-item">Siem Reap <span class="marquee-dot">·</span></span>
-      <span class="marquee-item">Booking Logic <span class="marquee-dot">·</span></span>
-      <span class="marquee-item">Austin, Texas <span class="marquee-dot">·</span></span>
-      <span class="marquee-item">networkplanning.co <span class="marquee-dot">·</span></span>
-      <span class="marquee-item">A WFWorks Company <span class="marquee-dot">·</span></span>
-      <span class="marquee-item">Field Guide <span class="marquee-dot">·</span></span>
-      <span class="marquee-item">Rio de Janeiro <span class="marquee-dot">·</span></span>
-      <span class="marquee-item">Custom Dossier <span class="marquee-dot">·</span></span>
-      <span class="marquee-item">Siem Reap <span class="marquee-dot">·</span></span>
-      <span class="marquee-item">Booking Logic <span class="marquee-dot">·</span></span>
-      <span class="marquee-item">Austin, Texas <span class="marquee-dot">·</span></span>
-      <span class="marquee-item">networkplanning.co <span class="marquee-dot">·</span></span>
-      <span class="marquee-item">A WFWorks Company <span class="marquee-dot">·</span></span>
-    </div>
+    <div class="marquee-inner" id="marquee-inner"></div>
   </div>
 
   <!-- ═══ WHAT WE DO ═══ -->
@@ -1008,13 +1152,15 @@
         </div>
         <h2 class="what-h2">Planning<br>craft as a<br><span class="accent">product.</span></h2>
         <p class="what-body" style="margin-top:24px;">
-          We don't book anything for you. We don't take commissions.
-          We build the guide — the route, the stays, the tables, the timing,
-          the field notes — <em>and hand it to you.</em>
+          We provide you the options — with pricing, photos, and our
+          recommendations. The route, the stays, the tables, the timing,
+          the field notes, <em>all laid out for you.</em>
         </p>
         <p class="what-body" style="margin-top:16px;">
-          You own every booking. We did every hour of research it takes to
-          make that straightforward.
+          You can take your time to consider, and when you're ready, the
+          booking is just a click away. You stay in full control of every
+          decision — we just did every hour of research it takes to make
+          that easy.
         </p>
       </div>
 
@@ -1036,8 +1182,8 @@
         <div class="step">
           <div class="step-num">03</div>
           <div>
-            <div class="step-title">Book everything yourself</div>
-            <div class="step-desc">Direct links, cost ranges, booking windows — you stay in control of every decision.</div>
+            <div class="step-title">Book on your own time</div>
+            <div class="step-desc">Direct links, cost ranges, and booking windows — take your time to consider, and book whenever you're ready.</div>
           </div>
         </div>
         <div class="step">
@@ -1053,36 +1199,59 @@
   </section>
 
   <!-- ═══ PRODUCTS ═══ -->
-  <section class="products">
+  <section class="products" id="products">
     <div class="products-inner">
 
       <div class="products-header">
-        <h2 class="products-h2">Two formats.<br><span class="accent">One standard.</span></h2>
+        <h2 class="products-h2">Three formats.<br><span class="accent">One standard.</span></h2>
         <div class="products-meta">
-          Available now<br>for 12 destinations
+          Available now<br>for 20 destinations
         </div>
       </div>
 
       <div class="products-grid">
 
-        <!-- Field Guide -->
+        <!-- Digital Field Guide -->
         <div class="product-card">
           <div class="product-header">
             <div class="product-stripe-bar">
-              <div style="flex:22;background:#141416;"></div>
+              <div style="flex:22;background:#10171C;"></div>
               <div style="flex:13;background:#E25E3A;"></div>
-              <div style="flex: 9;background:#56575C;"></div>
+              <div style="flex: 9;background:#47606E;"></div>
               <div style="flex: 7;background:#E9A224;"></div>
               <div style="flex: 5;background:#2D7D64;"></div>
             </div>
             <div class="product-header-content">
-              <span class="product-type">NP-01 · Field Guide</span>
-              <span class="product-code">PKG · SELL-MANY</span>
+              <span class="product-type">NP-01 · Digital Guide</span>
+              <span class="product-code">PKG · DIGITAL</span>
             </div>
           </div>
+          <div class="product-mock" aria-hidden="true">
+            <svg viewBox="0 0 240 180" fill="none">
+              <rect x="24" y="10" width="192" height="164" rx="14" fill="#000" opacity="0.22"/>
+              <rect x="20" y="6" width="192" height="160" rx="14" fill="#2B2C2E"/>
+              <rect x="28" y="14" width="176" height="144" rx="4" fill="#10171C"/>
+              <g transform="translate(40,24)">
+                <rect width="14" height="3.2" fill="#EAEDEB"/>
+                <rect y="3.2" width="14" height="2" fill="#E25E3A"/>
+                <rect y="5.2" width="14" height="1.4" fill="#47606E"/>
+                <rect y="6.6" width="14" height="1" fill="#E9A224"/>
+                <rect y="7.6" width="14" height="0.8" fill="#2D7D64"/>
+              </g>
+              <text x="58" y="32" fill="#EAEDEB" opacity="0.55" style="font-family:'IBM Plex Mono',monospace;font-size:6px;letter-spacing:0.14em;">NETWORK PLANNING</text>
+              <rect x="40" y="46" width="140" height="9" fill="#EAEDEB" opacity="0.9"/>
+              <rect x="40" y="62" width="90" height="5" fill="#E25E3A" opacity="0.85"/>
+              <rect x="40" y="76" width="176" height="1" fill="#EAEDEB" opacity="0.15"/>
+              <rect x="40" y="88" width="176" height="36" rx="2" fill="#EAEDEB" opacity="0.06"/>
+              <rect x="40" y="134" width="52" height="5" fill="#E9A224" opacity="0.8"/>
+              <rect x="98" y="134" width="52" height="5" fill="#2D7D64" opacity="0.8"/>
+              <rect x="156" y="134" width="52" height="5" fill="#7292AA" opacity="0.8"/>
+              <rect x="40" y="148" width="120" height="4" fill="#EAEDEB" opacity="0.2"/>
+            </svg>
+          </div>
           <div class="product-body">
-            <div class="product-name">Field<br>Guide</div>
-            <div class="product-tagline">Packaged and de-personalized. Add your own dates. Book everything direct.</div>
+            <div class="product-name">Digital<br>Guide</div>
+            <div class="product-tagline">Packaged and de-personalized. Add your own dates. Yours in seconds, ready whenever you are.</div>
             <ul class="product-features">
               <li>Route + hand-drawn map</li>
               <li>Day-by-day plan with timing</li>
@@ -1101,26 +1270,117 @@
           </div>
         </div>
 
-        <!-- Custom Dossier -->
+        <!-- Print + Digital Field Guide -->
         <div class="product-card">
           <div class="product-header">
             <div class="product-stripe-bar">
-              <div style="flex:22;background:#141416;"></div>
-              <div style="flex:13;background:#E9A224;"></div>
-              <div style="flex: 9;background:#56575C;"></div>
+              <div style="flex:22;background:#10171C;"></div>
+              <div style="flex:13;background:#7292AA;"></div>
+              <div style="flex: 9;background:#47606E;"></div>
               <div style="flex: 7;background:#E25E3A;"></div>
               <div style="flex: 5;background:#2D7D64;"></div>
             </div>
             <div class="product-header-content">
-              <span class="product-type">NP-02 · Custom Dossier</span>
+              <span class="product-type">NP-02 · Print + Digital</span>
+              <span class="product-code">PKG · MAILED</span>
+            </div>
+          </div>
+          <div class="product-mock" aria-hidden="true">
+            <svg viewBox="0 0 240 180" fill="none">
+              <g transform="translate(46,10) rotate(-4 74 78)">
+                <rect x="4" y="6" width="148" height="152" rx="3" fill="#000" opacity="0.22"/>
+              </g>
+              <g transform="translate(46,8) rotate(-4 74 78)">
+                <rect x="0" y="0" width="148" height="152" rx="3" fill="#10171C"/>
+                <rect x="0" y="0" width="9" height="152" fill="#7292AA" opacity="0.75"/>
+                <g transform="translate(24,20)">
+                  <rect width="16" height="3.6" fill="#EAEDEB"/>
+                  <rect y="3.6" width="16" height="2.3" fill="#E25E3A"/>
+                  <rect y="5.9" width="16" height="1.6" fill="#47606E"/>
+                  <rect y="7.5" width="16" height="1.2" fill="#E9A224"/>
+                  <rect y="8.7" width="16" height="0.9" fill="#2D7D64"/>
+                </g>
+                <text x="24" y="42" fill="#EAEDEB" opacity="0.5" style="font-family:'IBM Plex Mono',monospace;font-size:6px;letter-spacing:0.14em;">NETWORK PLANNING</text>
+                <rect x="24" y="54" width="98" height="9" fill="#EAEDEB" opacity="0.9"/>
+                <rect x="24" y="70" width="68" height="5" fill="#7292AA" opacity="0.85"/>
+                <rect x="24" y="122" width="58" height="4" fill="#EAEDEB" opacity="0.3"/>
+                <rect x="24" y="132" width="88" height="4" fill="#EAEDEB" opacity="0.3"/>
+              </g>
+              <g transform="translate(4,120)">
+                <rect x="2" y="3" width="72" height="48" rx="3" fill="#000" opacity="0.18"/>
+                <rect x="0" y="0" width="72" height="48" rx="3" fill="#EAEDEB" stroke="#7A8F99" stroke-width="1"/>
+                <rect x="8" y="8" width="56" height="5" fill="#10171C" opacity="0.7"/>
+                <rect x="8" y="17" width="42" height="4" fill="#47606E" opacity="0.6"/>
+                <rect x="8" y="25" width="48" height="4" fill="#47606E" opacity="0.6"/>
+                <circle cx="54" cy="35" r="7" fill="none" stroke="#E25E3A" stroke-width="1.4"/>
+              </g>
+            </svg>
+          </div>
+          <div class="product-body">
+            <div class="product-name">Print +<br>Digital</div>
+            <div class="product-tagline">Everything in the Digital Guide, plus a bound copy mailed straight to your door.</div>
+            <ul class="product-features">
+              <li>Everything in the Digital Guide, plus:</li>
+              <li>Bound, printed field guide — mailed to you</li>
+              <li>Heavier stock cover + fold-out route map</li>
+              <li>Ships worldwide, 5–10 business days</li>
+            </ul>
+            <div class="product-footer">
+              <div>
+                <div class="product-price">$69–89</div>
+                <div class="product-price-sub">Per destination · Print + shipping</div>
+              </div>
+              <a class="btn btn--outline" href="#">Browse Guides</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Custom Dossier -->
+        <div class="product-card">
+          <div class="product-header">
+            <div class="product-stripe-bar">
+              <div style="flex:22;background:#10171C;"></div>
+              <div style="flex:13;background:#E9A224;"></div>
+              <div style="flex: 9;background:#47606E;"></div>
+              <div style="flex: 7;background:#E25E3A;"></div>
+              <div style="flex: 5;background:#2D7D64;"></div>
+            </div>
+            <div class="product-header-content">
+              <span class="product-type">NP-03 · Custom Dossier</span>
               <span class="product-code">BSK · BESPOKE</span>
             </div>
+          </div>
+          <div class="product-mock" aria-hidden="true">
+            <svg viewBox="0 0 240 180" fill="none">
+              <g transform="translate(50,10) rotate(3 70 76)">
+                <rect x="-4" y="6" width="140" height="150" rx="3" fill="#000" opacity="0.2"/>
+              </g>
+              <g transform="translate(50,8) rotate(3 70 76)">
+                <rect x="0" y="0" width="140" height="150" rx="3" fill="#10171C"/>
+                <rect x="0" y="0" width="9" height="150" fill="#E9A224" opacity="0.8"/>
+                <g transform="translate(22,18)">
+                  <rect width="15" height="3.4" fill="#EAEDEB"/>
+                  <rect y="3.4" width="15" height="2.2" fill="#E25E3A"/>
+                  <rect y="5.6" width="15" height="1.5" fill="#47606E"/>
+                  <rect y="7.1" width="15" height="1.1" fill="#E9A224"/>
+                  <rect y="8.2" width="15" height="0.9" fill="#2D7D64"/>
+                </g>
+                <text x="22" y="38" fill="#EAEDEB" opacity="0.5" style="font-family:'IBM Plex Mono',monospace;font-size:6px;letter-spacing:0.14em;">NETWORK PLANNING</text>
+                <rect x="22" y="50" width="94" height="9" fill="#EAEDEB" opacity="0.9"/>
+                <rect x="22" y="66" width="62" height="5" fill="#E9A224" opacity="0.85"/>
+                <circle cx="34" cy="98" r="9" fill="#EAEDEB" opacity="0.16"/>
+                <circle cx="58" cy="98" r="9" fill="#EAEDEB" opacity="0.24"/>
+                <circle cx="82" cy="98" r="9" fill="#EAEDEB" opacity="0.16"/>
+                <rect x="22" y="128" width="78" height="4" fill="#EAEDEB" opacity="0.3"/>
+                <rect x="22" y="138" width="58" height="4" fill="#EAEDEB" opacity="0.3"/>
+              </g>
+            </svg>
           </div>
           <div class="product-body">
             <div class="product-name">Custom<br>Dossier</div>
             <div class="product-tagline">Built for one trip, one group. Interview-based and fully personalized.</div>
             <ul class="product-features">
-              <li>Everything in the Field Guide, plus:</li>
+              <li>Everything in Print + Digital, plus:</li>
               <li>Cast of characters page</li>
               <li>Routing tailored to your group's pace and needs</li>
               <li>Health and mobility considerations</li>
@@ -1150,74 +1410,11 @@
         <a class="dest-link" href="#">See all → </a>
       </div>
 
-      <div class="dest-grid">
+      <div class="dest-grid" id="dest-grid"></div>
 
-        <!-- Rio — large card -->
-        <div class="dest-card">
-          <div class="dest-photo" style="background: linear-gradient(140deg,#1C3020 0%,#2D5038 50%,#3A6B48 100%);"></div>
-          <div class="dest-overlay"></div>
-          <div class="dest-corner-stripe">
-            <div style="flex:22;background:#F0EFED;opacity:.15;"></div>
-            <div style="flex:13;background:#E25E3A;opacity:.6;"></div>
-            <div style="flex: 9;background:#56575C;opacity:.2;"></div>
-            <div style="flex: 7;background:#E9A224;opacity:.5;"></div>
-            <div style="flex: 5;background:#2D7D64;opacity:.4;"></div>
-          </div>
-          <div class="dest-content">
-            <div class="dest-code">
-              <div class="dest-accent" style="background:#E25E3A;"></div>
-              GRU · FIELD GUIDE
-            </div>
-            <div class="dest-name">Rio de<br>Janeiro</div>
-            <div class="dest-country">Brazil</div>
-          </div>
-        </div>
-
-        <!-- Siem Reap -->
-        <div class="dest-card">
-          <div class="dest-photo" style="background: linear-gradient(140deg,#1E1408 0%,#3A2810 50%,#5A3C18 100%);"></div>
-          <div class="dest-overlay"></div>
-          <div class="dest-corner-stripe">
-            <div style="flex:22;background:#F0EFED;opacity:.12;"></div>
-            <div style="flex:13;background:#2D7D64;opacity:.7;"></div>
-            <div style="flex: 9;background:#56575C;opacity:.2;"></div>
-            <div style="flex: 7;background:#E25E3A;opacity:.4;"></div>
-            <div style="flex: 5;background:#E9A224;opacity:.4;"></div>
-          </div>
-          <div class="dest-content">
-            <div class="dest-code">
-              <div class="dest-accent" style="background:#2D7D64;"></div>
-              REP · FIELD GUIDE
-            </div>
-            <div class="dest-name">Siem<br>Reap</div>
-            <div class="dest-country">Cambodia</div>
-          </div>
-        </div>
-
-        <!-- Austin -->
-        <div class="dest-card">
-          <div class="dest-photo" style="background: linear-gradient(140deg,#181820 0%,#262636 50%,#363650 100%);"></div>
-          <div class="dest-overlay"></div>
-          <div class="dest-corner-stripe">
-            <div style="flex:22;background:#F0EFED;opacity:.12;"></div>
-            <div style="flex:13;background:#4B8CAA;opacity:.7;"></div>
-            <div style="flex: 9;background:#56575C;opacity:.2;"></div>
-            <div style="flex: 7;background:#E25E3A;opacity:.4;"></div>
-            <div style="flex: 5;background:#E9A224;opacity:.3;"></div>
-          </div>
-          <div class="dest-content">
-            <div class="dest-code">
-              <div class="dest-accent" style="background:#4B8CAA;"></div>
-              AUS · FIELD GUIDE
-            </div>
-            <div class="dest-name">Austin,<br>Texas</div>
-            <div class="dest-country">United States</div>
-          </div>
-        </div>
-
-      </div>
     </div>
   </section>
+
 
   <!-- ═══ EDITORIAL ═══ -->
   <section class="editorial">
@@ -1262,16 +1459,16 @@
   <footer>
     <!-- Full-width 5-stripe bar at footer top — large, graphic -->
     <div class="footer-stripe-bar" style="height:8px;">
-      <div style="flex:0 0 auto;height:8px;background:linear-gradient(to right,#F0EFED 0% 34%,#E25E3A 34% 55%,#56575C 55% 70%,#E9A224 70% 84%,#2D7D64 84% 100%);width:100%;"></div>
+      <div style="flex:0 0 auto;height:8px;background:linear-gradient(to right,#EAEDEB 0% 34%,#E25E3A 34% 55%,#47606E 55% 70%,#E9A224 70% 84%,#2D7D64 84% 100%);width:100%;"></div>
     </div>
 
     <div class="footer-inner">
       <div>
         <div class="footer-brand-lockup">
           <div class="np-mark" style="width:40px;height:28px;">
-            <div style="height:11px;background:#F0EFED;"></div>
+            <div style="height:11px;background:#EAEDEB;"></div>
             <div style="height: 7px;background:#E25E3A;"></div>
-            <div style="height: 5px;background:#56575C;"></div>
+            <div style="height: 5px;background:#47606E;"></div>
             <div style="height: 3px;background:#E9A224;"></div>
             <div style="height: 2px;background:#2D7D64;"></div>
           </div>
@@ -1307,20 +1504,125 @@
     </div>
   </footer>
 
-  <!-- ═══ SOLARI FLIP BOARD ═══ -->
+  <!-- ═══ SOLARI FLIP BOARD + HERO PHOTO CAROUSEL + DESTINATION CARDS ═══ -->
+  <!--
+    Photography credits (Wikimedia Commons / Openverse, CC BY / CC BY-SA / CC0):
+    Rio de Janeiro — Halley Pacheco de Oliveira, CC BY-SA 3.0
+    Angkor Wat — Stefan Fussan, CC BY 2.0
+    Austin — Pmillera4, CC BY-SA 2.0
+    Barcelona — Jorge Franganillo, CC BY 2.0
+    Mexico City — CC BY-SA 4.0
+    Istanbul — Dennis Jarvis, CC BY 2.0
+    Sydney — Bjarte Sorensen, CC BY-SA 4.0
+    Bali — McKay Savage, CC BY-SA 4.0
+    London — CC BY 3.0 · Paris — CC0 (rawpixel) · Miami — CC0 (rawpixel)
+    Seattle — CC BY 2.0 · New York City — CC BY-SA 4.0 · Milan — CC BY-SA 3.0
+    Maldives — CC BY-SA 4.0 · Western USA (Grand Canyon) — CC BY 2.0
+    South Africa — CC BY-SA 3.0 · Shanghai — CC BY 2.0 · Dubai / Abu Dhabi — CC BY 2.0
+    Full attribution list should be published before public launch per CC BY/BY-SA terms.
+  -->
   <script>
-    const FLIP_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ.,- ';
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const FLIP_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ.,- /';
 
     const DESTINATIONS = [
-      { name: 'RIO DE JANEIRO', sub: 'BRAZIL · GRU' },
-      { name: 'SIEM REAP',      sub: 'CAMBODIA · REP' },
-      { name: 'AUSTIN, TEXAS',  sub: 'UNITED STATES · AUS' },
-      { name: 'OAXACA',         sub: 'MEXICO · OAX' },
-      { name: 'KYOTO',          sub: 'JAPAN · KIX' },
-      { name: 'LISBON',         sub: 'PORTUGAL · LIS' },
+      { name: 'RIO DE JANEIRO',    display: 'Rio de Janeiro',   sub: 'BRAZIL · GRU',              country: 'Brazil',         code: 'GRU', accent: '#E25E3A', photo: 'https://upload.wikimedia.org/wikipedia/commons/9/98/View_from_Sugarloaf_Mountain-Pao_de_Acucar_at_Sunset_-_Rio_de_Janeiro_-_Brazil_-_03.jpg', blurb: 'Christ the Redeemer at sunrise, Copacabana at golden hour, and the neighborhoods most guides never mention.' },
+      { name: 'ANGKOR WAT',        display: 'Angkor Wat',       sub: 'CAMBODIA · REP',            country: 'Cambodia',       code: 'REP', accent: '#2D7D64', photo: 'https://upload.wikimedia.org/wikipedia/commons/8/81/This_magical_scene_is_just_post_dawn_but_pre_sunrise_at_the_Angkor_Wat_%2850232021918%29.jpg', blurb: 'Sunrise over the temple towers, mirrored in still water — worth setting an alarm on vacation.' },
+      { name: 'AUSTIN, TEXAS',     display: 'Austin, Texas',    sub: 'UNITED STATES · AUS',       country: 'United States',  code: 'AUS', accent: '#7292AA', photo: 'https://upload.wikimedia.org/wikipedia/commons/0/04/Austin_Texas_Sunset_Skyline_2011.jpg', blurb: 'Live music, breakfast tacos, and a skyline that keeps growing. Best planned around the heat.' },
+      { name: 'MEXICO CITY',       display: 'Mexico City',      sub: 'MEXICO · MEX',              country: 'Mexico',         code: 'MEX', accent: '#E25E3A', photo: 'https://upload.wikimedia.org/wikipedia/commons/6/66/Mexico_City_Reforma_skyline.jpg', blurb: 'World-class food, a skyline of murals and modernism, and neighborhoods worth slowing down for.' },
+      { name: 'SYDNEY',            display: 'Sydney',           sub: 'AUSTRALIA · SYD',           country: 'Australia',      code: 'SYD', accent: '#7292AA', photo: 'https://upload.wikimedia.org/wikipedia/commons/7/7d/Sydney_Opera_House_and_Harbour_Bridge_Dusk_%283%29_2019-06-21.jpg', blurb: 'Harbour views, beach mornings, and an Opera House that looks better every time you see it.' },
+      { name: 'BALI',              display: 'Bali',             sub: 'INDONESIA · DPS',           country: 'Indonesia',      code: 'DPS', accent: '#2D7D64', photo: 'https://upload.wikimedia.org/wikipedia/commons/1/1d/Rice_Paddies._Gunung_Kawi%2C_Bali_1626.jpg', blurb: 'Rice terraces, cliffside temples, and a pace of life worth resetting your clock to.' },
+      { name: 'LONDON',            display: 'London',           sub: 'UNITED KINGDOM · LON',      country: 'United Kingdom', code: 'LON', accent: '#7292AA', photo: 'https://upload.wikimedia.org/wikipedia/commons/6/6e/London_Thames_Sunset_panorama_-_Feb_2008.jpg', blurb: 'Centuries of history along the Thames, a park for every mood, and the best museums are free.' },
+      { name: 'PARIS',             display: 'Paris',            sub: 'FRANCE · CDG',              country: 'France',         code: 'CDG', accent: '#E9A224', photo: 'https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdXB3azYyMjQ1MDAxLXdpa2ltZWRpYS1pbWFnZS1rb3dzNDl5OC5qcGc.jpg', blurb: 'The Eiffel Tower at dusk, bakeries on every corner, and a city built for slow mornings.' },
+      { name: 'MIAMI',             display: 'Miami',            sub: 'UNITED STATES · MIA',       country: 'United States',  code: 'MIA', accent: '#E25E3A', photo: 'https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA5L2xvYzIwMjA3MjEwMzctaW1hZ2UuanBn.jpg', blurb: 'Art Deco pastels, Cuban coffee, and a beach that never really closes.' },
+      { name: 'SEATTLE',           display: 'Seattle',          sub: 'UNITED STATES · SEA',       country: 'United States',  code: 'SEA', accent: '#7292AA', photo: 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Space_Needle_and_skyline_from_Kerry_Park%2C_2000.jpg', blurb: 'Coffee culture, the Sound at sunset, and mountains visible from downtown on a clear day.' },
+      { name: 'NEW YORK CITY',     display: 'New York City',    sub: 'UNITED STATES · NYC',       country: 'United States',  code: 'NYC', accent: '#E25E3A', photo: 'https://upload.wikimedia.org/wikipedia/commons/c/c9/Brooklyn_Bridge_at_sunset_from_Brooklyn_Bridge_Park%2C_New_York_City.jpg', blurb: 'The energy never lets up — and neither does the food, the skyline, or the walking.' },
+      { name: 'MILAN',             display: 'Milan',            sub: 'ITALY · MXP',               country: 'Italy',          code: 'MXP', accent: '#E9A224', photo: 'https://upload.wikimedia.org/wikipedia/commons/0/09/Full_Milan_skyline_from_Duomo_roof.jpg', blurb: "Fashion, the Duomo's rooftop, and some of the best food in Italy without the tourist lines." },
+      { name: 'MALDIVES',          display: 'Maldives',         sub: 'MALDIVES · MLE',            country: 'Maldives',       code: 'MLE', accent: '#2D7D64', photo: 'https://upload.wikimedia.org/wikipedia/commons/a/a5/Thatched-roof_villa_in_the_Maldive_Islands.jpg', blurb: 'Overwater villas, turquoise lagoons, and very few reasons to leave your bungalow.' },
+      { name: 'WESTERN USA',       display: 'Western USA',      sub: 'UNITED STATES · GCN',       country: 'United States',  code: 'GCN', accent: '#E9A224', photo: 'https://upload.wikimedia.org/wikipedia/commons/5/53/Grand_Canyon_Sunset_and_Light.jpg', blurb: 'Canyon rims at sunset, endless stars, and some of the best road-tripping on the planet.' },
+      { name: 'SOUTH AFRICA',      display: 'South Africa',     sub: 'SOUTH AFRICA · CPT',        country: 'South Africa',   code: 'CPT', accent: '#2D7D64', photo: 'https://upload.wikimedia.org/wikipedia/commons/c/c6/Cape_Town_harbor%2C_Devil%27s_Peak_and_Table_Mountain_in_late_winter_afternoon_light.jpg', blurb: 'Table Mountain at golden hour, coastal drives, and safari mornings worth the early wake-up.' },
+      { name: 'SHANGHAI',          display: 'Shanghai',         sub: 'CHINA · PVG',               country: 'China',          code: 'PVG', accent: '#E25E3A', photo: 'https://upload.wikimedia.org/wikipedia/commons/f/f2/There%27s_the_Pudong_skyline_again_%2836273761462%29.jpg', blurb: "A skyline built overnight, ancient alleys a block away, and the best dumplings you'll ever argue about." },
+      { name: 'DUBAI/ABU DHABI',   display: 'Dubai / Abu Dhabi',sub: 'UNITED ARAB EMIRATES · DXB',country: 'United Arab Emirates', code: 'DXB', accent: '#E9A224', photo: 'https://upload.wikimedia.org/wikipedia/commons/c/cc/Dubai_Skyline_mit_Burj_Khalifa_%2818241030269%29.jpg', blurb: 'Desert meets skyline — record towers, dunes an hour away, and hospitality built to impress.' },
+      { name: 'WELLNESS RETREAT',  display: 'Meditation & Wellness', sub: 'HIMALAYAS · DED',       country: 'India',          code: 'DED', accent: '#2D7D64', photo: 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Rishikesh_%28Ganges_View%29.jpg', blurb: 'Sunrise yoga in the foothills of the Himalayas, silence built into the itinerary, and nothing to plan once you arrive.' },
+      { name: 'AMSTERDAM',         display: 'Amsterdam',        sub: 'NETHERLANDS · AMS',         country: 'Netherlands',    code: 'AMS', accent: '#7292AA', photo: 'https://upload.wikimedia.org/wikipedia/commons/c/c1/Sunset_in_Amsterdam%2C_Netherlands.jpg', blurb: 'Canal-side mornings, world-class museums, and a city built for getting pleasantly lost on a bike.' },
+      { name: 'BACKPACKING 101',   display: 'Backpacking for Beginners', sub: 'USA · CA/CO/UT',  country: 'United States',  code: 'BSR', accent: '#E9A224', photo: 'https://upload.wikimedia.org/wikipedia/commons/5/5b/McWay_Falls_Big_Sur_May_2011_006.jpg', blurb: 'First-timer-friendly trails across Big Sur, Colorado, and Utah — camp gear, routes, and confidence included.' },
     ];
 
-    const BOARD_LEN = 16;
+    const BOARD_LEN = 17;
+
+    // Build the hero photo layers, one per destination, cross-faded via .is-active
+    const heroPhotosEl = document.getElementById('hero-photos');
+    const heroPhotoEls = DESTINATIONS.map(function(d, i) {
+      const div = document.createElement('div');
+      div.className = 'hero-photo' + (i === 0 ? ' is-active' : '');
+      div.style.backgroundImage = 'url(' + d.photo + ')';
+      heroPhotosEl.appendChild(div);
+      return div;
+    });
+
+    // Build the coral marquee strip, doubled for a seamless loop
+    (function(){
+      const marqueeEl = document.getElementById('marquee-inner');
+      const list = DESTINATIONS.concat(DESTINATIONS);
+      marqueeEl.innerHTML = list.map(function(d){
+        return '<span class="marquee-item">' + d.display + ' <span class="marquee-dot">·</span></span>';
+      }).join('');
+    })();
+
+    // Build the destination flip-cards
+    (function(){
+      const gridEl = document.getElementById('dest-grid');
+      const STRIPE_COLORS = ['#EAEDEB', '#E25E3A', '#47606E', '#E9A224', '#2D7D64'];
+      const STRIPE_FLEX   = [22, 13, 9, 7, 5];
+
+      DESTINATIONS.forEach(function(d){
+        const card = document.createElement('div');
+        card.className = 'dest-card';
+
+        const stripeDivs = STRIPE_FLEX.map(function(flex, i){
+          const opacity = i === 0 ? 0.14 : (STRIPE_COLORS[i] === d.accent ? 0.7 : 0.35);
+          return '<div style="flex:' + flex + ';background:' + STRIPE_COLORS[i] + ';opacity:' + opacity + ';"></div>';
+        }).join('');
+
+        card.innerHTML =
+          '<div class="dest-card-flip">' +
+            '<div class="dest-card-face dest-card-face--front">' +
+              '<div class="dest-photo" style="background-image:url(\'' + d.photo + '\');"></div>' +
+              '<div class="dest-overlay"></div>' +
+              '<div class="dest-corner-stripe">' + stripeDivs + '</div>' +
+              '<div class="dest-content">' +
+                '<div class="dest-code"><div class="dest-accent" style="background:' + d.accent + ';"></div>' + d.code + ' · FIELD GUIDE</div>' +
+                '<div class="dest-name">' + d.display + '</div>' +
+                '<div class="dest-country">' + d.country + '</div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="dest-card-face dest-card-face--back">' +
+              '<div>' +
+                '<div class="dest-back-label">' + d.code + ' · Field notes</div>' +
+                '<div class="dest-back-name">' + d.display + '</div>' +
+                '<div class="dest-back-blurb">' + d.blurb + '</div>' +
+              '</div>' +
+              '<div class="dest-back-actions">' +
+                '<a href="#products" class="btn btn--outline dest-order-btn">Order Digital Guide</a>' +
+                '<a href="#products" class="btn btn--solid dest-order-btn">Order Print + Digital</a>' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+
+        const flipEl = card.querySelector('.dest-card-flip');
+        card.addEventListener('click', function(){
+          flipEl.classList.toggle('is-flipped');
+        });
+        card.addEventListener('mouseleave', function(){
+          flipEl.classList.remove('is-flipped');
+        });
+        card.querySelectorAll('.dest-order-btn').forEach(function(btn){
+          btn.addEventListener('click', function(e){ e.stopPropagation(); });
+        });
+
+        gridEl.appendChild(card);
+      });
+    })();
 
     function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
@@ -1342,6 +1644,10 @@
 
     async function flipChar(tileData, target) {
       const { tile, ch } = tileData;
+      if (prefersReducedMotion) {
+        ch.textContent = target;
+        return;
+      }
       const n = Math.floor(Math.random() * 3) + 1;
       for (let i = 0; i < n; i++) {
         tile.classList.add('fb-flipping');
@@ -1372,8 +1678,9 @@
         const d = DESTINATIONS[idx];
         showDest(tiles, d.name);
         if (subEl) subEl.textContent = d.sub;
+        heroPhotoEls.forEach(function(el, i) { el.classList.toggle('is-active', i === idx); });
         idx = (idx + 1) % DESTINATIONS.length;
-        await sleep(3800);
+        await sleep(4400);
       }
     }
 
@@ -1382,247 +1689,61 @@
     if (boardEl) runBoard(boardEl, subEl);
   </script>
 
-  <!-- ═══ INTRO ANIMATION ENGINE ═══ -->
+  <!-- ═══ INTRO + FOUNDER'S DISCOUNT ENGINE ═══ -->
   <script>
   (function(){
-    const LOGO_W = 360, LOGO_H = 252;
-    const JET_W  = 210,  JET_H  = 62;
+    var intro   = document.getElementById('np-intro');
+    var skipBtn = document.getElementById('np-intro-skip');
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var dismissed = false;
 
-    const STRIPES = [
-      { sunP:0.38, lgP:22/56, sunC:[248,228,158], lgC:[240,239,237] },
-      { sunP:0.25, lgP:13/56, sunC:[226, 94, 58], lgC:[226, 94, 58] },
-      { sunP:0.17, lgP: 9/56, sunC:[100, 72, 88], lgC:[ 86, 87, 92] },
-      { sunP:0.12, lgP: 7/56, sunC:[200,130, 18], lgC:[233,162, 36] },
-      { sunP:0.08, lgP: 5/56, sunC:[ 24, 68, 52], lgC:[ 45,125,100] },
-    ];
-
-    const STARS = [
-      {x:0.13,y:0.07,s:0.80},{x:0.72,y:0.10,s:0.65},{x:0.44,y:0.04,s:1.00},
-      {x:0.87,y:0.17,s:0.70},{x:0.28,y:0.15,s:0.50},{x:0.60,y:0.08,s:0.90},
-      {x:0.81,y:0.05,s:0.40},{x:0.35,y:0.21,s:0.30},{x:0.55,y:0.18,s:0.60},
-      {x:0.19,y:0.22,s:0.45},
-    ];
-
-    function eIOC(t){ return t<0.5?4*t*t*t:(t-1)*(2*t-2)*(2*t-2)+1; }
-    function eOC(t) { const u=t-1; return u*u*u+1; }
-    function eIC(t) { return t*t*t; }
-    function eIQ(t) { return t*t; }
-    function clamp(v,a,b){ return v<a?a:v>b?b:v; }
-    function lerp(a,b,t){ return a+(b-a)*t; }
-    function lrgb(c1,c2,t){
-      return 'rgb('+Math.round(lerp(c1[0],c2[0],t))+','+
-                    Math.round(lerp(c1[1],c2[1],t))+','+
-                    Math.round(lerp(c1[2],c2[2],t))+')';
+    function showFoundersModal(){
+      if (localStorage.getItem('npFoundersSeen')) return;
+      var modal = document.getElementById('np-founders');
+      modal.style.display = 'flex';
+      requestAnimationFrame(function(){ modal.classList.add('is-open'); });
+      localStorage.setItem('npFoundersSeen', '1');
     }
 
-    const intro    = document.getElementById('np-intro');
-    const bgEl     = document.getElementById('np-intro-bg');
-    const markEl   = document.getElementById('np-intro-mark');
-    const strC     = document.getElementById('np-intro-stripes');
-    const atmosEl  = document.getElementById('np-intro-atmos');
-    const glowEl   = document.getElementById('np-intro-glow');
-    const horizEl  = document.getElementById('np-intro-horiz');
-    const starsEl  = document.getElementById('np-intro-stars');
-    const sunEl    = document.getElementById('np-intro-sun');
-    const reflEl   = document.getElementById('np-intro-reflect');
-    const palmsEl  = document.getElementById('np-intro-palms');
-    const skylineEl= document.getElementById('np-intro-skyline');
-    const trailEl  = document.getElementById('np-intro-trail');
-    const jetEl    = document.getElementById('np-intro-jet');
-    const guideEl  = document.getElementById('np-intro-guide');
-    const wmEl     = document.getElementById('np-intro-wm');
-    const wmNet    = document.getElementById('np-wm-net');
-    const wmRule   = document.getElementById('np-wm-rule');
-    const wmPlan   = document.getElementById('np-wm-plan');
-    const skipBtn  = document.getElementById('np-intro-skip');
+    function dismissIntro(){
+      if (dismissed) return;
+      dismissed = true;
+      intro.classList.add('np-dismiss');
+      setTimeout(function(){
+        intro.remove();
+        showFoundersModal();
+      }, 950);
+    }
 
-    const sDivs = STRIPES.map(function(){
-      var d=document.createElement('div');
-      d.style.cssText='width:100%;flex-shrink:0;';
-      strC.appendChild(d); return d;
+    skipBtn.addEventListener('click', dismissIntro);
+
+    if (reduced) {
+      dismissIntro();
+    } else {
+      requestAnimationFrame(function(){ intro.classList.add('np-shade-up'); });
+      setTimeout(function(){ intro.classList.add('np-logo-in'); }, 1900);
+      setTimeout(dismissIntro, 4600);
+    }
+  })();
+
+  (function(){
+    var modal = document.getElementById('np-founders');
+    var closeBtn = document.getElementById('np-founders-close');
+    var cta = document.getElementById('np-founders-cta');
+
+    function closeModal(){
+      modal.classList.remove('is-open');
+      setTimeout(function(){ modal.style.display = 'none'; }, 300);
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+    cta.addEventListener('click', closeModal);
+    modal.addEventListener('click', function(e){
+      if (e.target === modal) closeModal();
     });
-    const starDivs = STARS.map(function(){
-      var d=document.createElement('div');
-      d.style.cssText='position:absolute;width:2px;height:2px;border-radius:50%;background:rgba(248,238,185,0.95);pointer-events:none;';
-      starsEl.appendChild(d); return d;
-    });
-
-    var dismissed=false, t0=null;
-    function dismiss(){
-      if(dismissed) return; dismissed=true;
-      intro.style.transition='opacity 1s ease';
-      intro.style.opacity='0';
-      setTimeout(function(){intro.remove();},1050);
-    }
-    skipBtn.addEventListener('click',dismiss);
-
-    function kbS(t){
-      if(t<4.0)  return 1+(t/4.0)*0.065;
-      if(t<6.5)  return 1.065-((t-4.0)/2.5)*0.065;
-      return 1.0;
-    }
-
-    function render(t){
-      var VW=intro.clientWidth||window.innerWidth;
-      var VH=intro.clientHeight||window.innerHeight;
-
-      var morph  = eIOC(clamp((t-4.0)/2.5,0,1));
-      var bgMrph = eOC(clamp((t-4.8)/2.2,0,1));
-      var sf     = 1-morph;
-
-      bgEl.style.background='rgb('+
-        Math.round(lerp(26,20,bgMrph))+','+
-        Math.round(lerp(16,20,bgMrph))+','+
-        Math.round(lerp(40,22,bgMrph))+')';
-
-      var cW=lerp(VW,LOGO_W,morph), cH=lerp(VH,LOGO_H,morph);
-      var mL=lerp(0,(VW-LOGO_W)/2,morph), mT=lerp(0,(VH-LOGO_H)/2,morph);
-      var mblur=Math.sin(morph*Math.PI)*6;
-      markEl.style.left  =mL+'px'; markEl.style.top   =mT+'px';
-      markEl.style.width =cW+'px'; markEl.style.height=cH+'px';
-      markEl.style.borderRadius=(morph*2)+'px';
-      markEl.style.transform='scale('+kbS(t)+')';
-      markEl.style.filter=mblur>0.1?'blur('+mblur+'px)':'';
-
-      var heights=STRIPES.map(function(s){return lerp(s.sunP*VH,s.lgP*LOGO_H,morph);});
-      var cumY=[0]; heights.forEach(function(h,i){cumY.push(cumY[i]+h);});
-      sDivs.forEach(function(d,i){
-        d.style.height=heights[i]+'px';
-        d.style.background=lrgb(STRIPES[i].sunC,STRIPES[i].lgC,morph);
-      });
-
-      // ── SUN (larger, softer, starts in sky band then sets) ──
-      var sunSink=eIQ(clamp((t-0.3)/3.8,0,1));
-      var sunFade=1-eIC(clamp((t-3.4)/1.4,0,1));
-      var sunR   =VH*0.105*(1-morph);
-      // Start above horizon, sink across it
-      var sunStart=cumY[1]-heights[0]*0.22;
-      var sunEnd  =cumY[1]+heights[1]*0.42;
-      var sunCY   =lerp(sunStart,sunEnd,sunSink);
-
-      var glowOp =sunFade*0.78*sf;
-      var atmOp  =0.74*sf;
-      var reflOp =sunFade*0.60*sf;
-      var horizOp=sunFade*0.70*sf;
-      var starOp =Math.max(0,(sunSink-0.55)/0.45)*sf*0.55;
-
-      atmosEl.style.height=cumY[2]+'px';
-      atmosEl.style.background='linear-gradient(180deg,rgba(12,6,28,0.80) 0%,rgba(190,80,16,0.04) 82%,transparent 100%)';
-      atmosEl.style.opacity=atmOp;
-
-      // Horizon glow grows as sun approaches it
-      var glowSpread = lerp(0.52, 0.70, sunSink);
-      glowEl.style.top   =(cumY[1]-heights[0]*0.38)+'px';
-      glowEl.style.height=(heights[0]*glowSpread+heights[1]*0.72)+'px';
-      glowEl.style.background='radial-gradient(ellipse 68% 100% at 50% 80%,rgba(255,165,40,0.68) 0%,rgba(230,100,50,0.20) 55%,transparent 100%)';
-      glowEl.style.opacity=glowOp;
-
-      horizEl.style.top=(cumY[1]-1)+'px';
-      horizEl.style.opacity=horizOp;
-
-      starDivs.forEach(function(d,i){
-        d.style.left=(STARS[i].x*cW-1)+'px';
-        d.style.top =(STARS[i].y*heights[0])+'px';
-        d.style.opacity=starOp*STARS[i].s;
-      });
-
-      // Sun: bigger disc, soft diffuse gradient that blends with sky
-      if(sunFade>0.02&&sunR>2&&sf>0.05){
-        sunEl.style.display='';
-        sunEl.style.width=(sunR*2)+'px'; sunEl.style.height=(sunR*2)+'px';
-        sunEl.style.left=(cW/2-sunR)+'px'; sunEl.style.top=(sunCY-sunR)+'px';
-        // Soft gradient: warm center fades gently to transparent
-        sunEl.style.background='radial-gradient(circle,rgba(255,248,215,0.88) 0%,#FFDF5A 16%,#F5A030 38%,rgba(235,108,48,0.28) 62%,rgba(226,94,58,0.07) 82%,transparent 100%)';
-        sunEl.style.opacity=sunFade;
-      } else { sunEl.style.display='none'; }
-
-      reflEl.style.left  =(cW*0.32)+'px'; reflEl.style.top  =cumY[3]+'px';
-      reflEl.style.width =(cW*0.36)+'px'; reflEl.style.height=(heights[3]+heights[4])+'px';
-      reflEl.style.background='radial-gradient(ellipse at top,rgba(255,212,52,0.55) 0%,transparent 80%)';
-      reflEl.style.opacity=reflOp;
-
-      // ── PALM TREES (left, fade in at 0.4s, hold, fade before morph) ──
-      var palmOp = Math.min(
-        clamp((t-0.4)/0.7,0,1),
-        clamp((3.6-t)/0.7,0,1)
-      ) * sf * 0.92;
-      palmsEl.style.left=(VW*0.03)+'px';
-      palmsEl.style.top =(cumY[1]-148)+'px';
-      palmsEl.style.opacity=palmOp;
-
-      // ── CITY SKYLINE (center-right, fades in at 0.8s) ──
-      var skyOp = Math.min(
-        clamp((t-0.8)/0.8,0,1),
-        clamp((3.8-t)/0.7,0,1)
-      ) * sf * 0.82;
-      skylineEl.style.left=(VW*0.40)+'px';
-      skylineEl.style.top =(cumY[1]-93)+'px';
-      skylineEl.style.opacity=skyOp;
-
-      // ── JET (left→right, 0.9s–3.5s, flies in sky band above horizon) ──
-      var jetProg  = clamp((t-0.9)/2.3,0,1);
-      var jetEased = 0.5-0.5*Math.cos(jetProg*Math.PI);
-      var jetOn    = t>0.75&&t<3.6&&sf>0.12;
-
-      if(jetOn){
-        var jetX    = lerp(-JET_W-40, cW+40, jetEased);
-        var jetBase = heights[0]*0.22 - JET_H/2; // upper sky, above city/palms
-        var drift   = -Math.sin(jetProg*Math.PI)*10;
-        var jetOp   = Math.min(clamp((t-0.9)/0.6,0,1), clamp((3.5-t)/0.45,0,1))*0.92;
-        var trailLen= Math.min(jetEased*VW*0.40, 320);
-
-        trailEl.style.left      =(jetX-trailLen)+'px';
-        trailEl.style.top       =(jetBase+drift+JET_H/2-1)+'px';
-        trailEl.style.width     =trailLen+'px';
-        trailEl.style.background='linear-gradient(to left,rgba(255,255,255,0.20),rgba(255,255,255,0))';
-        trailEl.style.opacity   =jetOp*0.68;
-
-        jetEl.style.left   =jetX+'px';
-        jetEl.style.top    =(jetBase+drift)+'px';
-        jetEl.style.opacity=jetOp;
-      } else {
-        jetEl.style.opacity  ='0';
-        trailEl.style.opacity='0';
-      }
-
-      // ── FIELD GUIDE ICON (appears after morph settles, before wordmark) ──
-      var guideOp = Math.min(
-        clamp((t-6.8)/0.55,0,1),
-        clamp((7.9-t)/0.55,0,1)
-      );
-      guideEl.style.left   =((VW-46)/2)+'px';
-      guideEl.style.top    =(VH/2+LOGO_H/2+20)+'px';
-      guideEl.style.opacity=guideOp;
-
-      // ── WORDMARK ──
-      var wmO  = eOC(clamp((t-7.9)/0.5,0,1));
-      var netO = eOC(clamp((t-8.1)/0.75,0,1));
-      var rlS  = eOC(clamp((t-8.9)/0.55,0,1));
-      var plO  = eOC(clamp((t-9.4)/0.75,0,1));
-      var wmSl = lerp(24,0,eOC(clamp((t-8.1)/1.1,0,1)));
-
-      wmEl.style.left     =((VW-LOGO_W)/2)+'px';
-      wmEl.style.top      =(VH/2+LOGO_H/2+44)+'px';
-      wmEl.style.width    =LOGO_W+'px';
-      wmEl.style.opacity  =wmO;
-      wmEl.style.transform='translateY('+wmSl+'px)';
-
-      wmNet.style.opacity    =netO;
-      wmRule.style.transform ='scaleX('+rlS+')';
-      wmPlan.style.opacity   =plO;
-    }
-
-    function tick(ts){
-      if(dismissed) return;
-      if(!t0) t0=ts;
-      var t=(ts-t0)/1000;
-      if(t>13){ dismiss(); return; }
-      render(t);
-      requestAnimationFrame(tick);
-    }
-    requestAnimationFrame(tick);
   })();
   </script>
+
 
 </body>
 </html>
