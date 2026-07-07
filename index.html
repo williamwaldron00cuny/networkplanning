@@ -905,32 +905,22 @@
   <style>
     #np-intro {
       position: fixed; inset: 0; z-index: 9999; overflow: hidden;
-      background: #0d1115 url('photos/intro-bg-blur.jpg') center / cover no-repeat;
+      background: #12181c;
       opacity: 1; transition: opacity 0.9s ease;
     }
     #np-intro.np-dismiss { opacity: 0; pointer-events: none; }
 
-    #np-intro-window {
-      position: absolute; left: 50%; top: 50%;
-      height: min(78vh, 640px);
-      aspect-ratio: 1100 / 1356;
-      transform: translate(-50%,-50%);
-      overflow: hidden;
-      -webkit-mask-image: radial-gradient(ellipse 62% 58% at 50% 50%, #000 60%, transparent 100%);
-      mask-image: radial-gradient(ellipse 62% 58% at 50% 50%, #000 60%, transparent 100%);
-    }
-
     #np-intro-sky {
       position: absolute; inset: -4%;
       background-image:
-        linear-gradient(180deg, transparent 0%, transparent 68%, rgba(235,150,95,0.10) 88%, rgba(240,185,130,0.18) 100%),
-        url('photos/intro-window.jpg');
+        linear-gradient(180deg, transparent 0%, transparent 68%, rgba(235,150,95,0.08) 88%, rgba(240,185,130,0.14) 100%),
+        url('photos/intro-scene.jpg');
       background-size: cover;
       background-position: center;
       transform: scale(1.0);
       transition: transform 5.5s ease-out;
     }
-    #np-intro.np-shade-up #np-intro-sky { transform: scale(1.07); }
+    #np-intro.np-shade-up #np-intro-sky { transform: scale(1.06); }
 
     #np-intro-glass-reflection {
       position: absolute; inset: 0; z-index: 1; pointer-events: none;
@@ -978,24 +968,22 @@
     }
   </style>
   <div id="np-intro">
-    <div id="np-intro-window">
-      <div id="np-intro-sky"></div>
-      <div id="np-intro-glass-reflection"></div>
-      <div id="np-intro-shade"></div>
-      <div id="np-intro-logo">
-        <div class="np-mark" style="width:44px;height:31px;">
-          <div style="height:12px;background:#F4F6F5;"></div>
-          <div style="height: 8px;background:#E25E3A;"></div>
-          <div style="height: 5px;background:#47606E;"></div>
-          <div style="height: 4px;background:#E9A224;"></div>
-          <div style="height: 3px;background:#2D7D64;"></div>
-        </div>
-        <div id="np-intro-logo-net">Network</div>
-        <div id="np-intro-logo-rule"></div>
-        <div id="np-intro-logo-plan">Planning</div>
+    <div id="np-intro-sky"></div>
+    <div id="np-intro-glass-reflection"></div>
+    <div id="np-intro-shade"></div>
+    <div id="np-intro-logo">
+      <div class="np-mark" style="width:44px;height:31px;">
+        <div style="height:12px;background:#F4F6F5;"></div>
+        <div style="height: 8px;background:#E25E3A;"></div>
+        <div style="height: 5px;background:#47606E;"></div>
+        <div style="height: 4px;background:#E9A224;"></div>
+        <div style="height: 3px;background:#2D7D64;"></div>
       </div>
+      <div id="np-intro-logo-net">Network</div>
+      <div id="np-intro-logo-rule"></div>
+      <div id="np-intro-logo-plan">Planning</div>
     </div>
-    <button id="np-intro-skip" style="position:absolute;bottom:28px;right:32px;z-index:4;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:rgba(20,20,22,0.4);background:none;border:1px solid rgba(20,20,22,0.16);border-radius:1px;padding:8px 18px;cursor:pointer;">Skip ›</button>
+    <button id="np-intro-skip" style="position:absolute;bottom:28px;right:32px;z-index:4;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:rgba(240,239,237,0.5);background:none;border:1px solid rgba(240,239,237,0.2);border-radius:1px;padding:8px 18px;cursor:pointer;">Skip ›</button>
   </div>
 
   <!-- ═══ FOUNDER'S DISCOUNT POPUP ═══ -->
