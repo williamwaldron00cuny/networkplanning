@@ -51,22 +51,22 @@
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 48px; height: 60px;
+      padding: 0 48px; height: 84px;
       background: var(--void);
       border-bottom: 1px solid rgba(255,255,255,0.04);
     }
 
-    .nav-brand { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+    .nav-brand { display: flex; align-items: center; gap: 18px; text-decoration: none; }
 
-    .nav-wm { display: flex; flex-direction: column; gap: 1px; }
+    .nav-wm { display: flex; flex-direction: column; gap: 2px; }
     .nav-wm span {
       font-family: var(--f-mono);
-      font-size: 9px; font-weight: 400;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--light); line-height: 1.3;
+      font-size: 13px; font-weight: 500;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--light); line-height: 1.25;
     }
 
-    .nav-div { width: 1px; height: 24px; background: rgba(255,255,255,0.08); }
+    .nav-div { width: 1px; height: 34px; background: rgba(255,255,255,0.08); }
 
     .nav-links { display: flex; gap: 32px; list-style: none; }
     .nav-links a {
@@ -450,6 +450,38 @@
     .product-card:hover {
       transform: translateY(-4px);
       box-shadow: 0 4px 10px rgba(20,20,22,0.08), 0 24px 48px rgba(20,20,22,0.12);
+    }
+
+    .product-card-wrap { position: relative; }
+
+    .dossier-peek {
+      position: absolute; top: -34px; left: 22px; z-index: 6;
+      width: 92px;
+      transform-origin: bottom left;
+      transform: rotate(-28deg);
+      transition: transform 380ms cubic-bezier(.2,.8,.2,1), width 380ms cubic-bezier(.2,.8,.2,1), left 380ms cubic-bezier(.2,.8,.2,1), top 380ms cubic-bezier(.2,.8,.2,1);
+      cursor: pointer;
+      filter: drop-shadow(0 10px 22px rgba(0,0,0,0.4));
+    }
+    .dossier-peek img {
+      width: 100%; display: block; border-radius: 4px;
+      border: 3px solid var(--white);
+    }
+    .dossier-peek:hover {
+      width: 250px; top: -44px; left: -10px;
+      transform: rotate(-6deg);
+    }
+
+    .dossier-peek-cta {
+      position: absolute; top: 2px; left: 122px; z-index: 6;
+      font-family: var(--f-mono); font-size: 9px; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--coral); white-space: nowrap;
+      display: flex; align-items: center; gap: 5px;
+      pointer-events: none;
+    }
+    .dossier-peek-cta::before {
+      content: ''; width: 14px; height: 1px; background: var(--coral);
     }
 
     /* The stripe mark used as card header accent */
@@ -838,16 +870,16 @@
     }
 
     .footer-brand-lockup {
-      display: flex; align-items: center; gap: 14px;
-      margin-bottom: 16px;
+      display: flex; align-items: center; gap: 18px;
+      margin-bottom: 18px;
     }
 
-    .footer-wm { display: flex; flex-direction: column; gap: 1px; }
+    .footer-wm { display: flex; flex-direction: column; gap: 2px; }
     .footer-wm span {
       font-family: var(--f-mono);
-      font-size: 10px; font-weight: 400;
-      letter-spacing: 0.16em; text-transform: uppercase;
-      color: var(--light); line-height: 1.3;
+      font-size: 14px; font-weight: 500;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--light); line-height: 1.25;
     }
 
     .footer-tagline {
@@ -1134,7 +1166,7 @@
   <style>
     #np-intro {
       position: fixed; inset: 0; z-index: 9999; overflow: hidden;
-      background: radial-gradient(ellipse 140% 100% at 50% 8%, #C7C3BA 0%, #A8A49C 45%, #8D897F 100%);
+      background: #12181c;
       opacity: 1; transition: opacity 0.9s ease;
     }
     #np-intro.np-dismiss { opacity: 0; pointer-events: none; }
@@ -1160,7 +1192,17 @@
       background:
         radial-gradient(ellipse 120% 80% at 50% 100%, rgba(255,200,80,0.8) 0%, rgba(255,180,60,0.5) 20%, rgba(200,150,80,0.1) 45%, transparent 70%),
         linear-gradient(180deg, #87CEEB 0%, #B0E0E6 20%, #E0F6FF 40%, #FFE4B5 70%, #FFD89B 100%);
+    #np-intro-sky {
+      position: absolute; inset: -4%;
+      background-image:
+        linear-gradient(180deg, transparent 0%, transparent 68%, rgba(235,150,95,0.08) 88%, rgba(240,185,130,0.14) 100%),
+        url('photos/intro-scene.jpg');
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.0);
+      transition: transform 5.5s ease-out;
     }
+    #np-intro.np-shade-up #np-intro-sky { transform: scale(1.06); }
 
     .np-cloud {
       position: absolute;
@@ -1174,6 +1216,11 @@
 
     @keyframes np-drift-a { from { transform: translateX(-16px); } to { transform: translateX(16px); } }
     @keyframes np-drift-b { from { transform: translateX(20px); }  to { transform: translateX(-20px); } }
+    #np-intro-glass-reflection {
+      position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background: linear-gradient(115deg, rgba(255,255,255,0.16) 0%, rgba(255,255,255,0.04) 14%, transparent 28%, transparent 100%);
+      mix-blend-mode: screen;
+    }
 
     #np-intro-shade {
       position: absolute; inset: 0;
@@ -1219,36 +1266,26 @@
     #np-intro-skip:hover { color: rgba(240,239,237,0.85) !important; border-color: rgba(240,239,237,0.3) !important; }
 
     @media (prefers-reduced-motion: reduce) {
-      .np-cloud { animation: none !important; }
+      #np-intro-sky, #np-intro.np-shade-up #np-intro-sky { transform: none; transition: none; }
     }
   </style>
   <div id="np-intro">
-    <div id="np-intro-window">
-      <div id="np-intro-sky">
-        <!-- Puffy white clouds, upper sky -->
-        <div class="np-cloud" style="left:8%;top:14%;width:150px;height:44px;animation:np-drift-a 22s ease-in-out infinite;box-shadow:26px -15px 0 -6px #FDFBF6,-22px -9px 0 -9px #FDFBF6,48px 2px 0 -11px #FDFBF6,-46px 4px 0 -13px #FDFBF6;"></div>
-        <div class="np-cloud" style="left:52%;top:22%;width:120px;height:36px;animation:np-drift-b 26s ease-in-out infinite;box-shadow:20px -12px 0 -5px #FDFBF6,-18px -7px 0 -8px #FDFBF6,38px 2px 0 -9px #FDFBF6;"></div>
-        <!-- Golden/pink accent clouds, lower toward horizon -->
-        <div class="np-cloud np-cloud--gold" style="left:2%;top:56%;width:170px;height:40px;animation:np-drift-b 30s ease-in-out infinite;box-shadow:30px -14px 0 -8px #F2C98C,-26px -8px 0 -10px #F2C98C,54px 2px 0 -12px #F2C98C;"></div>
-        <div class="np-cloud np-cloud--pink" style="left:46%;top:64%;width:140px;height:34px;animation:np-drift-a 24s ease-in-out infinite;box-shadow:24px -12px 0 -7px #E9B3AE,-20px -7px 0 -9px #E9B3AE;"></div>
-        <div class="np-cloud" style="left:-6%;top:74%;width:200px;height:50px;animation:np-drift-a 34s ease-in-out infinite;box-shadow:34px -16px 0 -9px #FDFBF6,-30px -10px 0 -12px #FDFBF6,60px 3px 0 -14px #FDFBF6,-56px 5px 0 -16px #FDFBF6;"></div>
-        <div class="np-cloud np-cloud--gold" style="left:60%;top:80%;width:160px;height:38px;animation:np-drift-b 28s ease-in-out infinite;box-shadow:28px -13px 0 -8px #F2C98C,-24px -8px 0 -10px #F2C98C;"></div>
+    <div id="np-intro-sky"></div>
+    <div id="np-intro-glass-reflection"></div>
+    <div id="np-intro-shade"></div>
+    <div id="np-intro-logo">
+      <div class="np-mark" style="width:44px;height:31px;">
+        <div style="height:12px;background:#F4F6F5;"></div>
+        <div style="height: 8px;background:#E25E3A;"></div>
+        <div style="height: 5px;background:#47606E;"></div>
+        <div style="height: 4px;background:#E9A224;"></div>
+        <div style="height: 3px;background:#2D7D64;"></div>
       </div>
-      <div id="np-intro-shade"></div>
-      <div id="np-intro-logo">
-        <div class="np-mark" style="width:44px;height:31px;">
-          <div style="height:12px;background:#F4F6F5;"></div>
-          <div style="height: 8px;background:#E25E3A;"></div>
-          <div style="height: 5px;background:#47606E;"></div>
-          <div style="height: 4px;background:#E9A224;"></div>
-          <div style="height: 3px;background:#2D7D64;"></div>
-        </div>
-        <div id="np-intro-logo-net">Network</div>
-        <div id="np-intro-logo-rule"></div>
-        <div id="np-intro-logo-plan">Planning</div>
-      </div>
+      <div id="np-intro-logo-net">Network</div>
+      <div id="np-intro-logo-rule"></div>
+      <div id="np-intro-logo-plan">Planning</div>
     </div>
-    <button id="np-intro-skip" style="position:absolute;bottom:28px;right:32px;z-index:4;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:rgba(20,20,22,0.4);background:none;border:1px solid rgba(20,20,22,0.16);border-radius:1px;padding:8px 18px;cursor:pointer;">Skip ›</button>
+    <button id="np-intro-skip" style="position:absolute;bottom:28px;right:32px;z-index:4;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:rgba(240,239,237,0.5);background:none;border:1px solid rgba(240,239,237,0.2);border-radius:1px;padding:8px 18px;cursor:pointer;">Skip ›</button>
   </div>
 
   <!-- ═══ FOUNDER'S DISCOUNT POPUP ═══ -->
@@ -1318,13 +1355,13 @@
   <!-- ═══ NAV ═══ -->
   <nav>
     <a class="nav-brand" href="#">
-      <!-- Stripe mark — nav size: 36×25px -->
-      <div class="np-mark" style="width:36px;height:25px;">
-        <div style="height:10px;background:#EAEDEB;"></div>
-        <div style="height: 6px;background:#E25E3A;"></div>
-        <div style="height: 4px;background:#47606E;"></div>
-        <div style="height: 3px;background:#E9A224;"></div>
-        <div style="height: 2px;background:#2D7D64;"></div>
+      <!-- Stripe mark — nav size: 52×36px -->
+      <div class="np-mark" style="width:52px;height:36px;">
+        <div style="height:14px;background:#EAEDEB;"></div>
+        <div style="height: 9px;background:#E25E3A;"></div>
+        <div style="height: 6px;background:#47606E;"></div>
+        <div style="height: 4px;background:#E9A224;"></div>
+        <div style="height: 3px;background:#2D7D64;"></div>
       </div>
       <div class="nav-div"></div>
       <div class="nav-wm"><span>Network</span><span>Planning</span></div>
@@ -1567,22 +1604,41 @@
               <img class="guide-thumbnail" src="https://cdn.builder.io/o/assets%2F99af41ead7a7468ba8b29885ae0303ae%2Fe1f51f7af3f74459bbb9f79b3bf352cb?alt=media&token=da89807d-382c-4a73-abe1-63814c796248&apiKey=99af41ead7a7468ba8b29885ae0303ae" alt="Field guide preview"/>
               <div class="guide-cta-overlay">Take A Look Inside!</div>
             </div>
+        <div class="product-card-wrap">
+          <div class="dossier-peek" id="dossier-peek">
+            <img id="dossier-peek-img" src="photos/dossier-cover.jpg" alt="Sample pages from a printed Network Planning field guide">
           </div>
-          <div class="product-body">
-            <div class="product-name">Print +<br>Digital</div>
-            <div class="product-tagline">Everything in the Digital Guide, plus a bound copy mailed straight to your door.</div>
-            <ul class="product-features">
-              <li>Everything in the Digital Guide, plus:</li>
-              <li>Bound, printed field guide — mailed to you</li>
-              <li>Heavier stock cover + fold-out route map</li>
-              <li>Ships worldwide, 5–10 business days</li>
-            </ul>
-            <div class="product-footer">
-              <div>
-                <div class="product-price">$69–89</div>
-                <div class="product-price-sub">Per destination · Print + shipping</div>
+          <div class="dossier-peek-cta">Take a look inside!</div>
+          <div class="product-card">
+            <div class="product-header">
+              <div class="product-stripe-bar">
+                <div style="flex:22;background:#10171C;"></div>
+                <div style="flex:13;background:#7292AA;"></div>
+                <div style="flex: 9;background:#47606E;"></div>
+                <div style="flex: 7;background:#E25E3A;"></div>
+                <div style="flex: 5;background:#2D7D64;"></div>
               </div>
-              <a class="btn btn--outline" href="#">Browse Guides</a>
+              <div class="product-header-content">
+                <span class="product-type">NP-02 · Print + Digital</span>
+                <span class="product-code">PKG · MAILED</span>
+              </div>
+            </div>
+            <div class="product-body" style="padding-top:44px;">
+              <div class="product-name">Print +<br>Digital</div>
+              <div class="product-tagline">Everything in the Digital Guide, plus a bound copy mailed straight to your door.</div>
+              <ul class="product-features">
+                <li>Everything in the Digital Guide, plus:</li>
+                <li>Bound, printed field guide — mailed to you</li>
+                <li>Heavier stock cover + fold-out route map</li>
+                <li>Ships worldwide, 5–10 business days</li>
+              </ul>
+              <div class="product-footer">
+                <div>
+                  <div class="product-price">$69–89</div>
+                  <div class="product-price-sub">Per destination · Print + shipping</div>
+                </div>
+                <a class="btn btn--outline" href="#">Browse Guides</a>
+              </div>
             </div>
           </div>
         </div>
@@ -1653,6 +1709,20 @@
     </div>
   </section>
 
+  <script>
+    (function(){
+      var peek = document.getElementById('dossier-peek');
+      var img  = document.getElementById('dossier-peek-img');
+      if (!peek || !img) return;
+      peek.addEventListener('mouseenter', function(){
+        img.src = 'photos/dossier-preview.gif';
+      });
+      peek.addEventListener('mouseleave', function(){
+        img.src = 'photos/dossier-cover.jpg';
+      });
+    })();
+  </script>
+
   <!-- ═══ DESTINATIONS ═══ -->
   <section class="destinations">
     <div class="dest-inner">
@@ -1717,12 +1787,12 @@
     <div class="footer-inner">
       <div>
         <div class="footer-brand-lockup">
-          <div class="np-mark" style="width:40px;height:28px;">
-            <div style="height:11px;background:#EAEDEB;"></div>
-            <div style="height: 7px;background:#E25E3A;"></div>
-            <div style="height: 5px;background:#47606E;"></div>
-            <div style="height: 3px;background:#E9A224;"></div>
-            <div style="height: 2px;background:#2D7D64;"></div>
+          <div class="np-mark" style="width:56px;height:39px;">
+            <div style="height:15px;background:#EAEDEB;"></div>
+            <div style="height:10px;background:#E25E3A;"></div>
+            <div style="height: 7px;background:#47606E;"></div>
+            <div style="height: 4px;background:#E9A224;"></div>
+            <div style="height: 3px;background:#2D7D64;"></div>
           </div>
           <div class="footer-wm"><span>Network</span><span>Planning</span></div>
         </div>
@@ -1757,47 +1827,32 @@
   </footer>
 
   <!-- ═══ SOLARI FLIP BOARD + HERO PHOTO CAROUSEL + DESTINATION CARDS ═══ -->
-  <!--
-    Photography credits (Wikimedia Commons / Openverse, CC BY / CC BY-SA / CC0):
-    Rio de Janeiro — Halley Pacheco de Oliveira, CC BY-SA 3.0
-    Angkor Wat — Stefan Fussan, CC BY 2.0
-    Austin — Pmillera4, CC BY-SA 2.0
-    Barcelona — Jorge Franganillo, CC BY 2.0
-    Mexico City — CC BY-SA 4.0
-    Istanbul — Dennis Jarvis, CC BY 2.0
-    Sydney — Bjarte Sorensen, CC BY-SA 4.0
-    Bali — McKay Savage, CC BY-SA 4.0
-    London — CC BY 3.0 · Paris — CC0 (rawpixel) · Miami — CC0 (rawpixel)
-    Seattle — CC BY 2.0 · New York City — CC BY-SA 4.0 · Milan — CC BY-SA 3.0
-    Maldives — CC BY-SA 4.0 · Western USA (Grand Canyon) — CC BY 2.0
-    South Africa — CC BY-SA 3.0 · Shanghai — CC BY 2.0 · Dubai / Abu Dhabi — CC BY 2.0
-    Full attribution list should be published before public launch per CC BY/BY-SA terms.
-  -->
+  <!-- All 20 destinations use custom-supplied photography (website/photos/). -->
   <script>
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const FLIP_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ.,- /';
 
     const DESTINATIONS = [
-      { name: 'RIO DE JANEIRO',    display: 'Rio de Janeiro',   sub: 'BRAZIL · GRU',              country: 'Brazil',         code: 'GRU', accent: '#E25E3A', photo: 'https://upload.wikimedia.org/wikipedia/commons/9/98/View_from_Sugarloaf_Mountain-Pao_de_Acucar_at_Sunset_-_Rio_de_Janeiro_-_Brazil_-_03.jpg', blurb: 'Christ the Redeemer at sunrise, Copacabana at golden hour, and the neighborhoods most guides never mention.' },
-      { name: 'ANGKOR WAT',        display: 'Angkor Wat',       sub: 'CAMBODIA · REP',            country: 'Cambodia',       code: 'REP', accent: '#2D7D64', photo: 'https://upload.wikimedia.org/wikipedia/commons/8/81/This_magical_scene_is_just_post_dawn_but_pre_sunrise_at_the_Angkor_Wat_%2850232021918%29.jpg', blurb: 'Sunrise over the temple towers, mirrored in still water — worth setting an alarm on vacation.' },
-      { name: 'AUSTIN, TEXAS',     display: 'Austin, Texas',    sub: 'UNITED STATES · AUS',       country: 'United States',  code: 'AUS', accent: '#7292AA', photo: 'https://upload.wikimedia.org/wikipedia/commons/0/04/Austin_Texas_Sunset_Skyline_2011.jpg', blurb: 'Live music, breakfast tacos, and a skyline that keeps growing. Best planned around the heat.' },
-      { name: 'MEXICO CITY',       display: 'Mexico City',      sub: 'MEXICO · MEX',              country: 'Mexico',         code: 'MEX', accent: '#E25E3A', photo: 'https://upload.wikimedia.org/wikipedia/commons/6/66/Mexico_City_Reforma_skyline.jpg', blurb: 'World-class food, a skyline of murals and modernism, and neighborhoods worth slowing down for.' },
-      { name: 'SYDNEY',            display: 'Sydney',           sub: 'AUSTRALIA · SYD',           country: 'Australia',      code: 'SYD', accent: '#7292AA', photo: 'https://upload.wikimedia.org/wikipedia/commons/7/7d/Sydney_Opera_House_and_Harbour_Bridge_Dusk_%283%29_2019-06-21.jpg', blurb: 'Harbour views, beach mornings, and an Opera House that looks better every time you see it.' },
-      { name: 'BALI',              display: 'Bali',             sub: 'INDONESIA · DPS',           country: 'Indonesia',      code: 'DPS', accent: '#2D7D64', photo: 'https://upload.wikimedia.org/wikipedia/commons/1/1d/Rice_Paddies._Gunung_Kawi%2C_Bali_1626.jpg', blurb: 'Rice terraces, cliffside temples, and a pace of life worth resetting your clock to.' },
-      { name: 'LONDON',            display: 'London',           sub: 'UNITED KINGDOM · LON',      country: 'United Kingdom', code: 'LON', accent: '#7292AA', photo: 'https://upload.wikimedia.org/wikipedia/commons/6/6e/London_Thames_Sunset_panorama_-_Feb_2008.jpg', blurb: 'Centuries of history along the Thames, a park for every mood, and the best museums are free.' },
-      { name: 'PARIS',             display: 'Paris',            sub: 'FRANCE · CDG',              country: 'France',         code: 'CDG', accent: '#E9A224', photo: 'https://images.rawpixel.com/editor_1024/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvdXB3azYyMjQ1MDAxLXdpa2ltZWRpYS1pbWFnZS1rb3dzNDl5OC5qcGc.jpg', blurb: 'The Eiffel Tower at dusk, bakeries on every corner, and a city built for slow mornings.' },
-      { name: 'MIAMI',             display: 'Miami',            sub: 'UNITED STATES · MIA',       country: 'United States',  code: 'MIA', accent: '#E25E3A', photo: 'https://images.rawpixel.com/editor_1024/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDIyLTA5L2xvYzIwMjA3MjEwMzctaW1hZ2UuanBn.jpg', blurb: 'Art Deco pastels, Cuban coffee, and a beach that never really closes.' },
-      { name: 'SEATTLE',           display: 'Seattle',          sub: 'UNITED STATES · SEA',       country: 'United States',  code: 'SEA', accent: '#7292AA', photo: 'https://upload.wikimedia.org/wikipedia/commons/8/8b/Space_Needle_and_skyline_from_Kerry_Park%2C_2000.jpg', blurb: 'Coffee culture, the Sound at sunset, and mountains visible from downtown on a clear day.' },
-      { name: 'NEW YORK CITY',     display: 'New York City',    sub: 'UNITED STATES · NYC',       country: 'United States',  code: 'NYC', accent: '#E25E3A', photo: 'https://upload.wikimedia.org/wikipedia/commons/c/c9/Brooklyn_Bridge_at_sunset_from_Brooklyn_Bridge_Park%2C_New_York_City.jpg', blurb: 'The energy never lets up — and neither does the food, the skyline, or the walking.' },
-      { name: 'MILAN',             display: 'Milan',            sub: 'ITALY · MXP',               country: 'Italy',          code: 'MXP', accent: '#E9A224', photo: 'https://upload.wikimedia.org/wikipedia/commons/0/09/Full_Milan_skyline_from_Duomo_roof.jpg', blurb: "Fashion, the Duomo's rooftop, and some of the best food in Italy without the tourist lines." },
-      { name: 'MALDIVES',          display: 'Maldives',         sub: 'MALDIVES · MLE',            country: 'Maldives',       code: 'MLE', accent: '#2D7D64', photo: 'https://upload.wikimedia.org/wikipedia/commons/a/a5/Thatched-roof_villa_in_the_Maldive_Islands.jpg', blurb: 'Overwater villas, turquoise lagoons, and very few reasons to leave your bungalow.' },
-      { name: 'WESTERN USA',       display: 'Western USA',      sub: 'UNITED STATES · GCN',       country: 'United States',  code: 'GCN', accent: '#E9A224', photo: 'https://upload.wikimedia.org/wikipedia/commons/5/53/Grand_Canyon_Sunset_and_Light.jpg', blurb: 'Canyon rims at sunset, endless stars, and some of the best road-tripping on the planet.' },
-      { name: 'SOUTH AFRICA',      display: 'South Africa',     sub: 'SOUTH AFRICA · CPT',        country: 'South Africa',   code: 'CPT', accent: '#2D7D64', photo: 'https://upload.wikimedia.org/wikipedia/commons/c/c6/Cape_Town_harbor%2C_Devil%27s_Peak_and_Table_Mountain_in_late_winter_afternoon_light.jpg', blurb: 'Table Mountain at golden hour, coastal drives, and safari mornings worth the early wake-up.' },
-      { name: 'SHANGHAI',          display: 'Shanghai',         sub: 'CHINA · PVG',               country: 'China',          code: 'PVG', accent: '#E25E3A', photo: 'https://upload.wikimedia.org/wikipedia/commons/f/f2/There%27s_the_Pudong_skyline_again_%2836273761462%29.jpg', blurb: "A skyline built overnight, ancient alleys a block away, and the best dumplings you'll ever argue about." },
-      { name: 'DUBAI/ABU DHABI',   display: 'Dubai / Abu Dhabi',sub: 'UNITED ARAB EMIRATES · DXB',country: 'United Arab Emirates', code: 'DXB', accent: '#E9A224', photo: 'https://upload.wikimedia.org/wikipedia/commons/c/cc/Dubai_Skyline_mit_Burj_Khalifa_%2818241030269%29.jpg', blurb: 'Desert meets skyline — record towers, dunes an hour away, and hospitality built to impress.' },
-      { name: 'WELLNESS RETREAT',  display: 'Meditation & Wellness', sub: 'HIMALAYAS · DED',       country: 'India',          code: 'DED', accent: '#2D7D64', photo: 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Rishikesh_%28Ganges_View%29.jpg', blurb: 'Sunrise yoga in the foothills of the Himalayas, silence built into the itinerary, and nothing to plan once you arrive.', smallTitle: true },
-      { name: 'AMSTERDAM',         display: 'Amsterdam',        sub: 'NETHERLANDS · AMS',         country: 'Netherlands',    code: 'AMS', accent: '#7292AA', photo: 'https://upload.wikimedia.org/wikipedia/commons/c/c1/Sunset_in_Amsterdam%2C_Netherlands.jpg', blurb: 'Canal-side mornings, world-class museums, and a city built for getting pleasantly lost on a bike.', smallTitle: true },
-      { name: 'BACKPACKING 101',   display: 'Backpacking for Beginners', sub: 'USA · CA/CO/UT',  country: 'United States',  code: 'BSR', accent: '#E9A224', photo: 'https://upload.wikimedia.org/wikipedia/commons/5/5b/McWay_Falls_Big_Sur_May_2011_006.jpg', blurb: 'First-timer-friendly trails across Big Sur, Colorado, and Utah — camp gear, routes, and confidence included.', smallTitle: true },
+      { name: 'RIO DE JANEIRO',    display: 'Rio de Janeiro',   sub: 'BRAZIL · GRU',              country: 'Brazil',         code: 'GRU', accent: '#E25E3A', photo: 'photos/rio.jpg', blurb: 'Christ the Redeemer at sunrise, Copacabana at golden hour, and the neighborhoods most guides never mention.' },
+      { name: 'ANGKOR WAT',        display: 'Angkor Wat',       sub: 'CAMBODIA · REP',            country: 'Cambodia',       code: 'REP', accent: '#2D7D64', photo: 'photos/angkor-wat.jpg', blurb: 'Sunrise over the temple towers, mirrored in still water — worth setting an alarm on vacation.' },
+      { name: 'AUSTIN, TEXAS',     display: 'Austin, Texas',    sub: 'UNITED STATES · AUS',       country: 'United States',  code: 'AUS', accent: '#7292AA', photo: 'photos/austin.jpg', blurb: 'Live music, breakfast tacos, and a skyline that keeps growing. Best planned around the heat.' },
+      { name: 'MEXICO CITY',       display: 'Mexico City',      sub: 'MEXICO · MEX',              country: 'Mexico',         code: 'MEX', accent: '#E25E3A', photo: 'photos/mexico-city.jpg', blurb: 'World-class food, a skyline of murals and modernism, and neighborhoods worth slowing down for.' },
+      { name: 'SYDNEY',            display: 'Sydney',           sub: 'AUSTRALIA · SYD',           country: 'Australia',      code: 'SYD', accent: '#7292AA', photo: 'photos/sydney.jpg', blurb: 'Harbour views, beach mornings, and an Opera House that looks better every time you see it.' },
+      { name: 'BALI',              display: 'Bali',             sub: 'INDONESIA · DPS',           country: 'Indonesia',      code: 'DPS', accent: '#2D7D64', photo: 'photos/bali.jpg', blurb: 'Rice terraces, cliffside temples, and a pace of life worth resetting your clock to.' },
+      { name: 'LONDON',            display: 'London',           sub: 'UNITED KINGDOM · LON',      country: 'United Kingdom', code: 'LON', accent: '#7292AA', photo: 'photos/london.jpg', blurb: 'Centuries of history along the Thames, a park for every mood, and the best museums are free.' },
+      { name: 'PARIS',             display: 'Paris',            sub: 'FRANCE · CDG',              country: 'France',         code: 'CDG', accent: '#E9A224', photo: 'photos/paris.jpg', blurb: 'The Eiffel Tower at dusk, bakeries on every corner, and a city built for slow mornings.' },
+      { name: 'MIAMI',             display: 'Miami',            sub: 'UNITED STATES · MIA',       country: 'United States',  code: 'MIA', accent: '#E25E3A', photo: 'photos/miami.jpg', blurb: 'Art Deco pastels, Cuban coffee, and a beach that never really closes.' },
+      { name: 'SEATTLE',           display: 'Seattle',          sub: 'UNITED STATES · SEA',       country: 'United States',  code: 'SEA', accent: '#7292AA', photo: 'photos/seattle.jpg', blurb: 'Coffee culture, the Sound at sunset, and mountains visible from downtown on a clear day.' },
+      { name: 'NEW YORK CITY',     display: 'New York City',    sub: 'UNITED STATES · NYC',       country: 'United States',  code: 'NYC', accent: '#E25E3A', photo: 'photos/nyc.jpg', blurb: 'The energy never lets up — and neither does the food, the skyline, or the walking.' },
+      { name: 'MILAN',             display: 'Milan',            sub: 'ITALY · MXP',               country: 'Italy',          code: 'MXP', accent: '#E9A224', photo: 'photos/milan.jpg', blurb: "Fashion, the Duomo's rooftop, and some of the best food in Italy without the tourist lines." },
+      { name: 'MALDIVES',          display: 'Maldives',         sub: 'MALDIVES · MLE',            country: 'Maldives',       code: 'MLE', accent: '#2D7D64', photo: 'photos/maldives.jpg', blurb: 'Overwater villas, turquoise lagoons, and very few reasons to leave your bungalow.' },
+      { name: 'WESTERN USA',       display: 'Western USA',      sub: 'UNITED STATES · GCN',       country: 'United States',  code: 'GCN', accent: '#E9A224', photo: 'photos/western-usa.jpg', blurb: 'Canyon rims at sunset, endless stars, and some of the best road-tripping on the planet.' },
+      { name: 'SOUTH AFRICA',      display: 'South Africa',     sub: 'SOUTH AFRICA · CPT',        country: 'South Africa',   code: 'CPT', accent: '#2D7D64', photo: 'photos/south-africa.jpg', blurb: 'Table Mountain at golden hour, coastal drives, and safari mornings worth the early wake-up.' },
+      { name: 'SHANGHAI',          display: 'Shanghai',         sub: 'CHINA · PVG',               country: 'China',          code: 'PVG', accent: '#E25E3A', photo: 'photos/shanghai.jpg', blurb: "A skyline built overnight, ancient alleys a block away, and the best dumplings you'll ever argue about." },
+      { name: 'DUBAI/ABU DHABI',   display: 'Dubai / Abu Dhabi',sub: 'UNITED ARAB EMIRATES · DXB',country: 'United Arab Emirates', code: 'DXB', accent: '#E9A224', photo: 'photos/dubai-abu-dhabi.jpg', blurb: 'Desert meets skyline — record towers, dunes an hour away, and hospitality built to impress.' },
+      { name: 'WELLNESS RETREAT',  display: 'Meditation & Wellness', sub: 'HIMALAYAS · DED',       country: 'India',          code: 'DED', accent: '#2D7D64', photo: 'photos/wellness-retreat.jpg', blurb: 'Sunrise yoga in the foothills of the Himalayas, silence built into the itinerary, and nothing to plan once you arrive.', smallTitle: true },
+      { name: 'AMSTERDAM',         display: 'Amsterdam',        sub: 'NETHERLANDS · AMS',         country: 'Netherlands',    code: 'AMS', accent: '#7292AA', photo: 'photos/amsterdam.jpg', blurb: 'Canal-side mornings, world-class museums, and a city built for getting pleasantly lost on a bike.', smallTitle: true },
+      { name: 'BACKPACKING 101',   display: 'Backpacking for Beginners', sub: 'USA · CA/CO/UT',  country: 'United States',  code: 'BSR', accent: '#E9A224', photo: 'photos/backpacking.jpg', blurb: 'First-timer-friendly trails across Big Sur, Colorado, and Utah — camp gear, routes, and confidence included.', smallTitle: true },
     ];
 
     const BOARD_LEN = 17;
