@@ -8,7 +8,8 @@
   <title>Network Planning — We did the planning. You do the traveling.</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <!-- --f-disp/--f-body resolve to F37 Holborn Cyrillic, a licensed desktop font not on Google Fonts — visitors without it installed see the fallback stack until it's self-hosted as a webfont (needs a webfont license check first) -->
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { font-size: 16px; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
@@ -29,8 +30,8 @@
       --sky:      #7292AA;
 
       --f-mono: 'IBM Plex Mono', monospace;
-      --f-disp: 'Syne', sans-serif;
-      --f-body: 'Space Grotesk', system-ui, sans-serif;
+      --f-disp: 'F37 Holborn Cyrillic', 'Helvetica Neue', Arial, sans-serif;
+      --f-body: 'F37 Holborn Cyrillic', 'Helvetica Neue', Arial, sans-serif;
     }
 
     body { font-family: var(--f-body); color: var(--void); background: var(--light); }
@@ -156,7 +157,7 @@
       color: rgba(240,239,237,0.28);
     }
 
-    /* THE HEADLINE — Syne 800, enormous */
+    /* THE HEADLINE — F37 Holborn Cyrillic 800, enormous */
     .hero-h1 {
       font-family: var(--f-disp);
       font-size: clamp(44px, 5.2vw, 84px);
@@ -171,7 +172,7 @@
 
     .hero-h1 .accent { color: var(--coral); }
 
-    /* Sub-headline in Space Grotesk — counter-weight to the bold display */
+    /* Sub-headline in F37 Holborn Cyrillic — lighter weight, counter to the bold display */
     .hero-sub {
       margin-top: 24px;
       font-family: var(--f-body);

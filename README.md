@@ -38,22 +38,21 @@ Deeply researched, design-led travel guides — aviation in the bones, warmth in
 
 ## Typography
 
-Two typefaces. Clear roles. No exceptions.
+Three typefaces. Clear roles. No exceptions.
 
-**IBM Plex Mono** — all technical / metadata text
+**F37 Holborn Cyrillic** — all headlines and body copy
+- Display type, h1/h2, section intros, planner voice, field notes
+- Weight range Thin–Black, plus italics — lean into the geometric weight for display, lighter weights for running body text
+- Licensed desktop font, not on Google Fonts — the site references it by name via `--f-disp`/`--f-body`, but actually showing it to visitors needs it self-hosted as a webfont (check the license covers web embedding first)
+
+**Courier New** — all technical / metadata text
 - Section tabs: `DESK 04 // OAXACA`
 - Day headers, coordinates, codes, booking references
 - Navigation links, labels, captions
 - Tracking: 0.10–0.18em | Weight: 400 / 500 | Case: UPPERCASE
+- `--f-mono` prefers IBM Plex Mono (the actual Google Font loaded here) with Courier New as fallback — the two read as the same family
 
-**Fraunces** — all editorial / human text
-- Headlines, display copy, body paragraphs
-- Planner voice, field notes
-- Supports optical sizing — use `font-optical-sizing: auto`
-- Weight: 300 (light) for most; 400 for h2; 600 for emphasis
-- Italic is expressive, use at key moments
-
-Both fonts are Google Fonts — available in Framer, Notion, and PDF tools.
+**Times New Roman Italic** — rare emphasis only, applied by hand, never a running voice
 
 ---
 
@@ -67,7 +66,7 @@ Reads as: *a route network departing from a hub toward a destination.*
 - Always show the mark with wordmark in formal contexts
 - Standalone mark works for favicon, social avatar, guide corner stamp
 - Destination dot is always coral `#E25E3A` — even in monochrome contexts, use a coral dot
-- On dark backgrounds: circle and line in `#F3EFE7`. On light: `#10171C`.
+- On dark backgrounds: circle and line in `#EAEDEB`. On light: `#10171C`.
 - Minimum size: 20px (mark alone); 80px (full lockup)
 
 ---
@@ -109,10 +108,10 @@ The brand's signature interactive element on the web.
 Dark panel with left coral border. Day number (IBM Plex Mono 32px), vertical rule, location name + IATA/coordinate metadata.
 
 ### Planner Note
-Ivory background, 2px coral left border. IBM Plex Mono label + Fraunces italic body. The personal voice of the planner.
+Ivory background, 2px coral left border. IBM Plex Mono label + F37 Holborn Cyrillic italic body. The personal voice of the planner.
 
 ### Fun Fact
-Near-black box. IBM Plex Mono label in saffron or coral. Fraunces 300 body in muted parchment.
+Near-black box. IBM Plex Mono label in saffron or coral. F37 Holborn Cyrillic 300 body in muted parchment.
 
 ### Section Tab (guide)
 Same as web tab. Aviation strip energy in the printed page.
